@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="ScreenOrientation" content="ScreenOrientationEvent:url('javascript:fnOrientation(%json);');">
+<TITLE>Application Tests</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+
+	function setOrientation(setTo)  
+	{
+		generic.InvokeMETAFunction("ScreenOrientation", setTo);				
+	}
+	
+	function fnOrientation(jsonObject)
+	{
+		outputDiv.innerHTML = "Current Orientation: " + jsonObject.orientation;
+	}
+	
+	function setAutoRotate(setTo)
+	{
+		if (setTo == 'on')
+			generic.InvokeMETAFunction("ScreenOrientation", "AutoRotate:Enabled");
+		else if (setTo == 'off')
+			generic.InvokeMETAFunction("ScreenOrientation", "AutoRotate:Disabled");
+	}
+
+  
+  </script>
+</HEAD>
+
+<H1>Screen Orientation Tests</H1>
+<P>
+<div id="outputDiv">Current Orientation goes here</div>
+<P>
+  <INPUT align="center" type="button" value="Set to Left Handed" onclick="setOrientation('lefthanded');"><br>
+  <INPUT align="center" type="button" value="Set to Right Handed" onclick="setOrientation('righthanded');"><br>
+  <INPUT align="center" type="button" value="Set to Normal" onclick="setOrientation('normal');"><br>
+  <INPUT align="center" type="button" value="Set to Upside Down" onclick="setOrientation('upsideDown');"><br>
+  <INPUT align="center" type="button" value="AutoRotate On" onclick="setAutoRotate('on');"><br>
+  <INPUT align="center" type="button" value="AutoRotate Off" onclick="setAutoRotate('off');"><br>  
+<br>  
+
+	<P>
+	<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+
+
+
+
+</HTML>

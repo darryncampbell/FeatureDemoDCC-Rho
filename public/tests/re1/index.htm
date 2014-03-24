@@ -1,0 +1,167 @@
+<HTML>
+<HEAD>
+<!--meta http-equiv="Pragma" content="no-cache"-->
+<!--meta http-equiv="expires" content="0"-->
+<!--meta http-equiv="Scanner" content="decodeEvent:url('javascript:rel()')"/-->
+<TITLE>
+JRQ768 RhoElements 1.x Test Page
+</TITLE>
+<style> 
+a {  color: #121564; text-decoration: none}a:hover {  color: #F43031; text-decoration: none}
+</style>
+</HEAD>
+<BODY style="border-style:solid;">
+  <script type="text/javascript">
+  
+	//  *******************************************************************************************
+	//  Code to make it compatible on IE / WebKit
+/*	try
+	{
+		var testme = new ActiveXObject("PocketBrowser.Generic");
+		var genericObj = new ActiveXObject("PocketBrowser.Generic");
+	}
+	catch(err)
+	{
+		//  We'll just use the generic exported by NPAPI 
+		var GenericPlugin = document.createElement('embed');
+		GenericPlugin.setAttribute('id',"embed1");
+		GenericPlugin.setAttribute('type',"application/x-wtg-legacy-generic");
+		GenericPlugin.setAttribute('hidden',true);	
+
+		//  Attach the plugin embed tags to the body
+		var theBody = document.getElementsByTagName('body')[0];
+		theBody.appendChild(GenericPlugin);
+	}
+	//  End Code to make it compabitible on IE / WebKit
+	//  *********************************************************************************************
+*/  function Quit()
+  {
+	application.quit();
+//    genericObj.InvokeMETAFunction("Application", "Quit"); 
+  }
+  
+
+
+  
+</SCRIPT>
+
+<H1><CENTER><!--div style="font-family:'IPAGothic'"-->JRQ768 RhoElements 1.x Test Page<!--/div--></CENTER></H1>
+<P>
+
+<b><a href="javascript:Quit()">Quit</a></b> | <a href="javascript:location.reload(false);">Refresh (from cache)</a> | <a href="javascript:location.reload(true);">Refresh (force get)</a>
+<P>
+<div style="font-family:'verdana'; font-size:8pt">
+<b>He<sub>2</sub> Tests:</b>
+<P>
+<i>Barcode Scanner:</i><br>
+<a href="./scanner/scanner.htm">Scanner Tests</a> | <a href="./scanner/enable-disable.htm">Enable / Disable crash issue</a> | <a href="./scanner/viewfinder.htm">Viewfinder Rotation Issue</a> | <a href="./scanner/Scan.html">VC70 Issue</a> | <a href="javascript:window.doScan('json');">window.doScan</a>
+<P>
+<i>Card Reader:</i><br>
+<a href="./cardreader/cardreader.htm">Card Reader Tests</a>
+<P>
+<i>Comm Port:</i><br>
+
+<P>
+<i>Deployed Files:</i><br>
+<a href="./deployed/BadLink.html">Bad Link</a> | <a href="./deployed/Menu.htm">Menu</a> | <a href="./deployed/LoadPage.html">Load Page</a>
+<P>
+<i>Device & Application:</i><br>
+<a href="./deviceapplication/version.htm">Version</a> | <a href="./deviceapplication/notification.html">Notifications</a> | <a href="./deviceapplication/application.htm">Application</a> | <a href="./deviceapplication/poweron.htm">Power On</a> | <a href="./deviceapplication/timer.htm">Timer</a> | <a href="./deviceapplication/screenorientation.htm">Screen Orientation</a> | <a href="./deviceapplication/sip.htm">SIP</a> | <a href="./deviceapplication/sntp.htm">SNTP</a> | <a href="./deviceapplication/stylus.htm">Stylus</a> | <a href="./deviceapplication/backlight.htm">Backlight</a> | <a href="./deviceapplication/zoom.htm">Zoom</a> | <a href="./deviceapplication/alarm.htm">Alarm</a> | <a href="./deviceapplication/reboot.htm">Reboot</a>
+<P>
+<i>File Management:</i><br>
+<a href="./filemanagement/developmentpage.htm">Development Page</a> | <a href="./filemanagement/filetransfer.htm">File Management</a>
+<P>
+<i>Gesture:</i><br>
+<a href="./gesture/gesturetests.htm">Gesture Tests</a>
+<P>
+<i>Image Capture:</i><br>
+<a href="./imager/imagertests.htm">Imager Tests</a> | <a href="./imager/datauri.htm">Tree DataURI</a>
+<P>
+<i>Indicators:</i><br>
+<a href="./indicators/battery_commonapi.htm">Battery (Common API) Tests</a> | <a href="./indicators/battery.htm">Battery Tests</a> | <a href="./indicators/signal.htm">Signal Tests</a>
+<P>
+<i>IO Interface:</i><br>
+
+<P>
+<i>Key Handling:</i><br>
+<a href="./keyhandling/keyhandlingtests.htm">Key Handling Tests</a> | <a href="./keyhandling/triggerevent.htm">Trigger Events</a> | <a href="./keyhandling/keycolour.htm">Key Colour</a>
+<P>
+<i>Push:</i><br>
+<a href="./push/push.html">Push Tests</a>
+<P>
+<i>Signature Capture:</i><br>
+<a href="./signaturecapture/signaturecapture.htm">Signature Capture Tests</a>
+<P>
+<i>Sensors:</i><br>
+<a href="./sensors/sensors.htm">Sensor Tests</a>
+<P>
+<i>Telemetry:</i><br>
+<a href="./telemetry/telemetrytests.htm">Telemetry Tests</a>
+<P>
+<i>Network:</i><br>
+<a href="./network/network.htm">Network Tests</a>
+<P>
+<i>EMML Profiles:</i><br>
+<a href="./emmlprofiles/emmp.htm">EMML Profile Tests</a>
+<P>
+<i>Performance:</i><br>
+<a href="./performance/performance.htm">Performance Tests</a>
+<P>
+<i>Pages from T and V:</i><br>
+<a href="./pagesfromtandv/BasicSanity.html">Basic Sanity (Scanner)</a> | <a href="./pagesfromtandv/ScannerPersistant.html">Scanner Persistant</a> | <a href="./pagesfromtandv/ScannerNavigate.html">Scanner Navigate</a> | <a href="./pagesfromtandv/Stress_ContinuousScan.html">Scanner Stress Test</a> | <a href="./pagesfromtandv/NetworkInvalidHost.html">Network Invalid Host</a> | <a href="./pagesfromtandv/CandAJSOBJECT.html">Buttons (JS Object)</a> | <a href="./pagesfromtandv/Imager1.html">Imager1</a> | <a href="./pagesfromtandv/Imager2.html">Imager2</a> | <a href="./pagesfromtandv/Signature.html">Signature</a> | <a href="./pagesfromtandv/FManagement.html">File Management</a> | <a href="./pagesfromtandv/Registry_MemoryLeak.html">Registry_MemoryLeak</a> | <a href="./pagesfromtandv/Battery.html">Battery</a> | <a href="./pagesfromtandv/Log.html">Log</a> | <a href="./pagesfromtandv/CandA_Visible1.html">Page Navigation Memory Test</a> | <a href="./pagesfromtandv/DancingPeaks.htm">Dancing Peaks (Animated Gif)</a> | <a href="./pagesfromtandv/AGeneric_Config.html">Generic Config</a> | <a href="./pagesfromtandv/AutoLoad.html">Auto Load</a> | <a href="./pagesfromtandv/RSM_Scanner.html">RSM_Scanner</a> | <a href="./pagesfromtandv/AT01263-PeriodicNwCheck.html">AT01263-PeriodicNwCheck.html</a> | <a href="./pagesfromtandv/FilemanagementLocal/FileManagement.html">File Management (Local)</a> | <a href="./pagesfromtandv/Stress_ContEnable-Disable.html">Scanner Stress Enable / Disable</a> | <a href="./pagesfromtandv/BasicSanityPresentation.html">Presentation Mode</a> | <a href="./pagesfromtandv/PrinterSample.html">PrinterSample</a> | <a href="./pagesfromtandv/QuickStart.html">Harish's Eng Test Page</a> | <a href="./pagesfromtandv/geo.html">Geolocation</a> | <a href="./pagesfromtandv/webworker/webworker.html">Web Worker</a> | <a href="./pagesfromtandv/websql.html">Web SQL (55285)</a> | <a href="./pagesfromtandv/jq/jqselect.html">JQ Select</a> | <a href="./pagesfromtandv/cookie.html">Cookie</a> | <a href="./pagesfromtandv/MemoryJSObject.html">MemoryJSObject</a>
+<P>
+<i>NPAPI:</i><br>
+<a href="./npapi/installedplugins.htm">Installed Plugins</a> | <a href="./npapi/ekiohtest.htm">Ekioh's Test Page</a> | <a href="./npapi/developmenttest.htm">Development Test Page</a> | <a href="./npapi/registrymemoryleak.htm">Registry Memory Leak</a> | <a href="./npapi/jsobjects.htm">Javascript Objects</a> | <a href="./npapi/odax_from_tandv.htm">ODAX Tests (TandV)</a> | <a href="./npapi/MySensor.htm">MySensor</a> | <a href="./npapi/robk/testOdax.html">testOdax.html</a> | <a href="./npapi/robk/testOdax.svg">testOdax.svg</a>
+<P>
+<i>SVG:</i><br>
+<a href="./svg/helium1.svg">Helium1.svg</a> | <a href="./svg/helium2.svg">Helium2.svg</a> | <a href="./svg/helium3.svg">Helium3.svg</a> | <a href="./svg/helium4.svg">Helium4.svg</a>
+<P>
+<i>WAN:</i><br>
+<a href="./wan/wan.htm">WAN Tests</a> | <a href="./wan/wanHelpFile.htm">WAN Help File Example</a>
+<P>
+<i>Web Storage:</i><br>
+<a href="http://html5demos.com/database">Twitter Mentions</a> | <a href="http://html5demos.com/database-rollback">Simple 'Rollback Test'</a> | <a href="./webstorage/ekioh_test_page.htm">Ekioh Test Page</a>
+<P>
+<i>Web SQL:</i><br>
+<a href="./websql/customersample.html">Customer Sample</a> | <a href="javascript:dbInit()">Create Large DB</a>
+<P>
+<i>Canvas:</i><br>
+<a href="./canvas/canvas_circle.html">Canvas Circle</a>
+<P>
+<i>Miscellaneous:</i><br>
+<a href="./miscellaneous/rendering.htm">Rendering</a> | <a href="./miscellaneous/historyback.htm">History:Back</a> | <a href="./miscellaneous/geofftest.htm">Geoff Test</a> | <a href="./miscellaneous/alerts.htm">Alerts</a> | <a href="./miscellaneous/getEventInMeta.htm">Get Event In Meta</a> | <a href="./miscellaneous/jserrors.htm">Deliberate Javascript Errors</a> | <a href="./miscellaneous/onload.htm">OnLoad() Testing SigCap</a> | <a href="./miscellaneous/onload2.htm">OnLoad() Testing Scanner</a> | <a href="./miscellaneous/spacesafterjs.htm">Space After JS</a> | <a href="./miscellaneous/repeatedlyCallingJS.htm">Repeatedly Calling Javascript</a> | <a href="./miscellaneous/lingering_issues.htm">Lingering Issues</a> | <a href="./miscellaneous/fontface.htm">Font Face</a> | <a href="./miscellaneous/fontfamily.htm">Font Family</a> | <a href="./miscellaneous/expDivCssShadows.html">Dynamic Page with Shadow</a>
+<P>
+<i>HTML5:</i><br>
+<a href="http://cachemanifest.heroku.com/clock.html">http://cachemanifest.heroku.com/clock.html</a> | <a href="http://www.thecssninja.com/demo/offline_webapp/article.html">http://www.thecssninja.com/demo/offline_webapp/article.html</a>
+<P>
+<i>Sample Applications:</i><br>
+<a href="./sampleapps/packagedelivery/index.html">Package Delivery</a> | <a href="./sampleapps/geoffday/field_service_1.html">Geoff's Field Service</a> | <a href="http://www.xfh386.wtgdev.net/beta/field_service_1.html">GD Field Service</a> | <a href="./sampleapps/robgalvin/NeonDemo.html">RG NeonDemo Full</a> | <a href="./sampleapps/robgalvin/Lab1-BasicScan/NeonDemo.html">RG NeonDemo BasicScan</a> | <a href="./sampleapps/robgalvin/Lab2-Database/NeonDemo.html">RG NeonDemo Database</a> | <a href="./sampleapps/robgalvin/Lab3-SigCapture/NeonDemo.html">RG NeonDemo SigCapture</a> | <a href="./sampleapps/embpd00041738/MainMenu.html">Simple Customer App (embpd00041738)</a> | <a href="http://devdemo.sntinc.com/mobile/neonhtml/">Stella Nova (online)</a> | <a href="./sampleapps/signaturePad/index.html">Signature Pad (RG)</a> | <a href="http://clients.w.athlonproduction.com/moto/rd_scroll_ajax_03/templates/index.html">D-01458</a> | <a href="./sampleapps/ButtonTest/index.html">Down / Up / Click Test</a> 
+<P>
+<i>SPRs:</i><br>
+<a href="./spr/21407.html">21407 (Screen Rotate)</a> | <a href="./spr/retimetest.html">22418 (Time Test on Suspend)</a>
+<P>
+<i>HTTP Authentication:</i>
+<P>
+<a href="http://test.webdav.org/">Main http://test.webdav.org/ Page</a> | <a href="http://test.webdav.org/auth-basic/">Basic Authentication (user1 / user1)</a> | <a href="http://test.webdav.org/auth-digest/">Digest Authentication (user1 / user1)</a> | <a href="http://www.sullenart.co.uk/work/upload/upload.html">Geoff's test page (uploadtest / letmein)</a> | <a href="http://browserspy.dk/password.php">http://browserspy.dk/password.php (Basic Authentication)</a>
+<P>
+<i>HTTP Authentication:</i>
+<P>
+<a href="./arrownavigation/index.htm">Arrow Key Navigation</a>
+
+<P>
+<b>All Users:<P></b>
+<a href="http://www.tandv.wtgdev.net/INDEX.HTML">TandV (TandV)</a>, <a href="http://www.jrq768.wtgdev.net">JRQ768 (DCC)</a>, <a href="http://www.xfh386.wtgdev.net">XFH386 (GD)</a>, <a href="http://www.ptjk76.wtgdev.net">PTJK76 (PH)</a>, <a href="http://www.ncvt73.wtgdev.net">NCVT73 (BK)</a>, <a href="http://www.fpc843.wtgdev.net">FPC843 (DS)</a>, <a href="http://www.vbc863.wtgdev.net">VBC863 (JH)</a>, <a href="http://www.nhkx48.wtgdev.net">HPKX48 (BP)</a>, <a href="http://www.jnp837.wtgdev.net">JNP837 (JMS)</a>.
+<P>
+<b>Other Links:</b>
+<P>
+<a href="./PB/HTML/Menu.htm">Legacy PB Page</a> | <a href="http://www.google.co.uk">Google</a>| <a href="http://www.google.cn">Google China</a> |<a href="https://www.google.com">Google Secure</a> | <a href="http://www.bbc.co.uk/news/">BBC News</a> | <a href="http://acid3.acidtests.org">http://acid3.acidtests.org</a> | <a href="http://www.idontexisthaha.com">http://www.idontexisthaha.com</a> | <a href="http://80.6.90.141/companionp1/">http://80.6.90.141/companionp1/</a> | <a href="http://clients.w.athlonproduction.com/moto/rd/index.html">http://clients.w.athlonproduction.com/moto/rd/index.html</a> | <a href="http://whatsmyuseragent.com">What's my User Agent</a> | <a href="https://mms.dev.mckesson.com:7513/touch/">https://mms.dev.mckesson.com:7513/touch/</a> | <a href="https://mms.dev.mckesson.com:7513/touch/login.devicestart.action;?deviceSerialNumber=00195B2F1813120A&deviceType=MOTOROLA+MC75A">https://mms.dev.mckesson.com:7513/touch/ (with Serial / UUID)</a> | <a href="https://mms.dev.mckesson.com:7513/touch/login.devicestart.action;?deviceSerialNumber=0E419801144A127B&deviceType=SYMBOL%20MK4000">https://mms.dev.mckesson.com:7513/touch/login.devicestart.action;?deviceSerialNumber=0E419801144A127B&deviceType=SYMBOL%20MK4000 (Back Door)</a> | <a href="http://download.bethere.co.uk/">http://download.bethere.co.uk/</a> | <a href="http://www.html-kit.com/tools/cookietester/">Cookie Tester</a> | <a href="http://192.168.0.2:8081/57155/methods_source.htm">My LocalHost IIS server</a> | <a href="https://easytouch.timsown.com/client/">Tim Horton App</a> | <a href="http://gma.yahoo.com/blogs/abc-blogs/prince-harry-ryan-lochte-face-off-las-vegas-184548197--abc-news-celebrities.html">http://gma.yahoo.com/blogs/abc-blogs/prince-harry-ryan-lochte-face-off-las-vegas-184548197--abc-news-celebrities.html</a> | <a href="http://www.webkit.org/perf/sunspider/sunspider.html">Sunspider</a> | <a href="http://jquerymobile.com/demos/1.2.0/docs/forms/checkboxes/">JQueryMobile CheckBoxes</a>
+<P>
+<b>Local / Online:</b>
+<P>
+<a href="file://\he/index.htm">Local Version of this Page</a> | <a href="http://jrq768.wtgdev.net/index.htm">Remote Version of this Page</a>
+<P>
+<a href="javascript:location.reload();">Refresh the page</a>
+
+</div>
+<P>
+</HTML>

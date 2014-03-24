@@ -1,0 +1,28 @@
+﻿<html>
+<head>
+
+<META HTTP-Equiv="gesture" Content="type:Circle;preset:sad;id:CircularGesture1;diagnostics:TRUE;center-X:100;center-Y:150;radius:80;start:0;end:360;
+tolerance:50;sensitivity:20;create;">
+<META HTTP-Equiv="gesture-detected" Content="url('Javascript:GestureEvent('%s','%s');')">
+
+
+
+<script language=javascript>
+
+var count=1;
+function GestureEvent(id,ncount)
+{
+mydiv.innerHTML="Gesture Detected for"+count+"th time.id:-"+id+" Count="+ncount;
+count++;
+}
+
+</script>
+</head>
+<body>
+<title>Circular Gesture static EMML 1.1</title>
+<form id="frmLinearGestures" >
+<div id="mydiv">Gesture Detection:-</div>
+</form>
+<a href=GestureIndex.html>Gesture Index</a>
+</body>
+</html>

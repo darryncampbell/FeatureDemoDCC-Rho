@@ -1,0 +1,27 @@
+app_type: rhoelements
+sdkversion: 4.1.0
+name: JavascriptTests
+build: debug
+version: '1.0'
+vendor: MotorolaSolutions
+build: debug
+applog: rholog.txt
+iphone:
+  configuration: Release
+  sdk: iphonesimulator7.0
+  provisionprofile: ''
+  codesignidentity: iPhone Developer
+  entitlements: ''
+  BundleIdentifier: com.motorolasolutions.javascripttests
+  BundleURLScheme: javascripttests
+wp8:
+  productid: d2fac5f0-940e-0131-4247-00ffe028f606
+android:
+  manifest_template: AndroidManifest.erb
+  version: 2.3.3
+wm: ''
+extensions:
+- rhoconnect-client
+- dpx
+javascript_application: true
+capabilities: []

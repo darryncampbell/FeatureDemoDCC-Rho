@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="ReloadButton" content="Visibility:Hidden">
+<TITLE>Alerts Test</TITLE>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+
+  function confirmDialog()
+  {
+	var r = confirm("Do you like Jelly?");
+	if (r==true)
+	  {
+	  output.innerHTML = "You Pressed OK";
+	  }
+	else
+	  {
+		output.innerHTML = "You Pressed Cancel";
+	  }
+  }
+
+  function confirmDialogNano()
+  {
+	var r = confirm("This will delete all your profiles and settings and restore DataWedge back to its default configuration.\n\nNote: DataWedge must be in the Running state for the default configuration to be restored correctly.\n\nOK to proceed?");
+	if (r==true)
+	  {
+	  output.innerHTML = "You Pressed OK";
+	  }
+	else
+	  {
+		output.innerHTML = "You Pressed Cancel";
+	  }
+  }
+  
+  function promptDialog()
+  {
+	var name=prompt("Please enter your name","Harry Potter");  
+	if (name!=null && name!="")
+	  {
+		output.innerHTML = "Hello <b>" + name + "</b> How are you today?";
+	  }
+  }
+  
+  function promptDialogLongMessage()
+  {
+	var name=prompt("This will delete all your profiles and settings and restore DataWedge back to its default configuration.\n\nNote: DataWedge must be in the Running state for the default configuration to be restored correctly.\n\nOK to proceed?","Long enough message for you?");  
+	if (name!=null && name!="")
+	  {
+		output.innerHTML = "Hello <b>" + name + "</b> How are you today?";
+	  }
+  
+  }
+  </script>
+
+<br><br><br>
+<H1>Alerts Tests</H1>
+<P>
+	<a href="javascript:alert('hello world');">Alert via Link</a> | 
+	<a href="javascript:confirmDialog()">Confirm via Link</a> | 
+	<a href="javascript:promptDialog()">Prompt via Link</a>
+	<br><br>
+    <input type="button" value="Alert Button" onclick="javascript:alert('Hello Button');">
+    <input type="button" value="Alert Button (Long)" onclick="javascript:alert('This will delete all your profiles and settings and restore DataWedge back to its default configuration.\n\nNote: DataWedge must be in the Running state for the default configuration to be restored correctly.\n\nOK to proceed?');">
+    <input type="button" value="Confirm Button" onclick="javascript:confirmDialog();">
+    <input type="button" value="DW Confirm on Nano" onclick="javascript:confirmDialogNano();">
+    <input type="button" value="Prompt Button" onclick="javascript:promptDialog();">
+    <input type="button" value="Prompt Button with long message" onclick="javascript:promptDialogLongMessage();">
+    <input type="button" value="Alert with long word" onclick="javascript:alert('Oh No!  I have pneumonoultramicroscopicsilicovolcanoconiosis!  This will impact on the antidisestablishmentarianism :(');">
+	
+	<div id="output">Output goes Here</div>
+	<P>
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+
+  </BODY>
+</HTML>

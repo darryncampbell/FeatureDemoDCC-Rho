@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Battery" content="x=50"/>
+<meta http-equiv="Battery-top" content="50"/>
+<meta http-equiv="batterynavigate" content="Javascript:onBatteryEventJSON(%s);"/>
+<meta http-equiv="Battery" content="Visibility:Hidden;BatteryEvent:url('Javascript:onBatteryEventJSON(%json);');">
+<TITLE>Battery Tests</TITLE>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+
+	//  *******************************************************************************************
+	//  Code to make it compatible on IE / WebKit
+	try
+	{
+		var testme = new ActiveXObject("PocketBrowser.Generic");
+		var generic = new ActiveXObject("PocketBrowser.Generic");
+	}
+	catch(err)
+	{
+		//  We'll just use the generic exported by NPAPI 
+		var GenericPlugin = document.createElement('embed');
+		GenericPlugin.setAttribute('id',"embed1");
+		GenericPlugin.setAttribute('type',"application/x-wtg-legacy-generic");
+		GenericPlugin.setAttribute('hidden',true);	
+
+		//  Attach the plugin embed tags to the body
+		var theBody = document.getElementsByTagName('body')[0];
+		theBody.appendChild(GenericPlugin);
+	}
+	//  End Code to make it compabitible on IE / WebKit
+	//  *********************************************************************************************
+  
+  var iLeft = 0;
+  var iTop = 50;
+	function onBatteryEventJSON(jsonObject)
+	{
+		var html = "<b>Battery Data:</b><br>";
+		html = html + "<br><i>AC Line Status: </i> " + jsonObject.acLineStatus;
+		html = html + "<br><i>Battery Life %: </i> " + jsonObject.batteryLifePercent;
+		html = html + "<br><i>Backup Battery %: </i> " + jsonObject.backupBatteryLifePercent;
+		batteryOut.innerHTML = html;
+	}
+
+	function getSmartBattery()
+	{
+		generic.InvokeMETAFunction("Battery", "SmartBatteryEvent:url('Javascript:onSmartBatteryEventJSON(%json);');");
+		generic.InvokeMETAFunction("Battery", "GetSmartBatteryStatus");
+	}
+	
+	function onSmartBatteryEventJSON(jsonObject)
+	{
+		var html = "<b>Smart Battery Data:</b><br>";
+		html = html + "<br><i>Serial Number: </i> " + jsonObject.serialNumber;
+		html = html + "<br><i>Part Number: </i> " + jsonObject.partNumber;
+		html = html + "<br><i>Battery Charge Cycles: </i> " + jsonObject.batteryChargeCycles;
+		html = html + "<br><i>Rated Capacity: </i> " + jsonObject.ratedCapacity;
+		html = html + "<br><i>Manufacture Date: </i> " + jsonObject.manufactureDate;
+		html = html + "<br><i>State of Health: </i> " + jsonObject.stateOfHealth;
+		smartBatteryOut.innerHTML = html;
+	}
+	
+	function showBattery()
+	{
+		generic.InvokeMETAFunction("Battery", "Visibility:Visible");
+	}
+	
+	function hideBattery()
+	{
+		generic.InvokeMETAFunction("Battery", "Visibility:Hidden");
+	}
+	
+	function moveBattery()
+	{
+		generic.InvokeMETAFunction("Battery", "Left:" + iLeft + ";Top:" + iTop);
+		iLeft += 10;
+		iTop += 10;
+	}
+
+  </script>
+
+
+<H1>Battery Tests</H1>
+<P>
+	<DIV id="batteryOut">Battery Data will appear here</div>
+	<br>
+	<div id="smartBatteryOut">Smart Battery Data will appear here</div>
+  <BR>
+  <INPUT align="center" type="button" value="Get Smart Battery Status" onclick="getSmartBattery();"><br>
+  <INPUT align="center" type="button" value="Show Battery" onclick="showBattery();">
+  <INPUT align="center" type="button" value="Hide Battery" onclick="hideBattery();">
+  <INPUT align="center" type="button" value="Move Battery" onclick="moveBattery();">
+	<P>
+
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+  </BODY>
+</HTML>

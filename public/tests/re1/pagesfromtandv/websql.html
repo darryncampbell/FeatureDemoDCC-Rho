@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript">
+ function randomString() {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 8;
+		var randomstring = '';
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomstring;
+	}
+	function go()
+	{
+var db = openDatabase('bhdbtest6', '1.0', 'Test DB', 2 * 1024 * 1024 );
+var msg;
+db.transaction(function (tx) {
+  tx.executeSql('CREATE TABLE IF NOT EXISTS emp (id unique, log)');
+  tx.executeSql('CREATE TABLE IF NOT EXISTS dept (id unique, log)');
+  for(i=0;i<2355;i++){
+  tx.executeSql('INSERT INTO emp (id, log) VALUES (?,?)', [i,randomString()]);
+  tx.executeSql('INSERT INTO dept (id, log) VALUES (?,?)', [i,randomString()]);
+  }
+  
+  msg = '<p>Log message created and row inserted.</p>';
+  document.querySelector('#status').innerHTML =  msg;
+});
+
+db.transaction(function (tx) {
+  tx.executeSql('SELECT count(*) as count FROM emp', [], function (tx, results) {
+   var len = results.rows.length, i;
+   msg = "<p>Total number of rows: </p>";
+   document.querySelector('#status').innerHTML +=  msg;
+   for (i = 0; i < len; i++){
+     msg = "<p><b>" + results.rows.item(i).count + "</b></p>";
+     document.querySelector('#status').innerHTML +=  msg;
+   }
+ }, null);
+});
+}
+</script>
+</head>
+<body>
+<br><BR><BR><BR><div id="status" name="status">Status Message</div>
+<P><input type="button" onclick="javascript:go()" value="test">
+</body>
+</html>

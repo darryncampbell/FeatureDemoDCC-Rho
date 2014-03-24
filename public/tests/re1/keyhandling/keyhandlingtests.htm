@@ -1,0 +1,176 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="KeyCapture" content="TriggerEvent:url('Javascript:onTriggerJSON(%json);')">
+<META HTTP-Equiv="SIP" Content="Automatic">
+
+<TITLE>Key Handling Tests</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+  
+	//  *******************************************************************************************
+	//  Code to make it compatible on IE / WebKit
+	try
+	{
+		var testme = new ActiveXObject("PocketBrowser.Generic");
+		var generic = new ActiveXObject("PocketBrowser.Generic");
+	}
+	catch(err)
+	{
+		//  We'll just use the generic exported by NPAPI 
+		var GenericPlugin = document.createElement('embed');
+		GenericPlugin.setAttribute('id',"embed1");
+		GenericPlugin.setAttribute('type',"application/x-wtg-legacy-generic");
+		GenericPlugin.setAttribute('hidden',true);	
+
+		//  Attach the plugin embed tags to the body
+		var theBody = document.getElementsByTagName('body')[0];
+		theBody.appendChild(GenericPlugin);
+	}
+	//  End Code to make it compabitible on IE / WebKit
+	//  *********************************************************************************************
+
+  
+document.onkeydown=DOMoutputDown;
+document.onkeypress=DOMoutputPress;
+document.onkeyup=DOMoutputUp;
+function DOMoutputDown(theKey) 
+{
+    k = window.event.keyCode;
+	var spanElement;
+	spanElement = document.getElementById("domKeyState");
+	spanElement.innerText = "" + k;
+}
+function DOMoutputPress(theKey) 
+{
+	k = window.event.keyCode;
+	var spanElement;
+	spanElement = document.getElementById("domKeyStatePress");
+	spanElement.innerText = "" + k;
+}
+
+function DOMoutputUp(theKey)
+{
+	k = window.event.keyCode;
+	var spanElement;
+	spanElement = document.getElementById("domKeyStateUp");
+	spanElement.innerText = "" + k;
+}
+
+function onAccelerate(param)
+{
+	var spanElement;
+	spanElement = document.getElementById("accelerateState");
+	if (param == "off")
+	{
+		spanElement.innerText = "OFF";
+		generic.InvokeMETAFunction('KeyCapture', 'acceleratekey:none');
+	}
+	else if(param == "norm")
+	{
+		spanElement.innerText = "NORM";
+		generic.InvokeMETAFunction('KeyCapture', 'acceleratekey:norm');
+	}
+	else if(param == "all")
+	{
+		spanElement.innerText = "ALL";
+		generic.InvokeMETAFunction('KeyCapture', 'acceleratekey:all');
+	}
+}
+
+function onKeys(theKey)
+{
+	var spanElement;
+	spanElement = document.getElementById("keysState");
+	spanElement.innerText = "Key Press: " + theKey;
+}
+
+function onKeyA(jsonObject)
+{
+	keyStateA.innerText = "Key Press: " + jsonObject.keyValue;
+}
+
+function setOnAllKeys()
+{
+	var spanElement;
+	spanElement = document.getElementById("keysState");
+	spanElement.innerText = "Captured"
+	generic.InvokeMETAFunction("KeyCapture", "KeyValue:All; Dispatch:False; KeyEvent:url('javascript:onKeys('%s')')");
+}
+
+function unsetOnAllKeys()
+{
+	var spanElement;
+	spanElement = document.getElementById("keysState");
+	spanElement.innerText = "Not Captured"
+	generic.InvokeMETAFunction("onAllKeys", "");
+}
+
+function setCaptureA()
+{
+	var spanElement;
+	spanElement = document.getElementById("keyStateA");
+	spanElement.innerText = "Captured"
+	generic.InvokeMETAFunction("KeyCapture", "KeyValue:0x41; Dispatch:False; KeyEvent:url('javascript:onKeyA(%json)')");
+}
+
+function unsetCaptureA()
+{
+	var spanElement;
+	spanElement = document.getElementById("keyStateA");
+	spanElement.innerText = "Not Captured"
+	generic.InvokeMETAFunction("KeyCapture", "KeyValue:0x41;KeyEvent:url('');");
+}
+
+function onTriggerJSON(jsonObject)
+{
+	var spanElement;
+	spanElement = document.getElementById("triggerState");
+	spanElement.innerText = jsonObject.triggerFlag;
+}
+
+function showKeyState()
+{
+	keyState.visibility = 'visible';
+}
+
+</SCRIPT>
+<H2>Key Handling Tests</H2>
+<P>
+<INPUT TYPE="button" VALUE="Acc Off" ONCLICK="onAccelerate('off');">
+<INPUT TYPE="button" VALUE="Acc Norm" ONCLICK="onAccelerate('norm');">
+<INPUT TYPE="button" VALUE="Acc All" ONCLICK="onAccelerate('all');"><br>
+<INPUT TYPE="button" VALUE="Capture All Keys" ONCLICK="setOnAllKeys();">
+<INPUT TYPE="button" VALUE="!Capture All Keys" ONCLICK="unsetOnAllKeys();"><br>
+<INPUT TYPE="button" VALUE="Capture 'A'" ONCLICK="setCaptureA();">
+<INPUT TYPE="button" VALUE="!Capture 'A'" ONCLICK="unsetCaptureA();"><br>
+
+Accelerate Keys: <span id=accelerateState>Default (Value Persists)</span><br>
+OnKey'A': <span id=keyStateA>Not Captured</span><br>
+OnAllKeys: <span id=keysState>Not Captured</span><br>
+Trigger: <span id=triggerState>Not Captured</span><br>
+JS DOM KeyDown: <span id=domKeyState></span> Press: <span id=domKeyStatePress></span> Up: <span id=domKeyStateUp></span>
+<form name="input" method="post">
+Box 1: <input type="text" name="user1" value="Box 1 Contents (1)"><br>
+Box 2: <input type="text" name="user2" value="Box 2 Contents (1)"><br>
+<textarea rows="3" cols="20">
+Example Text Area (1)
+</textarea><br>
+<input type="submit" value="Submit">
+</form>
+<br>
+<a href="keyhandlingtests.htm">This Page</a><br>
+
+<nobr>........................................................................................................................................................................................</nobr>
+<P>
+Note: OnKey'A' & Trigger are being captured using JSON
+	<P>
+	<a href="javascript:showKeyState();">Show KeyState 'Button'</a><P>
+	<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+
+
+

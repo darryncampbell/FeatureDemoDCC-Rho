@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>onload test</title>
+
+<script type="text/javascript">
+
+  function loginScreen () {
+    scanner.enable();
+  
+    document.getElementById("screen").innerHTML='<table class="header" width="100%" border="0">\
+	<tr><td align="center"><img src="images/sb_logo.png" width="438" height="88"></td></tr>\
+	<tr><td align="center"><h3>Welcome to University Hospital</h3></td></tr>\
+	<tr><td align="center">Please scan your badge to access the system<br><br><img src="images/barcode.png" height="80" width="80"><br><br></td></tr>\
+	<tr><td>&nbsp;</td</tr>\
+	</table>';
+  }  
+
+</script>
+
+<style>
+body {background:#3399ff; color:white; }
+.header {background: white;color:black;  font-family: sans-serif; }
+
+#screen { width:95%;margin:0 auto;}
+
+td.button { 
+border-width: 1px; 
+padding: 1px; 
+border-style: solid; 
+border-color: black; 
+background-color: #fff5ee; 
+vertical-align:middle;text-align: center;
+-moz-border-radius:; 
+} 
+
+td.button a{ 
+text-decoration: none; color: black;
+} 
+
+</style>
+</head>
+<!--<body onload="setTimeout('loginScreen()', 100);">-->
+<body onload="loginScreen();">
+<br><br>
+<div id="screen">
+	<div id="menu">
+	</div>
+</div>
+</body>
+</html>

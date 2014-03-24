@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Network" content="NetworkEvent:url('Javascript:onNetworkEvent(%json);')">
+<TITLE>Network Tests</TITLE>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+
+	//  *******************************************************************************************
+	//  Code to make it compatible on IE / WebKit
+	try
+	{
+		var testme = new ActiveXObject("PocketBrowser.Generic");
+		var generic = new ActiveXObject("PocketBrowser.Generic");
+	}
+	catch(err)
+	{
+		//  We'll just use the generic exported by NPAPI 
+		var GenericPlugin = document.createElement('embed');
+		GenericPlugin.setAttribute('id',"embed1");
+		GenericPlugin.setAttribute('type',"application/x-wtg-legacy-generic");
+		GenericPlugin.setAttribute('hidden',true);	
+
+		//  Attach the plugin embed tags to the body
+		var theBody = document.getElementsByTagName('body')[0];
+		theBody.appendChild(GenericPlugin);
+	}
+	//  End Code to make it compabitible on IE / WebKit
+	//  *********************************************************************************************
+		
+	function startNetworkChecking()
+	{
+		generic.InvokeMETAFunction("Network", "Start");
+    }
+	
+	function stopNetworkChecking()
+	{
+		generic.InvokeMETAFunction("Network", "Stop");
+    }
+	
+	function changePollInterval(iInterval)
+	{
+		generic.InvokeMETAFunction("Network", "NetworkPollInterval:" + iInterval);
+	}
+	
+	function changeHost(newHost)
+	{
+		generic.InvokeMETAFunction("Network", "Host:url('" + newHost + "')");
+	}
+
+	function changePort(newPort)
+	{
+		generic.InvokeMETAFunction("Network", "Port:" + newPort);
+	}
+	
+  function onNetworkEvent(jsonObject)
+  {
+	
+	var html = "<b>Network Event Returned:</b> ";
+    html += jsonObject.connectionInformation;
+	networkOutput.innerHTML=html;
+  }
+  
+  
+  
+  </script>
+
+<BR><BR>
+<H1>Network Tests</H1>
+<P>
+	Using default settings for host, poll interval, port and connection timeout
+	<br>
+	<div id="networkOutput">Connection Information goes Here</div>
+  <BR>
+	<INPUT align="center" type="button" value="Start Checking" onclick="startNetworkChecking();">
+	<INPUT align="center" type="button" value="Stop Checking" onclick="stopNetworkChecking();">
+	<INPUT align="center" type="button" value="Poll Interval 1000" onclick="changePollInterval(1000);">
+	<INPUT align="center" type="button" value="Poll Interval 5000" onclick="changePollInterval(5000);">
+	<INPUT align="center" type="button" value="Host: www.idontexistnoidonthahahahaha.org.uk" onclick="changeHost('http://www.idontexistnoidonthahahahaha.org.uk');">
+	<INPUT align="center" type="button" value="Host: Motorola.com" onclick="changeHost('http://www.motorola.com');">
+	<INPUT align="center" type="button" value="Host: 192.168.0.8" onclick="changeHost('192.168.0.8');">
+	<INPUT align="center" type="button" value="Host: google.co.uk" onclick="changeHost('http://www.google.co.uk');">
+	<INPUT align="center" type="button" value="Port 1234" onclick="changePort(1234);">
+	<INPUT align="center" type="button" value="Port 80" onclick="changePort(80);">
+
+<P>	
+
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+
+
+  </BODY>
+</HTML>

@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<TITLE>Sensors Demonstration page</TITLE>
+<!--meta http-equiv="sensorEvent" content="open"/-->
+<script>
+	function onSensor(sensorData)
+	{
+		sensorOutput.innerHTML = "<b>Sensors: </b><br>" + sensorData.tiltangleX + "<br>";
+	}
+	
+	function getSensors()
+	{
+		RawSensors.getSensorData();
+	}
+	
+	function setup()
+	{
+		alert('loaded');
+		RawSensors.sensorEvent = 'onSensor(%json)';
+		RawSensors.all = 'Enabled';
+	}
+</script>
+
+</HEAD>
+<BODY onload="setup()">
+
+<br>
+<H1>Sensors Demonstration Page</H1>
+	<div id="sensorOutput">Card reader output goes here</div>
+	<input type="button" onclick="getSensors()" value="Retrieve Sensors">
+<P>
+
+  </BODY>
+</HTML>

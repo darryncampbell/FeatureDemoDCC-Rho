@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<TITLE>Rendering Tests</TITLE>
+<STYLE type="text/css">
+.one {font-style: italic;}
+.two {font-style: oblique;}
+.three {font-style: normal;}
+</STYLE>
+
+
+  <script type="text/javascript">
+
+ 
+	function availParameters()
+	{
+		alert(screen.availHeight);
+		alert(screen.availWidth);
+		
+	}
+	
+	function showDate()
+	{
+		var d = new Date();
+		alert(d);
+	}
+	
+	function showTheSIP()
+	{
+		nosip.showSIP(true);
+	}
+	function hideTheSIP()
+	{
+		nosip.showSIP(false);
+	}
+  
+  </script>
+  </HEAD>
+
+<BODY>
+
+
+<br><br><br>
+<H1>Rendering Tests</H1>
+<P>
+<a href="mailto:test@host.com?subject=testing123">Mailto</a><br>
+<a href="rhomailto:test@host.com?cc=geny@mail.ru&bcc=vasy@gmail.com&body=testMessage&subject=sub1">Send e-mail to test@host.com</a><br>
+<a href="tel:1-555-531-3255!8335033#!#!9582#">Tel</a><br>
+<a href="wtai://wp/mc;5195551212" title="Call">Work Tel</a><br>
+<a href="wtai://wp/mc;5195551213" title="Call">Home Tel</a><br>
+<a href="sms:+3581234567">Send SMS to us </a><br>
+<a href="sms://">Send an SMS</a><br>
+<a href="sms://?body=Visit%20the%20best%20site%20at%20http://mobilexweb.com">
+Invite a friend by SMS<a><br>
+<a href="sms://+3490322111">Contact us by SMS</a><br>
+<a href="sms://+3490322111?body=Interested%20in%20Product%20AA2">SMS More info for producto AA2</a><br>
+<P><!--img src="img.jpg"/-->
+	<P class="one">
+This paragraph should be in italics, but the last word of the sentence should be <SPAN class="three">normal</SPAN>.
+</P>
+<P class="two">
+This paragraph should be oblique.
+</P>
+</P>
+
+
+<TABLE border cellspacing="0" cellpadding="3" class="tabletest">
+<TR>
+<TD colspan="2" bgcolor="silver"><STRONG>TABLE Testing Section</STRONG></TD>
+</TR>
+<TR>
+<TD bgcolor="silver">&nbsp;</TD>
+<TD><P class="one">
+This paragraph should be in italics, but the last word of the sentence should be <SPAN class="three">normal</SPAN>.
+</P>
+<P class="two">
+This paragraph should be oblique.
+</P>
+</TD></TR></TABLE>
+<P>
+	<textarea rows="3" cols="20"></textarea>
+	<a href="javascript:showTheSIP();">Show SIP</a> | <a href="javascript:hideTheSIP();">Hide SIP</a>
+
+	<form action="demo_form.asp">
+	  First name:<input type="text" name="fname"/><br />
+	  Last name: <input type="text" name="lname" autofocus="autofocus" /><br />
+	  <input type="submit" />
+	</form>
+
+	<!--div style="font-family:tahoma"-->
+	<b>This is some bold text</b> 
+	<BR>
+	This is some normal text 
+	<br>
+	<i>This is some italic text</i> 
+	<br>
+	<u>This is some underlined text</u>
+	<br>
+	<b><i>Bold and Italic</i></b>
+	<br>
+	<b><u>Bold and Underlined</u></b>
+	<br>
+	<b><i>Bold and Italic</i></b>
+	</font>
+	<P>
+	<a href="javascript:availParameters();">Available Parameters Test</a>
+	<P>
+	Select with styling (D-01425):<br>
+	<form action="">
+<select name="cars" style="background-color:#FF0000;border-style:inset;border-width:5px;border-color:#00FF00;padding:25px">
+<option value="volvo">Volvo</option>
+<option value="saab">Saab</option>
+<option value="fiat">Fiat</option>
+<option value="audi">Audi</option>
+</select>
+</form>
+<P>
+<a href="javascript:showDate();">Show the Date</a>
+<P>
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+  </BODY>
+</HTML>

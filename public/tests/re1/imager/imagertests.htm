@@ -1,0 +1,153 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Imager" content="ImagerCaptureEvent:url('javascript:onImageCapture(%json)');">
+<meta http-equiv="Imager" content="left:50;top:50;width:160;height:120">
+<!--meta http-equiv="KeyCapture" content="keyValue:All;keyEvent:url('javascript:enableImager('CAM1')');"-->
+<META HTTP-Equiv="KeyCapture" Content="KeyValue:0x42; Dispatch:False; KeyEvent:url('JavaScript:enableImager('CAM1');')"><!--a-->
+<META HTTP-Equiv="KeyCapture" Content="KeyValue:0x41; Dispatch:False; KeyEvent:url('JavaScript:disableImager();')"><!--b-->
+
+
+<TITLE>Imager Tests</TITLE>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+  
+  function enumerateImagersJSON()
+    {
+        imager.setEMML("ImagerEnumEvent:url('Javascript:onImagersViaJSON(%json);'); Enumerate");
+    }
+	
+  function onImagersViaJSON(jsonObject)
+  {
+	
+	 var html = "<b>Device Name: Friendly Name</b><br>";
+
+	 for(i=0; i<jsonObject.imagerArray.length; i++)	
+     {
+       html += '' + jsonObject.imagerArray[i].deviceName + ': ' 
+	        + jsonObject.imagerArray[i].friendlyName + '<br>';
+     }
+	 
+     html += "";
+	enumImagers.innerHTML=html;
+  }
+  
+    function captureImage()
+    {
+		var html = "<b>Image Transfer Result:</b> Pending";
+		imageTransfer.innerHTML = html;
+	  	var destField=document.getElementById("txtDest");
+		imager.destination = "url('" + destField.value + "')";
+		var userField=document.getElementById("txtUsername");
+		var passField=document.getElementById("txtPassword");
+		if (userField.value != 'na')
+			imager.username = userField.value;
+		if (passField.value != 'na')
+			imager.password = passField.value;
+
+		//  Upload Configuration (username:uploadtest;password:letmein;)
+		//  File saved at http://jrq768.wtgdev.net/filemanagement/upload/received/Imager.jpg
+        //  generic.InvokeMETAFunction("Imager", "Destination:url('http://jrq768.wtgdev.net/filemanagement/upload/upload.php');");
+		//  End Upload Configuration
+        generic.InvokeMETAFunction("Imager", "ImagerEvent:url('Javascript:onImageTransferJSON(%json);');");
+        generic.InvokeMETAFunction("Imager", "Capture");
+    }
+	
+	function captureImageNoUpload()
+	{
+        generic.InvokeMETAFunction("Imager", "Capture");	
+	}
+
+	function configureUpload(uploadLocation, theUsername, thePassword)
+	{
+		var destField=document.getElementById("txtDest");
+		var userField=document.getElementById("txtUsername");
+		var passField=document.getElementById("txtPassword");
+
+		destField.value = uploadLocation;
+		userField.value = theUsername;
+		passField.value = thePassword;	
+	}
+  
+  function onImageTransferJSON(jsonObject)
+  {
+	var html = "<b>Image Transfer Result:</b> " + jsonObject.transferResult;
+    imageTransfer.innerHTML = html;
+  }
+  
+  function enableImager(imagerName)
+  {		
+        imager.enabled = imagerName;	
+  }
+  
+  function disableImager()
+  {
+	generic.InvokeMETAFunction("Imager", "Disabled");
+  }
+  
+  function captureDataURI()
+  {
+	imager.capture();
+  }
+  
+  function onImageCapture(jsonObject)
+  {
+	alert(jsonObject.imageData);
+	image64.src = jsonObject.imageData;
+  }
+  
+  function setWidth()
+  {
+	var widthField=document.getElementById("txtWidth");
+	var heightField=document.getElementById("txtHeight");
+	imager.setEMML("desiredWidth:" + widthField.value);
+  }
+  
+  function setHeight()
+  {
+	var widthField=document.getElementById("txtWidth");
+	var heightField=document.getElementById("txtHeight");
+	imager.setEMML("desiredHeight:" + heightField.value);
+  }
+  
+  </script>
+
+<H1>Imager Tests</H1>
+<BR><img src="" id="image64"></img>
+  <INPUT align="center" type="button" value="Capture & Upload" onclick="captureImage();"> 
+  <INPUT align="center" type="button" value="Capture to Data URI" onclick="captureDataURI();"> 
+  <INPUT align="center" type="button" value="Capture w/o Upload" onclick="captureImageNoUpload();"> 
+  <INPUT align="center" type="button" value="Enable:IMG1" onclick="enableImager('IMG1');"> 
+  <INPUT align="center" type="button" value="Enable:IMG2" onclick="enableImager('IMG2');"> 
+  <INPUT align="center" type="button" value="Enable:CAM1" onclick="enableImager('CAM1');"> 
+  <INPUT align="center" type="button" value="Enable:CAM0" onclick="enableImager('CAM0');"> 
+  <INPUT align="center" type="button" value="Disable" onclick="disableImager();"> <br>
+  Image Upload Location: <input type="text" id="txtDest" size="75" value="http://jrq768.wtgdev.net/filemanagement/upload/upload.php" /><br>
+  User: <input type="text" id="txtUsername" size="25" value="na" /> Pass: <input type="text" id="txtPassword" size="25" value="na" /> <br>
+  Upload Configuration: 
+
+<input type="radio" name="uploadConfig" onclick="configureUpload('http://jrq768.wtgdev.net/filemanagement/upload/upload.php', 'na', 'na');" checked> Default</input>
+ | 
+<input type="radio" name="uploadConfig" onclick="configureUpload('http://jrq768.wtgdev.net/filemanagement/upload/upload.php', 'na', 'na');"> HTTP</input>
+ | 
+<input type="radio" name="uploadConfig" onclick="configureUpload('ftp://192.168.0.8/uploadedImage.jpg', 'darryn', 'darryn');"> FTP</input>
+ | 
+
+ <br>
+Desired Width: <input type="text" id="txtWidth" size="10" value="1600" /> <INPUT align="center" type="button" value="Set Width" onclick="setWidth();"> 
+Desired Height: <input type="text" id="txtHeight" size="10" value="1200" /> <INPUT align="center" type="button" value="Set Height" onclick="setHeight();"> 
+ <div id="imageTransfer">Image Transfer Result goes Here</div>
+	<div id="enumImagers">EnumImagers goes Here</div>
+  <BR>
+  <INPUT align="center" type="button" value="Enumerate Imagers" onclick="enumerateImagersJSON();">
+	<P>
+
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+
+
+	<P>
+  </BODY>
+</HTML>

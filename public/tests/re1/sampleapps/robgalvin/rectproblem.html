@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<HTML> 
+<HEAD> 
+		<TITLE>Canvas Example</TITLE> 
+		<script src="signaturePad.js" type="text/javascript" charset="utf-8"></script>
+	
+</HEAD> 
+<BODY  > 
+<br/><br/><br/><br/>
+					<canvas 
+					   id="signaturePad"
+                      width="400" height="200"></canvas>
+					  <br/>
+			<button onClick="doRect();">Draw Rect</button>	
+			<button onClick="doRectAsLines();">Draw Rect As Lines</button>	
+			<button onClick="doLines();">Draw Lines</button>	
+				
+			<div id="log">
+			
+</BODY>
+<script>
+function doRect()
+{
+	canvas = document.getElementById('signaturePad');
+    context = canvas.getContext('2d');
+	sigBoxBuffer = 15;
+    sigBoxWidth = canvas.width - (sigBoxBuffer * 2);
+    sigBoxHeight = canvas.height - (sigBoxBuffer * 2);
+	context.strokeRect(sigBoxBuffer, sigBoxBuffer, sigBoxWidth, sigBoxHeight);
+    
+    
+	
+}
+
+function doRectAsLines()
+{
+	canvas = document.getElementById('signaturePad');
+    context = canvas.getContext('2d');
+	sigBoxBuffer = 15;
+    sigBoxWidth = canvas.width - (sigBoxBuffer * 2);
+    sigBoxHeight = canvas.height - (sigBoxBuffer * 2);
+	x1 = sigBoxBuffer;
+	y1 = sigBoxBuffer;
+	x2 = x1 + sigBoxWidth;
+	y2 = y1;
+	x3 = x2;
+	y3 = y2 + sigBoxHeight;
+	x4 = x1;
+	y4 = y1 + sigBoxHeight;
+    context.moveTo(x1, y1);
+    context.lineTo(x2 , y2);
+    context.lineTo(x3 , y3);
+    context.lineTo(x4 , y4);
+    context.lineTo(x1 , y1);
+    context.stroke();
+    
+    
+	
+}
+
+function doLines(e)
+{
+	canvas = document.getElementById('signaturePad');
+    context = canvas.getContext('2d');
+	sigLineBuffer = 10;
+    sigLineStartX = sigBoxBuffer + sigLineBuffer;
+    sigLineStartY = canvas.height - sigBoxBuffer - sigLineBuffer;
+    sigLineEndX = canvas.width - sigBoxBuffer - sigLineBuffer;
+    sigLineEndY = sigLineStartY;
+    
+    //RG context.beginPath();
+    context.moveTo(sigLineStartX, sigLineStartY);
+    context.lineTo(sigLineEndX, sigLineEndY);
+    context.stroke();
+	
+}
+
+</script>
+</HTML>

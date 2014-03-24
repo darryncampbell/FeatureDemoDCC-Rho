@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<TITLE>Card Reader Demonstration page</TITLE>
+<!--meta http-equiv="cardreader" content="open"/-->
+<script>
+	function onCardSwipe(swipedData)
+	{
+		cardReaderOutput.innerHTML = "<b>Card Read: </b><br>" + swipedData.data + "<br>(" + swipedData.mode + ")";
+	}
+	function enableCardReader()
+	{
+		cardReader.readEvent = 'onCardSwipe(%json)';
+	}
+	function enableCardReaderPIN()
+	{
+		cardReader.pinTimeout = '15000';
+		cardReader.pinEntry = 'on';
+		cardReader.readEvent = 'onCardSwipe(%json)';
+	}
+	function enableCardReaderNoPIN()
+	{
+		cardReader.pinEntry = 'off';
+		cardReader.readEvent = 'onCardSwipe(%json)';
+	}
+	function enableCardReaderWedge()
+	{
+		cardReader.readEvent = '';
+		cardReaderOutput.innerHTML = "";
+	}
+	function enableCardReaderPAN()
+	{
+		cardReader.panData = '1234567890123456';
+	}
+</script>
+
+</HEAD>
+<BODY>
+
+<br>
+<H1>Card Reader Demonstration Page</H1>
+	<div id="cardReaderOutput">Card reader output goes here</div>
+    <TEXTAREA cols="40" rows="5" value="" ></TEXTAREA><br/>
+	<input type="button" onclick="enableCardReader()" value="Enable Card Reader"> 
+	<input type="button" onclick="enableCardReaderWedge()" value="Enable Card Reader Wedge Mode"> 
+	<input type="button" onclick="enableCardReaderPIN()" value="Enable Card Reader (PIN)">
+	<input type="button" onclick="enableCardReaderNoPIN()" value="Enable Card Reader (No PIN)">
+	<input type="button" onclick="enableCardReaderPAN()" value="Send PAN Data">
+<P>
+
+  </BODY>
+</HTML>

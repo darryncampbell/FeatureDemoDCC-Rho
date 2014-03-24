@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<HTML> 
+<HEAD> 
+<meta http-equiv="quitbutton" content="visibility: visible;" />
+
+<TITLE> 
+Neon Demo
+</TITLE> 
+<script>
+function fnEnableScan()
+{
+	scanner.decodeEvent = 'fnBarcodeScanned(%json)';
+	scanner.enable();
+	
+}
+
+function fnDisableScan()
+{
+	scanner.disabled();
+}
+
+function fnBarcodeScanned(jsonObject)
+{
+	//the data property of the JSON object has the barcode data
+	//change textbox to have the scanned data
+	document.getElementById('scanData').value = jsonObject.data;
+	
+	//insert into database a new record
+	fnDbInsertData(jsonObject.data);
+
+}
+
+function fnDbInit()
+{
+	if (window.openDatabase)
+	{
+		db = openDatabase('NeonDemo', '1.0', 'ScanItems', 2000);
+		//  Create the table in the database if it doesn't already exist
+		db.transaction(function(tx)
+		{
+			tx.executeSql("CREATE TABLE Items (ID INTEGER PRIMARY KEY,ScannedData TEXT)", [],
+			function(tx)
+			{
+				
+			},
+			null);
+		});	
+	}
+}
+
+function fnDbInsertData(scanData)
+{
+	db.transaction(
+		function(tx)
+		{
+			tx.executeSql("INSERT INTO Items ( ScannedData) VALUES (?)", [ scanData],
+			function(tx, result) 
+			{
+			
+			}, 
+			null
+			);
+		}
+	);
+	
+ 
+}
+
+function fnDbDisplayData() 
+{
+	document.getElementById('db-results').innerHTML = '';
+	db.transaction(function(tx) {
+	  tx.executeSql("SELECT * FROM Items", [], function(tx, result) {
+		for (var i = 0, item = null; i < result.rows.length; i++) {
+		  item = result.rows.item(i);
+		  document.getElementById('db-results').innerHTML += 
+			  '<li>' + item['ScannedData'] + '<a href="#" onclick="fnDbDeleteRecord('+item['ID']+')">[Delete]</a></li>';
+		}
+	  });
+	});
+}
+
+function fnDbDeleteRecord(id) {
+                db.transaction(function(tx) {
+                  tx.executeSql("DELETE FROM Items WHERE ID=?", [id],
+                      function(tx, result) { fnDbDisplayData() }, 
+                      null);
+                });
+              }
+</script>
+</HEAD> 
+<!-- BODY --> 
+<BODY > 
+<Style>
+	#scanList .record-list li:nth-child(odd) 	{ 	background-color: #eee; 		}
+	#scanList .record-list li:nth-child(even) 	{ 	background-color: #ddd; 	}
+	#scanList .record-list li 	{		  padding: 25px; font-size: 25px;	}
+</Style>
+	<br><br><br>
+	<input type=text id="scanData">
+	<input type=button value="Enable Scan" onClick="fnEnableScan();">
+	<input type=button value="Disable Scan" onClick="fnDisableScan();">
+	<input type=button value="initDB" onClick="fnDbInit();">
+	<input type=button value="Display Records" onClick="fnDbDisplayData();">
+	
+	<div class="center" id="scanList"> 
+		<ul class="record-list" id="db-results"></ul> 
+	</div>
+</BODY>
+
+</HTML>

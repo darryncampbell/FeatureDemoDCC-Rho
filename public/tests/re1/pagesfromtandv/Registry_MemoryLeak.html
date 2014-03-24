@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<META HTTP-Equiv="quitbutton" Content="visibility:visible">
+<SCRIPT LANGUAGE="JavaScript">
+ var iCount = 0;
+
+    function OnTimer() 
+    {
+
+        iCount++;
+        if (iCount <= 50000) {
+            generic.SetRegistrySetting(2, 1, "Software\\Mustomer", "Software", "Helloworld");
+
+
+            strData = generic.GetRegistrySetting(2, "Software\\Mustomer", "Software");
+            reg.innerHTML = strData;
+            nos.innerHTML = iCount;
+            captureLoop();
+
+        }
+    }
+
+    function captureLoop() 
+    {
+        setTimeout("OnTimer()", 2000);
+
+    }
+</SCRIPT>
+</HEAD>
+<BODY>
+<br /><br /><br /><br /><br /><br />
+<b>Set and Get Registry Memory Leak using Timer 2</b>
+
+<DIV ID="reg">Get Registry</DIV><br />
+<div id="nos">X Value</div><br />
+<P><INPUT TYPE="button" VALUE="StartTest" ONCLICK="OnTimer();"></P>
+
+</BODY>
+</HTML>
+

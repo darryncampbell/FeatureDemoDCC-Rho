@@ -1,0 +1,35 @@
+﻿<html>
+<head>
+<META HTTP-Equiv="gesture" Content="type:Hold" />
+<META HTTP-Equiv="gesture" Content="preset:center" />
+<META HTTP-Equiv="gesture" Content="id:HoldGesture1" />
+<META HTTP-Equiv="gesture" Content="diagnostics:TRUE" />
+<META HTTP-Equiv="gesture" Content="center-x:150" />
+<META HTTP-Equiv="gesture" Content="center-y:150" />
+<META HTTP-Equiv="gesture" Content="radius:40" />
+<META HTTP-Equiv="gesture" Content="delay:2000" />
+<META HTTP-Equiv="gesture" Content="interval:1000" />
+<META HTTP-Equiv="gesture-detected" Content="url('Javascript:GestureEvent('%s','%s');')">
+<META HTTP-Equiv="gesture" Content="create" />
+
+    <title>PB 3.0 Linear Gesture static EMML 1.1</title>
+
+<script language=javascript>
+
+var count=1;
+function GestureEvent(id,ncount)
+{
+mydiv.innerHTML="Gesture Detected for"+count+"th time.id:-"+id+" Count="+ncount;
+count++;
+}
+
+</script>
+</head>
+<body>
+<title>Hold Gesture static EMML 1.1</title>
+<form id="frmLinearGestures" >
+<div id="mydiv">Gesture Detection:-</div>
+</form>
+<a href=GestureIndex.html>Gesture Index</a>
+</body>
+</html>

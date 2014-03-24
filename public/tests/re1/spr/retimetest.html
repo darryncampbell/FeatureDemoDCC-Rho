@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript">
+	
+	function updatetime(){
+		var rightnow = new Date();
+		var scan_day = rightnow.getDate();
+		var scan_month = rightnow.getMonth() + 1; //months are zero based
+		var scan_year = rightnow.getFullYear();
+		var scan_hours = rightnow.getHours();
+		var scan_minutes = rightnow.getMinutes();
+		var scan_seconds = rightnow.getSeconds();
+		var dateformatted = scan_year + '/' + scan_month + '/' + scan_day + ',' + scan_hours + ':' + scan_minutes + ":" + scan_seconds;
+		document.getElementById("thedate").innerHTML = dateformatted;
+		setTimeout ( "updatetime()", 5000 );
+	};
+		  
+</script>
+</head>
+
+  <br/>  <br/>  <br/>  <br/>  <br/>  <br/>
+<body onload="updatetime();">
+The current datetime is:<br/>
+<span id="thedate"></span>
+</body>
+
+</html>
+

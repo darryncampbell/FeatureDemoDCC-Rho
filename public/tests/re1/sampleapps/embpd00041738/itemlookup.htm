@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<HTML> 
+<HEAD> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta http-equiv="quitbutton" content="visibility:visible; top:35;" />
+<META HTTP-Equiv="TextSize" Content="Largest"/>
+<TITLE> 
+Item Lookup DB
+</TITLE> 
+
+  <script>
+var db;
+
+function fnEnableScan()
+{
+	if(window.scanner){
+	scanner.decodeEvent = 'fnBarcodeScanned(%json)';
+	scanner.all_Decoders = 'disabled';
+	scanner.upce0 = 'enabled';
+	scanner.upca = 'enabled';
+	scanner.ean13 = 'enabled';
+	scanner.ean8= 'enabled';
+	scanner.ean8ConvertToEAN13 = 'true';
+	scanner.upce0ConvertToUPCA = 'true';
+	scanner.enable();
+	}
+	
+}
+
+function fnDisableScan()
+{
+	scanner.disable();
+}
+
+function fnBarcodeScanned(jsonObject)
+{
+	//the data property of the JSON object has the barcode data
+	//change textbox to have the scanned data
+	document.getElementById('scanData').value = jsonObject.data;
+	fnDbDisplayData();
+
+}
+
+function fnOnLoad()
+{
+	fnEnableScan();
+	fnDbInit();
+	document.getElementById('scanData').focus();
+}
+
+
+
+function fnDbInit()
+{
+	if (window.openDatabase)
+	{
+
+		db = openDatabase('itemsds', '1.0', 'itemstst', 5000000);
+
+		db.transaction(function(tx)	{
+
+			tx.executeSql("CREATE TABLE IF NOT EXISTS items (upc INTEGER PRIMARY KEY,size TEXT, desc TEXT)",[],
+			function(tx, rs) {
+				// 
+			},
+			function(tx, error) {
+				alert( error.message);
+			}
+			);
+		}
+		);	
+	}
+}
+
+
+
+function fnDbDisplayData() 
+{
+	var lookup = document.getElementById('scanData').value;
+	db.transaction(function(tx) {
+	  tx.executeSql("SELECT * FROM items WHERE UPC=?", [lookup], function(tx, result) {
+		if(result.rows.length < 1)
+		{
+				  document.getElementById('db-results').innerHTML = 
+				  	'<li>' + lookup + '</li>' +
+			  		'<li>Not on File</li>';
+		}
+		else
+		{
+			  
+		
+			for (var i = 0, item = null; i < result.rows.length; i++) {
+			  item = result.rows.item(i);
+				if(item['size'].length > 0)
+				{
+					document.getElementById('db-results').innerHTML = 
+						'<li>' + item['upc'] + '</li>' +
+						'<li>' + item['desc'] + '</li>' +
+						'<li>'  + item['size'] + '</li>';
+				}
+				else
+				{
+					document.getElementById('db-results').innerHTML = 
+						'<li>' + item['upc'] + '</li>' +
+						'<li>' + item['desc'] + '</li>';		
+				}
+			}
+		}
+	  });
+	});
+	document.getElementById('scanData').value = '';
+	document.getElementById('scanData').focus();
+	
+	
+}
+
+
+</script>
+</HEAD> 
+<!-- BODY --> 
+<BODY onload="fnOnLoad();"> 
+
+<!--
+<Style>
+	#scanList .record-list li:nth-child(odd) 	{ 	background-color: #eee; 		}
+	#scanList .record-list li:nth-child(even) 	{ 	background-color: #ddd; 	}
+	#scanList .record-list li 	{		  padding: 20px; font-size: 20px;	}
+</Style>
+-->
+	<br>
+	<input type=number id="scanData">
+	<input type=button value="Lookup Item" onClick="fnDbDisplayData();">
+
+	<a href="FILE://\Program Files\Neon\HTML\mainmenu.html">Main Menu</a>	
+	<div class="center" id="scanList"> 
+		<ul class="record-list" id="db-results"></ul> 
+	</div>
+	
+</BODY>
+
+</HTML>

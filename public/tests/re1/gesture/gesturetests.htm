@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Gesture" content="Detected:url('javascript:onGestureJSON(%json);');">
+<!--meta http-equiv="Gesture" content="Type:Linear;Preset:left-right;ID:testLinearGesture;Diagnostics:true;Create">
+<meta http-equiv="Gesture" content="Type:Hold;ID:testHoldGesture;Center-X:50;Center-Y:50;Delay:1000;Interval:1000;Diagnostics:true;Create" -->
+
+<TITLE>Gesture Tests</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+	
+	
+  function onGestureJSON(jsonObject)
+  {
+	 var html = "<b>Gesture Detected: </b>" + jsonObject.id + "";
+	 if (jsonObject.iD == "testHoldGesture")
+		html = html + " [" + jsonObject.count + "]";
+	gestureOut.innerHTML=html;
+  }
+  
+  function createGesture(bDiagnostics)
+  {
+	if (bDiagnostics)
+	{
+		generic.InvokeMETAFunction("Gesture", "Type:Linear;Preset:left-right;ID:testLinearGesture;Diagnostics:true;Create");
+		generic.InvokeMETAFunction("Gesture", "Type:Hold;ID:testHoldGesture;Center-X:50;Center-Y:50;Delay:1000;Interval:1000;Diagnostics:true;Create");
+	}
+	else
+	{
+		generic.InvokeMETAFunction("Gesture", "Type:Linear;Preset:left-right;ID:testLinearGesture;Diagnostics:false;Create");
+		generic.InvokeMETAFunction("Gesture", "Type:Hold;ID:testHoldGesture;Center-X:50;Center-Y:50;Delay:1000;Interval:1000;Diagnostics:false;Create");
+	}
+  
+  }
+  
+  function deleteGestures()
+  {
+	generic.InvokeMETAFunction("Gesture", "ID:testLinearGesture;Delete");
+	generic.InvokeMETAFunction("Gesture", "ID:testHoldGesture;Delete");
+  
+  }
+    
+  </script>
+
+
+<H1>Gesture Tests</H1>
+<P>
+<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
+	<DIV id="gestureOut">Gesture Output will appear here</div><br>
+	<INPUT align="center" type="button" value="Create Gestures (No Diagnostics)" onclick="createGesture(false);">
+	<INPUT align="center" type="button" value="Create Gestures (With Diagnostics)" onclick="createGesture(true);">
+	<INPUT align="center" type="button" value="Delete Gestures" onclick="deleteGestures();">
+
+	<P>
+	<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
+	<P>
+  </BODY>
+</HTML>

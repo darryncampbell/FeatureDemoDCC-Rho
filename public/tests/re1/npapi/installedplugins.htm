@@ -1,0 +1,37 @@
+
+<HTML>
+<HEAD>
+<TITLE>Installed Plugins</TITLE>
+</HEAD>
+<BODY id="bodyId">
+
+<center>
+<h1>Installed Plugins </h1>
+</center>
+
+
+
+
+<script>
+   var L = navigator.plugins.length;
+   document.write(L.toString().bold() + " Plugin(s)".bold());
+   document.write("<br>");
+   document.write("<table><tr><th>Name</th><th>Filename</th><th>description</th></tr>");
+   document.write("<br>");
+   for(var i=0; i<L; i++) {
+	document.write("<tr><td>");
+	document.write(navigator.plugins[i].name);
+    document.write("</td><td>");
+    document.write(navigator.plugins[i].filename);
+    document.write("</td><td>");
+    document.write(navigator.plugins[i].description);
+    document.write("</td></tr>");
+   }
+   document.write("</table>");
+</script>
+
+<br>
+
+
+</BODY>
+</HTML>

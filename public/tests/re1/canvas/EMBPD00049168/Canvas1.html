@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>HTML5 Canvas</title>
+<script type="text/javascript" src="test.js">
+
+</script>
+</head>
+<body>
+<br /><br /><br />
+<input type="image" id="myImage" src="HTML5_Connectivity_32.png" />
+<input type="button" id="button5" value="GetContextofCanvas" onclick="getContext()" />
+<input type="button" id="button1" value="Create Rectangle" onclick="createRectArea()" />
+<input type="button" id="button2" value="Create Linear Gradient" onclick="createLinearGrad()" />
+<input type="button" id="button3" value="Create Radial Gradient" onclick="createRadialGrad()" />
+<input type="button" id="button4" value="Create Patterns" onclick="createPattern()" />  
+<input type="button" id="button6" value="Clear Canvas" onclick="clearCanvas()" /> 
+<input type="button" id="button7" value="Create Cursor" onclick="buildSpinner({ x : 50, y : 50, size : 20, degrees : 30 });" /> 
+
+<br />
+<select name="myLine" id="myLine" onchange="selectLineIndex();">
+<option value="">CreateLine</option>
+<option value="round">round</option>
+<option value="butt">butt</option>
+<option value="square">square</option>
+</select><br />
+<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
+</body>
+</html>
+

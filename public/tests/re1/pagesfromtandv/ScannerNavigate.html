@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<html>
+<head>
+<META HTTP-Equiv="quitbutton" Content="visibility:visible">
+<META HTTP-Equiv="quitbutton" Content="Left:10">
+<META HTTP-Equiv="quitbutton" Content="Top:10">
+<SCRIPT type="text/javascript">
+var Generic = new ActiveXObject("PocketBrowser.Generic");
+var selected_event = "";
+
+
+    function doScan(data, source, type, time, length) {
+        datafield.value = data;
+
+    }
+
+    function doDisableScanner() {
+
+
+        Generic.InvokeMETAFunction('scanner', 'disabled');
+    }
+
+
+
+    function doenableScanner() {
+
+
+        Generic.InvokeMETAFunction('scanner', 'enabled');
+
+    }
+
+
+    function doAllDisable() {
+        Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;start');
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Code128:enabled;code128ean128:true;enabled;start');
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Code39:enabled;Code39ConvertToCode32:true;enabled;start');
+        // Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Codabar:enabled;Codabarnotisediting:false;CodabarCLSiEditing:true;enabled:SCN1;start');
+
+    }
+
+    function doAllEnable() {
+        Generic.InvokeMETAFunction('scanner', 'all_decoders:enabled;start');
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Code128:enabled;code128ean128:false;enabled;start');
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Code39:enabled;Code39ConvertToCode32:false;enabled;start');
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Codabar:enabled;Codabarnotisediting:false;CodabarCLSiEditing:false;enabled:SCN1;start');
+
+    }
+
+    function doEnable(decoder) {
+        if (decoder == 'CODE11') {
+
+            Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;CODE11:enabled;start');
+        }
+        //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Codabar:enabled;CodabarCLSiEditing:false;Codabarnotisediting:true;enabled:SCN1;start');
+
+    }
+
+    function doNOTISDisable() {
+        if (decoder == 'CODE11') {
+            Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;CODE11:disabled;start');
+            //Generic.InvokeMETAFunction('scanner', 'all_decoders:disabled;Codabar:enabled;CodabarCLSiEditing:false;Codabarnotisediting:false;enabled:SCN1;start');
+        }
+
+    }
+
+
+    function DoSetEvent() {
+       
+        var w = ODAXForm.MyDecodeEvent.selectedIndex;
+       
+        selected_event = ODAXForm.MyDecodeEvent.options[w].value;
+       
+        if (selected_event == "HTML") {
+            
+            Generic.InvokeMETAFunction('Scanner', "DecodeEvent:url('http://192.168.6.18/pb3.x/Scanner/ScannerNavigate.html')");
+
+        }
+        else if (selected_event == "JS") {
+          
+            Generic.InvokeMETAFunction("Scanner", "DecodeEvent:url('javascript:doScan('%s', '%s', '%s', '%s','%s');')");
+
+        }
+        else if (selected_event == "EMPTY") {
+           
+            Generic.InvokeMETAFunction("Scanner", "DecodeEvent:url('')");
+
+        }
+
+    }   
+      
+</SCRIPT>
+</head>
+<body>
+<p>****************************************************</p>
+<p>Scanner Navigation page Please check Scenario now</p>
+<p>****************************************************</p>
+Decoded data:<input id="datafield" type="text" value="" /><br /><br />
+<table>
+<tr><td>
+<INPUT TYPE="button" VALUE="Alldecodersdisabled" ONCLICK="doAllDisable();">
+<INPUT TYPE="button" VALUE="Alldecodersenabled" ONCLICK="doAllEnable();">
+</td></tr>
+<tr><td>
+<INPUT TYPE="button" VALUE="Code11 Enable" ONCLICK="doEnable('CODE11');">
+<INPUT TYPE="button" VALUE="Code11 Disable" ONCLICK="doDisable('CODE11');">
+</td></tr>
+<tr><td>
+<INPUT TYPE="button" VALUE="Scanner Disable" ONCLICK="doDisableScanner();">
+<INPUT TYPE="button" VALUE="Scanner enable" ONCLICK="doenableScanner();">
+</td></tr>
+</table>
+
+<form name="ODAXForm" id="ODAXForm" action="">
+<table>
+<tr>
+<td>
+<select id="MyDecodeEvent" onChange="DoSetEvent();">
+<OPTION value="" >Select Event</OPTION> 
+<OPTION value="JS" >JSCRIPT</OPTION> 
+<OPTION value="HTML" >HTML</OPTION> 
+<OPTION value="EMPTY" >EMPTY</OPTION> 
+</select></td></tr>
+</table></form>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,34 @@
+<html>
+<head>
+  <title>Canvas Circle Example</title>
+  <link rel="stylesheet" href="demo.css"/>
+  
+  <script type="text/javascript">
+  function onDraw()
+  {
+    var canvas = document.getElementById('diagram');
+    var context = canvas.getContext('2d');
+    context.lineWidth = 10;
+    context.strokeStyle = "#8000FF";
+    context.fillStyle = "#FF0000";
+    context.beginPath();
+    context.arc (100, 100, 80, 0, Math.PI, true);
+    context.closePath();
+    context.stroke();
+    context.fill();
+  }
+  </script>
+  
+</head>
+<body>
+<br><br>
+  <div>
+    <input type="button" value="Draw" onclick="onDraw();"/>
+  </div>
+  
+  <div>
+    <canvas id="diagram" height="150" with="200">
+    </canvas>
+  </div>
+</body>
+</html>

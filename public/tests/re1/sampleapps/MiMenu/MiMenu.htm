@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>DEMO RhoElements</title>
+  <script type="text/javascript">
+	var scn_names = new Array();
+	var workerOn = true;
+	var totalScans = 0;
+	var MiWorker = new Worker('canvastest.js');
+	
+	function MiDelay(ms)
+	{
+	var tmp = 0;
+
+		ms += new Date().getTime();
+		while (tmp < ms)
+			tmp = new Date().getTime();
+	}
+				
+	function GetPosition(elem)
+	{
+	var pos = document.getElementById(elem);
+	var point = {x:0,y:0};
+
+		while (pos)
+			{
+			if (pos.style.position == 'absolute')
+				break;
+
+			point.x += pos.offsetLeft;
+			point.y += pos.offsetTop;
+
+			pos = pos.offsetParent;
+			}
+
+		return point;
+	}
+
+	function doBatteryLayout()
+	{
+	var offset = GetPosition('idBattery');
+
+    	battery.layout = 'left';
+		battery.left = offset.x;
+		battery.top = offset.y;
+    	battery.color = '#FF0000';
+    	battery.visibility = 'visible';
+	}
+
+	function doSignalLayout()
+	{
+	var offset = GetPosition('idSignal');
+
+		signal.layout = 'left';
+		signal.left = offset.x;
+		signal.top = offset.y;
+		signal.color = '#FF0000';
+		signal.visibility = 'visible';
+	}
+
+		function GetSize(elem)
+	{
+	var dims = document.getElementById(elem);
+	var point = {x:dims.width,y:dims.height};
+	
+		return point;
+	}
+
+	function drawball(x0, y0, r0)
+	{
+	var c0 = document.getElementById('miCanvas');
+	var cxt = c0.getContext("2d");
+	
+		cxt.fillStyle="#DDFF55";
+		cxt.beginPath();
+		cxt.arc(x0, y0, r0, 0, Math.PI*2, true);
+		cxt.closePath();
+		cxt.fill();
+	}	
+	
+	function CanvasTest(elem)
+	{
+	var c=document.getElementById(elem);
+	var pnttmp = GetSize(elem);
+	var ancho = pnttmp.x/3;
+	var alto = pnttmp.y/2;
+	var cxt=c.getContext("2d");
+	var imag=new Image();
+	var grd=cxt.createLinearGradient(0, 0, 3*ancho, alto);
+
+		grd.addColorStop(0,"#1111FF");
+		grd.addColorStop(1,"#FF1111");
+		cxt.fillStyle=grd;
+		cxt.fillRect(0,alto,3*ancho,2*alto);
+	
+		cxt.fillStyle="#FF0000";
+		cxt.fillRect(0,0,ancho,alto);
+		
+		cxt.fillStyle="#00FF00";
+		cxt.fillRect(ancho,0,2*ancho,alto);
+
+		cxt.fillStyle="#0000FF";
+		cxt.fillRect(2*ancho,0,3*ancho,alto);
+				
+		cxt.moveTo(0,0);
+		cxt.lineTo(3*ancho/2,alto);
+		cxt.lineTo(0,2*alto);
+		cxt.stroke();
+						
+		imag.src="./canvas.png";
+		cxt.drawImage(imag,0,0);		
+		
+		for (var i = 1; i < 10;  i++)
+			setTimeout("drawball(" + i*3*ancho/10 + ", " + alto + ", " + alto/2 + ")", i*100); 
+	}
+	
+	function inicial()
+	{
+		totalScans = 0;
+		
+		workerOn = true;
+		//MiWorker.onmessage = function(event) { document.getElementById('WorkerResult').textContent = event.data;};
+		//MiWorker.postMessage(); 
+	
+		if (localStorage.contadoraccesos)
+			localStorage.contadoraccesos = Number(localStorage.contadoraccesos) + 1;
+		else
+			localStorage.contadoraccesos = 1;
+		
+		document.getElementById("idAccessCount").value = localStorage.contadoraccesos;
+		
+		CanvasTest("miCanvas");
+
+		doBatteryLayout();
+		doSignalLayout();
+
+		scanner.disable();
+
+		scanner.decodeEvent="doScanDecode('%1', '%2', '%6')";
+		scanner.enumScannerEvent="EnumScanners(%1)";
+		setEnumScannerTimer();
+	}
+
+	function SelSCN(cual)
+	{
+		scanner.enabled = "SCN"+cual;
+		document.getElementById('id_escanear').textContent = "Click to KILL worker and read barcodes with " + scn_names[cual-1];
+
+		scanner.enable();
+	}
+		
+	function EnumScanners(scannerArray)
+	{
+		var divEl = document.getElementById('num_scanners');
+		divEl.innerHTML = scannerArray.length + " Scanners found";
+		
+		for (i=0; i < scannerArray.length; i++)
+			{	
+			scn_names[i] = scannerArray[i][1];
+			divEl = document.getElementById('scanners_NAME'+i);
+			divEl.innerHTML = "<button type='button' onclick='SelSCN("+ (i+1) +");'>" + scn_names[i] + "</button>";
+			}
+			
+		SelSCN(1);
+	}
+
+	function setEnumScannerTimer()
+	{
+		setTimeout("onScannerEnable()", 3000);
+	}
+	
+	function onScannerEnable()
+	{
+		scanner.enumerate();
+	}
+
+	function escanea()
+	{
+		MiWorker.terminate();
+		document.getElementById('WorkerResult').textContent = "Worker KILLED!! Scan to re-enable";
+		workerOn = false;
+		scanner.start();
+	}
+	
+	function doScanDecode(data, source, eventtype)
+	{
+		if(eventtype == 'Decode')
+			{			   
+			document.getElementById("codigo").value = data;
+			document.getElementById("scan_src").value = source;
+			
+			if ( !workerOn )
+				{
+				MiWorker = new Worker('canvastest.js');
+				//MiWorker.onmessage = function(event) { document.getElementById('WorkerResult').textContent = event.data;};
+				workerOn = true;
+				}
+			
+			MiWorker.postMessage(++totalScans);
+			}
+		else
+			alert(eventtype);
+	}
+
+	function exitapp()
+	{
+		application.quit();
+	}
+  </script>
+</head>
+<body
+ style="height: 90%; width: 90%; background-color: rgb(102, 204, 204);"
+ onload="inicial()">
+<div style="text-align: center;">
+<div style="text-align: left;">
+<table
+ style="text-align: left; width: 100%; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="1" cellspacing="1">
+  <tbody>
+    <tr>
+      <td style="vertical-align: middle; text-align: center;"><img
+ id="idBattery" style="width: 20px; height: 20px;" alt=""
+ src="target.GIF"></td>
+      <td style="vertical-align: middle; text-align: center;" var=""><img
+ style="width: 72px; height: 72px;" alt="" src="Logo.gif"></td>
+      <td style="vertical-align: middle; text-align: center;"><img
+ id="idSignal" style="width: 20px; height: 20px;" alt=""
+ src="target.GIF"></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<canvas style="border: 3px ridge rgb(0, 0, 0);" id="miCanvas"
+ width="400" height="50">
+</canvas><br>
+<p><button
+ style="border-style: outset; font-family: Arial,Helvetica,sans-serif; font-size: x-large; color: red;"
+ onclick="exitapp();" id="idExit" type="button" name="botonsalir">EXIT</button></p>
+</div>
+<div style="text-align: center;"><font
+ style="font-family: Arial,Helvetica,sans-serif; font-size: x-large; color: rgb(0, 0, 153); font-weight: bold; background-color: rgb(255, 204, 0);"
+ size="+2">RhoElements Demo accessed <output id="idAccessCount"></output>
+times<br>
+</font></div>
+<hr style="width: 100%; height: 2px;">
+<form>
+  <table
+ style="border-style: none; text-align: left; width: 90%; height: 140px; background-color: rgb(102, 204, 204); font-family: Arial,Helvetica,sans-serif; font-size: 16px; color: rgb(102, 0, 0); list-style-type: none; font-weight: bold; font-style: normal; text-transform: none; line-height: normal; visibility: visible; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr align="center">
+        <td style="background-color: rgb(255, 204, 0);" colspan="2"
+ id="num_scanners"><br>
+        </td>
+      </tr>
+      <tr align="center">
+        <td id="scanners_NAME0"><br>
+        <br>
+        </td>
+      </tr>
+      <tr align="center">
+        <td id="scanners_NAME1"><br>
+        <br>
+        </td>
+      </tr>
+      <tr align="center">
+        <td id="scanners_NAME2"><br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+<br>
+<form
+ style="font-family: Arial,Helvetica,sans-serif; font-size: medium; color: rgb(0, 0, 102); font-weight: bold;"
+ target="_self" enctype="text/plain">
+  <table
+ style="text-align: left; width: 90%; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td
+ style="font-family: Arial,Helvetica,sans-serif; font-size: medium; font-weight: bold; color: rgb(51, 0, 153);">BARCODE:</td>
+        <td style="width: 70%; background-color: rgb(153, 255, 255);"><output
+ style="font-family: &quot;Times New Roman&quot;,Times,serif; font-size: medium; font-weight: bold; font-style: italic; background-color: rgb(255, 102, 0); color: rgb(255, 255, 204);"
+ id="codigo" type="text"></output><br>
+        </td>
+      </tr>
+    </tbody> <tbody>
+      <tr>
+        <td
+ style="font-family: Arial,Helvetica,sans-serif; font-size: medium; font-weight: bold; color: rgb(51, 0, 153);">SOURCE:</td>
+        <td
+ style="background-color: rgb(153, 255, 153); text-align: left; vertical-align: middle;"><output
+ style="font-family: &quot;Times New Roman&quot;,Times,serif; font-size: medium; font-weight: bold; font-style: italic; background-color: rgb(255, 102, 0); color: rgb(255, 255, 204);"
+ id="scan_src" type="text"></output><br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+<button type="button" id="id_escanear"
+ style="font-family: Arial,Helvetica,sans-serif; font-size: large;"
+ onclick="escanea();">Please wait to Click to read barcodes</button>
+<br>
+<p>Worker: <output id="WorkerResult"></output></p>
+<br>
+<br>
+</body>
+</html>

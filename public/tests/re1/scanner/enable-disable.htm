@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+                    <TITLE> Scan Test </TITLE>
+</HEAD>
+<BODY >
+ 
+<script>
+ 
+var str1="";
+ 
+function encodeToHexa(str){
+    var r="";
+    var e=str.length;
+    var c=0;
+    var h;
+    while(c<e){
+        h=str.charCodeAt(c++).toString(16);
+        while(h.length<3) h="0"+h;
+        r+=h;
+    }
+    return r;
+}
+function decodeFromHex(str){
+    var r="";
+    var e=str.length;
+    var s;
+    while(e>=0){
+        s=e-3;
+        r=String.fromCharCode("0x"+str.substring(s,e))+r;
+        e=s;
+    }
+    return r;
+}
+function shownormal(str){
+          document.getElementById("Data_Normal").innerHTML = str; //show data on page
+ 
+}
+function showhexa(str){
+          document.getElementById("Data_Hexa").innerHTML = str; //show data on page
+ 
+}
+function showmodified(str){
+          document.getElementById("Data_Modified").innerHTML = str; //show data on page
+ 
+}
+ 
+function enableScanner(){
+          scanner.decodeEvent = 'doScan(%json)';  //setup event handler
+          scanner.enable(); //enable the scanner - the first available scanner will be enabled
+}
+function disableScanner(){
+          scanner.disable(); //enable the scanner - the first available scanner will be disabled
+}
+ 
+function replacefunc(str){
+ 
+    var newstr = str.replace(String.fromCharCode(29),"[");
+    return newstr;
+}
+ 
+function doScan(jsonObject){
+ 
+          shownormal(jsonObject.data);
+ 
+          var str2 = encodeToHexa(jsonObject.data);
+          showhexa(str2);
+ 
+          //This is the function we need to use new barcode = jsonObject.data.replace(String.fromCharCode(29),"[");
+          var str3 = replacefunc(jsonObject.data);
+          showmodified(str3);
+}
+ 
+</script>
+ 
+</br>
+</br>
+</br>
+          <div id="Data_Normal">Barcode goes here</div>
+          <div id="Data_Hexa">Barcode in HEXA data goes here</div>
+          <div id="Data_Modified">data with char(29) replacement goes here</div>
+</br>
+          <button onClick="enableScanner()">  Enable Scanner </button>
+</br>
+          <button onClick="disableScanner()">  Disable Scanner  </button>
+ 
+</BODY>
+ 
+</HTML>

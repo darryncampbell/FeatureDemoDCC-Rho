@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<TITLE>History Back Test</TITLE>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+
+	//  *******************************************************************************************
+	//  Code to make it compatible on IE / WebKit
+	try
+	{
+		var testme = new ActiveXObject("PocketBrowser.Generic");
+		var generic = new ActiveXObject("PocketBrowser.Generic");
+	}
+	catch(err)
+	{
+		//  We'll just use the generic exported by NPAPI 
+		var GenericPlugin = document.createElement('embed');
+		GenericPlugin.setAttribute('id',"embed1");
+		GenericPlugin.setAttribute('type',"application/x-wtg-legacy-generic");
+		GenericPlugin.setAttribute('hidden',true);	
+
+		//  Attach the plugin embed tags to the body
+		var theBody = document.getElementsByTagName('body')[0];
+		theBody.appendChild(GenericPlugin);
+	}
+	//  End Code to make it compabitible on IE / WebKit
+	//  *********************************************************************************************
+  
+  </script>
+
+<br><br><br>
+<H1>History Back Tests</H1>
+<P>
+	<a href="history:back">Go Back using History:Back</a>
+<P>
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+  </BODY>
+</HTML>

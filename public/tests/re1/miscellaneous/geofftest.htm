@@ -1,0 +1,320 @@
+
+<!-- saved from url=(0041)http://www.fmksoftware.com/work/neon.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Darryn Neon Test</title>
+  
+    <!-- Timer>    
+    <meta http-equiv="Timer" content="Interval:2000">
+    <meta http-equiv="Timer" content="Timeout:url(&#39;javascript: onTimerEvent(&#39;%s&#39;);&#39;)">
+    
+
+    <meta http-equiv="Scanner" content="DecodeEvent: url(&#39;javascript: onBarcodeEvent(&#39;%s&#39;);&#39;)">
+    <meta http-equiv="Scanner" content="Enabled">
+
+    <!-- Signal -->
+    <!--meta http-equiv="Signal" content="SignalEvent: url(&#39;javascript: onSignalEvent(&#39;%1&#39;, &#39;%2&#39;, &#39;%3&#39;, &#39;%4&#39;, &#39;%5&#39;, &#39;%6&#39;, &#39;%7&#39;, &#39;%8&#39;, &#39;%9&#39;, &#39;%10&#39;, &#39;%11&#39;);&#39;)" -->
+    <!--meta http-equiv="Signal" content="Color:#FF00FF" -->
+	
+    <script type="text/javascript">
+    var iSignalLeft = 0;
+	var iSignalTop = 0;
+	var szGraphPos = "left";
+	var szIconPos = "left";
+	function moveSignal()
+	{
+		alert('hi');
+		iSignalLeft += 10;
+		iSignalTop += 10;
+		generic.InvokeMETAFunction('Signal', 'left:' + iSignalLeft);
+		generic.InvokeMETAFunction('Signal', 'top:' + iSignalLeft);
+	}
+	
+	function changeGraphPosition()
+	{
+		if (szGraphPos == "left")
+			szGraphPos = "top";
+		else if (szGraphPos == "top")
+			szGraphPos = "right";
+		else if (szGraphPos == "right")
+			szGraphPos = "bottom";
+		else if (szGraphPos == "bottom")
+			szGraphPos = "left";
+		generic.InvokeMETAFunction('Signal', 'GraphPosition:' + szGraphPos);
+	}
+	
+	function changeIconPosition()
+	{
+		if (szIconPos == "left")
+			szIconPos = "top";
+		else if (szIconPos == "top")
+			szIconPos = "right";
+		else if (szIconPos == "right")
+			szIconPos = "bottom";
+		else if (szIconPos == "bottom")
+			szIconPos = "left";
+		generic.InvokeMETAFunction('Signal', 'IconPosition:' + szIconPos);
+	}
+	
+	function showSignal(bShow)
+	{
+		if (bShow)
+			generic.InvokeMETAFunction('Signal', 'Visibility:Visible');
+		else
+			generic.InvokeMETAFunction('Signal', 'Visibility:Hidden');
+	}
+	
+	
+    function startSignal()
+    {
+      generic.InvokeMETAFunction("Signal", "SignalEvent: url('javascript: onSignalEvent('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9', '%10', '%11');')");
+    }
+    
+    function stopSignal()
+    {
+      generic.InvokeMETAFunction("Signal", "SignalEvent: url('')");
+    }
+	
+   
+    function onSignalEvent (strength, ssid, mac, adapter, dhcp_server, dhcp_static, gateway, ip, rssi, subnet, wins)
+    {
+        if (document.getElementById('signal-info') == null)
+          return;
+          
+        if (ssid.length == 0)
+          document.getElementById('signal').innerHTML = 'Disconnected';
+        else
+          document.getElementById('signal').innerHTML = ssid + ', ' + strength + '%';
+
+        document.getElementById('signal-strength').innerHTML = strength + '%';
+        document.getElementById('signal-ssid').innerHTML = ssid;
+        document.getElementById('signal-mac').innerHTML = mac;
+        document.getElementById('signal-adapter').innerHTML = adapter;
+        document.getElementById('signal-dhcp-server').innerHTML = dhcp_server;
+        document.getElementById('signal-dhcp-static').innerHTML = dhcp_static;
+        document.getElementById('signal-gateway').innerHTML = gateway;
+        document.getElementById('signal-ip').innerHTML = ip;
+        document.getElementById('signal-rssi').innerHTML = rssi;
+        document.getElementById('signal-subnet').innerHTML = subnet;
+        document.getElementById('signal-wins').innerHTML = wins;
+
+        flashInfo('signal-info');
+    }
+    
+    function onBarcodeEvent (barcode)
+    {
+        var div = document.getElementById('barcode');
+        if (div != null)
+        {
+            div.innerHTML = barcode;
+            flashInfo('barcode-info');
+        }
+    }
+    
+    function startTimer()
+    {
+      generic.InvokeMETAFunction('Timer', 'Start');
+
+      var div = document.getElementById('timer');
+      if (div != null)
+          div.innerHTML = 'waiting...';
+    }
+    
+    function startScanner()
+    {
+      generic.InvokeMETAFunction('Scanner', 'Start');
+    }
+    
+    function onTimerEvent (time)
+    {
+        //var gen = new ActiveXObject("PocketBrowser.Generic");
+        //gen.InvokeMETAFunction("Timer", "Stop");
+        
+        var div = document.getElementById('timer');
+        if (div != null)
+        {
+            div.innerHTML = time;
+            flashInfo('timer-info');
+        }
+        
+        //gen.InvokeMETAFunction("Timer", "Start");
+    }
+    
+    function sendLog()
+    {
+        var generic = new ActiveXObject("PocketBrowser.Generic");
+        generic.Log (document.getElementById('log').value, 1);
+    }
+
+    function showSignature()
+    {
+        generic.InvokeMETAFunction('SignatureCapture', "left:30");
+        generic.InvokeMETAFunction('SignatureCapture', "top:200");
+        generic.InvokeMETAFunction('SignatureCapture', "width:400");
+        generic.InvokeMETAFunction('SignatureCapture', "height:500");
+        generic.InvokeMETAFunction('SignatureCapture', "pencolor:#123456");
+        generic.InvokeMETAFunction('SignatureCapture', "bgcolor:#ABCDEF");
+        generic.InvokeMETAFunction('SignatureCapture', "penwidth:10");
+        generic.InvokeMETAFunction('SignatureCapture', "name:helium_sig.png");
+        generic.InvokeMETAFunction('SignatureCapture', "SignatureSaveEvent: url('javascript: onSignatureSave('%s');')");
+        generic.InvokeMETAFunction('SignatureCapture', 'visibility:visible');
+    }
+    
+    function captureSignature()
+    {
+        generic.InvokeMETAFunction('SignatureCapture', 'capture');
+    }
+    
+    function clearSignature()
+    {
+        generic.InvokeMETAFunction('SignatureCapture', 'clear');
+    }
+    
+    function hideSignature()
+    {
+        generic.InvokeMETAFunction('SignatureCapture', 'visibility:hidden');
+    }
+    
+    function onSignatureSave (status)
+    {
+        var div = document.getElementById('signature');
+        if (div != null)
+        {
+            div.innerHTML = status;
+            flashInfo('signature-info');
+        }
+    }
+    
+    function onQuit()
+    {
+        //var gen = new ActiveXObject("PocketBrowser.Generic");
+        //gen.InvokeMETAFunction("application", "quit");
+        generic.Quit();
+    }
+    
+    function flashInfo(info)
+    {
+        var div = document.getElementById(info);
+        if (div == null)
+            return;
+            
+        div.className = 'highlight';
+        window.setTimeout('clearFlash(\'' + info + '\');', 250);
+    }
+    
+    function clearFlash(info)
+    {
+        var div = document.getElementById(info);
+        if (div == null)
+            return;
+            
+        div.className = 'info';
+
+    }
+
+    function initDetails()
+    {
+      var details = document.getElementsByClassName('detail');
+      for (var n in details)
+      {
+        details[n].style.display = 'none';
+        details[n].parentNode.onclick = function(e) {toggleDetail(e.target);};
+      }
+    }
+    
+    function toggleDetail(target)
+    {
+      // If target is of class 'detail' then use it, otherwise find child 'detail'
+      var detail = null;
+      if (target.className == 'detail')
+        detail = target;
+      else
+      {
+        var children = target.childNodes;
+        for (var n in children)
+          if (children[n].className == 'detail')
+          {
+            detail = children[n];
+            break;
+          }
+      }
+      if (detail == null)
+        return;
+      
+      if (detail.style.display == 'none')
+        detail.style.display = 'block';
+      else
+        detail.style.display = 'none';
+    }
+
+    function onLoad()
+    {
+        initDetails();
+    }
+
+    </script>
+
+    <link rel="stylesheet" href="http://www.fmksoftware.com/work/neon.css">
+
+</head>
+<body onload="onLoad();">
+    <div class="info"><span class="title">Version: </span><span class="data" id="version">Helium Alpha</span></div>
+
+    <div class="info" id="signature-info"><span class="title">Signature: </span><span class="data" id="signature"></span><br>
+        <input type="button" value="Show" onclick="showSignature();">
+        <input type="button" value="Capture" onclick="captureSignature();">
+        <input type="button" value="Clear" onclick="clearSignature();">
+        <input type="button" value="Hide" onclick="hideSignature();">
+    </div>
+
+    <div class="info" id="signal-info"><span class="title">Signal: </span><span class="data" id="signal"></span><br>
+        <input type="button" value="Show" onclick="showSignal(true);">
+        <input type="button" value="Hide" onclick="showSignal(false);">
+        <input type="button" value="Move" onclick="moveSignal();">
+        <input type="button" value="Graph Pos" onclick="changeGraphPosition();">
+        <input type="button" value="Icon Pos" onclick="changeIconPosition();">
+        <!--input type="button" value="Hide" onclick="hideSignature();" -->
+    <div class="detail" style="display: none; ">
+        <span class="title">Strength: </span><span class="data" id="signal-strength"></span><br>
+        <span class="title">SSID: </span><span class="data" id="signal-ssid"></span><br>
+        <span class="title">MAC address: </span><span class="data" id="signal-mac"></span><br>
+        <span class="title">Adapter: </span><span class="data" id="signal-adapter"></span><br>
+        <span class="title">DHCP server: </span><span class="data" id="signal-dhcp-server"></span><br>
+        <span class="title">DHCP static: </span><span class="data" id="signal-dhcp-static"></span><br>
+        <span class="title">Gateway: </span><span class="data" id="signal-gateway"></span><br>
+        <span class="title">IP address: </span><span class="data" id="signal-ip"></span><br>
+        <span class="title">RSSI: </span><span class="data" id="signal-rssi"></span><br>
+        <span class="title">Subnet: </span><span class="data" id="signal-subnet"></span><br>
+        <span class="title">WINS: </span><span class="data" id="signal-wins"></span><br>
+        <input type="button" value="Start" onclick="startSignal();">
+        <input type="button" value="Stop" onclick="stopSignal();">
+    </div>
+    </div>
+
+    <div class="info" id="barcode-info"><span class="title">Barcode: </span><span class="data" id="barcode"></span><br>
+        <input type="button" value="Scan" onclick="startScanner();">
+    </div>
+
+    <div class="info" id="timer-info"><span class="title">Timer: </span><span class="data" id="timer"></span><br>
+        <input type="button" value="Start" onclick="startTimer();">
+    </div>
+
+    <div class="info"><span class="title">Log: </span>
+        <input type="text" id="log" class="data" value="Helium log test"><br>
+        <input type="button" value="Send" onclick="sendLog();">
+    </div>
+
+    <div class="info">
+        <span class="title">Link: </span>
+        <a href="http://www.google.com/">Google</a>
+    </div>
+    
+    <div class="info">
+        <span class="title">Link: </span>
+        <a href="http://www.fmksoftware.com/work/floatingIndicators.html">Indicators</a>
+    </div>
+
+    <div class="info">
+        <span class="title">File Transfer Tests: </span>
+        <a href="./filetransfer.htm">Click Here</a>
+    </div>
+					</body><style></style></html>

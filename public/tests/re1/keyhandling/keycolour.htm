@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var flip = true;
+function myFunction()
+{
+	if (flip)
+	{
+		document.getElementById('myDiv').style.backgroundColor="red";
+	}
+	else
+	{
+		document.getElementById('myDiv').style.backgroundColor="green";
+	}
+	flip = !flip;
+}
+</script>
+</head>
+<body onkeydown="myFunction()"
+
+<p>A function is triggered when the user is pressing a key in the input field.</p>
+
+<input type="text">
+<div id="myDiv" style="background-color:#b0c4de;">Hello</div>
+
+</body>
+</html>

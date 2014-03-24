@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<script src="/he///miscellaneous/myjs.js"></script>
+
+<TITLE>Spaces after Javascript Tests</TITLE>
+</HEAD>
+<BODY>
+<script>
+function setJSSpacesEvent(theEvent) 
+{
+	if (theEvent == 1)
+		generic.InvokeMETAFunction("keyCapture", "TriggerEvent:url('Javascript:onTriggerJSON(%json);')");
+	else if (theEvent == 2)
+		generic.InvokeMETAFunction("keyCapture", "TriggerEvent:url('Javascript: onTriggerJSON(%json);')");
+	else if (theEvent == 3)
+		generic.InvokeMETAFunction("keyCapture", "TriggerEvent:url('Javascript:       onTriggerJSON(%json);')");
+	else if (theEvent == 4)
+		generic.InvokeMETAFunction("keyCapture", "TriggerEvent:url('Javascript:			   		onTriggerJSON(%json);')");
+}
+
+function onTriggerJSON(jsonObject)
+{
+	var spanElement;
+	spanElement = document.getElementById("triggerState");
+	spanElement.innerText = jsonObject.triggerFlag;
+}
+
+</SCRIPT>
+<br><br>
+<H2>Spaces after Javascript Tests</H2>
+<P>
+Press the Trigger to test<br>
+<INPUT TYPE="button" VALUE="No spaces" ONCLICK="setJSSpacesEvent(1)">
+<INPUT TYPE="button" VALUE="One Space" ONCLICK="setJSSpacesEvent(2)">
+<INPUT TYPE="button" VALUE="Lots of Space" ONCLICK="setJSSpacesEvent(3)">
+<INPUT TYPE="button" VALUE="White space" ONCLICK="setJSSpacesEvent(4)"><br>
+Trigger: <span id=triggerState>Not Captured</span><br>
+<INPUT TYPE="button" VALUE="Test JS from File" ONCLICK="doStuff()"><br>
+
+

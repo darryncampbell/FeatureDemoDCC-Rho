@@ -1,0 +1,170 @@
+<HTML>
+<HEAD><TITLE>
+Package Delivery Demo
+</TITLE>
+<script> 
+var db;  //  The Database
+var iRecordCount = 0;
+var lastScannedData = "";
+var lastScannedTime;
+
+function fnBodyInitialisation()
+{
+	//  Function called in the Body OnInit, wait for a second to ensure the DB context is properly loaded
+	setTimeout("fnInitialisation()", 1000);
+}
+function fnInitialisation()
+{
+	iRecordCount = 0;
+	//  Create the SQLite Database
+	log.innerHTML = 'opening WebSQL';
+	if (window.openDatabase)
+	{
+		db = openDatabase('NeonTest', '1.0', 'Sample', 2000);
+		//  Create the table in the database if it doesn't already exist
+		db.transaction(function(tx)
+		{
+			tx.executeSql("CREATE TABLE Deliveries (id REAL UNIQUE, SignatureFile TEXT, ScannedData TEXT, DeliveryTime date)", [],
+			function(tx) { log.innerHTML = '"Deliveries" created!' },
+			null);
+		});	
+	}
+	//  Get the id of the next record
+	setRecordCount();
+	//  Configure the scanner and enable it
+	scanner.decodeEvent = 'fnBarcodeScanned(%json)';
+	scanner.enable();
+	
+}
+
+function onError(tx, error)
+{
+	//  Function to accept errors from the database transactions
+	log.innerHTML = "Error: " + error.message;
+}
+
+function fnBarcodeScanned(jsonObject)
+{
+	//  Called when a barcode is scanned.
+	//  Store the last scan data
+	lastScannedData = jsonObject.data;
+	lastScannedTime = jsonObject.time;
+	
+	//  We have received a Scanned barcode, present the user with
+	//  the signature capture dialog and show the 'capture' button
+	SigSubmit.style.display = 'block';
+	signatureCapture.left = 0;
+	signatureCapture.width = 480;
+	signatureCapture.top = 0;
+	signatureCapture.height = 400;
+	signatureCapture.penWidth = 5;
+	signatureCapture.bgColor = '#FFFF00';
+	signatureCapture.penColor = '#FF00FF';
+	signatureCapture.visibility = 'visible';
+	
+	//  Disable scanner whilst recording signature
+	scanner.disabled();
+}
+
+function fnRecordDeliveryInDB(fileName, scanData, scanTime)
+{
+	//  Function to insert an entry into the Deliveries table
+	db.transaction(
+		function(tx)
+		{
+			tx.executeSql("INSERT INTO Deliveries (id, SignatureFile, ScannedData, DeliveryTime) VALUES (?, ?, ?, ?)", [iRecordCount, fileName, scanData, scanTime],
+			function(tx, result) 
+			{
+				log.innerHTML = '';
+			}, 
+			onError
+			);
+		}
+	);
+}
+
+function setRecordCount()
+{
+	//  We could use auto increment type in table but we maintain a global record count instead to
+	//  demonstrate a WebSQL Count statement
+	db.transaction(
+		function(tx)
+		{
+			tx.executeSql("SELECT COUNT(*) as c FROM Deliveries", [],
+			function(tx, result) 
+			{
+				item = result.rows.item(0);
+				iRecordCount = item['c'];
+				log.innerHTML = 'Record Count: ' + iRecordCount;
+			}, 
+			onError
+			);
+		}
+	);
+}
+
+function fnSubmitSignature()
+{
+	//  Hide the Signature capture window
+	SigSubmit.style.display = 'none';
+	//  Specify the name of the signature when captured (unique in the table)
+	var fileName = "Signature" + iRecordCount;
+	signatureCapture.name = fileName;
+	//  Capture the Signature in the box
+	signatureCapture.capture();
+	//  Hide the Signature capture window
+	signatureCapture.visibility = 'hidden';
+	//  Record this successful delivery in our database
+	fnRecordDeliveryInDB(fileName, lastScannedData, lastScannedTime);
+	iRecordCount++;
+
+	//  Re-enable the scanner (it was disabled during signing)
+	scanner.enable();
+}
+
+function fnDeleteTable()
+{
+	//  Admin only - delete the Deliveries table
+	iRecordCount = 0;
+	db.transaction(function(tx)
+	{
+		tx.executeSql("DROP TABLE Deliveries", [],
+		function(tx) { log.innerHTML = '"Deliveries" Destroyed!' },
+		null);
+	});	
+}
+
+function fnShowRecords()
+{
+	//  Display the contents of the Deliveries table using an SELECT statment
+var logHTML = '<table border=1><tr><th>ID</th><th>Signature File</th><th>Barcode Data</th><th>Time of Delivery</th></tr>';
+                db.transaction(function(tx) {
+                  tx.executeSql("SELECT * FROM Deliveries", [], function(tx, result) {
+                    for (var i = 0, item = null; i < result.rows.length; i++) {
+                      item = result.rows.item(i);
+                      logHTML = logHTML + '<tr><td>'+item['id']+'</td><td>'+ item['SignatureFile']+'</td><td>'+ item['ScannedData']+'</td><td>'+ item['DeliveryTime'] + '</td></tr>';
+                    }
+					logHTML += '</table>';
+					log.innerHTML = logHTML;
+                  });
+                });					
+}
+	
+
+</script> 
+</HEAD>
+<!-- BODY -->
+<BODY onload='fnBodyInitialisation()'>
+Package Delivery sample
+<P>
+<div id='SigSubmit' style="position:fixed;top:405;display:none"><input type=button value="Submit Signature" onclick='fnSubmitSignature()'> </div>
+<P>
+<!-- input type=button value="Initialise" onclick="fnInitialisation()" --> 
+<!-- input type=button value="Simulate Scan" onclick="fnBarcodeScanned({'Data':'0123456789','Time':'18/05/2011'});" --> 
+<input type=button value="Delete Deliveries Table" onclick='fnDeleteTable()'> 
+<input type=button value="What have I delivered today?" onclick='fnShowRecords()'> 
+
+<div id='log'></div>
+
+</BODY>
+</HTML>

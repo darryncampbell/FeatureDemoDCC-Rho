@@ -1,0 +1,66 @@
+<html>
+	<head>
+	<style>
+		div
+		{
+			overflow: hidden;
+			border: 1px solid black;
+			height: 0px;	
+			-webkit-transition: height 1s ease-in-out;
+		}
+		.big
+		{
+			height: 400px;
+		}
+		.shadow
+		{
+			-webkit-box-shadow: 0 0 10px #888;
+		}
+		body
+		{
+			text-align: center;
+		}
+	</style>
+	<script>
+		var div1;
+
+		
+		var exp = function()
+		{
+			div1.className = 'big';
+			setTimeout(shr, 1000);
+		}
+		
+		var shr = function()
+		{
+			div1.className = '';
+			setTimeout(exp, 1000);
+		}
+	
+		window.onload = function()
+		{
+			div1 = document.getElementById('div1');
+
+			exp();
+		}
+		
+		function doShadow(shadowOn)
+		{
+			if(shadowOn)
+			{
+				document.getElementById('image').className = 'shadow';
+			}
+			else
+			{
+				document.getElementById('image').className = '';
+			}
+		}
+		
+	</script>
+	</head>
+	<body>
+	<br/><br/><br/>
+		<button onclick="doShadow(true)">Shadow on</button><button onclick="doShadow(false)">Shadow off</button>
+		<div id="div1"><img src="img.jpg" id="image" class="shadow" width=320 height=240></img></div>
+	</body>
+</html>

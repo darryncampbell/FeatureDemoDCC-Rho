@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<HTML> 
+<HEAD> 
+		<TITLE>Canvas Example</TITLE> 
+		<script src="signaturePad.js" type="text/javascript" charset="utf-8"></script>
+	
+</HEAD> 
+<BODY onLoad="init();" > 
+<br/><br/><br/><br/>
+					<canvas 
+					  onmousedown="OnMouseDown(event);" 
+					  onmousemove="OnMouseMove(event);"
+                      onmouseup="OnMouseUp(event);" 
+					  onmouseout="OnMouseUp(event);"
+                       id="signaturePad"
+                      width="400" height="200"></canvas>
+					  <br/>
+			<button onClick="doDataUrl();">DoData</button>		  
+			<textarea id="dataUrl" onClick="SelectAll('dataUrl');"rows="10" cols="30">
+			</textarea>
+			<div id="log">
+			<div id="base64">
+</BODY>
+<script>
+function doDataUrl()
+{
+    canvas = document.getElementById('signaturePad');
+	var canvasData = canvas.toDataURL("image/png");
+	ta = document.getElementById('dataUrl');
+	ta.value=canvasData;
+	
+	
+}
+function SelectAll(id)
+{
+    document.getElementById(id).focus();
+    document.getElementById(id).select();
+}
+</script>
+</HTML>

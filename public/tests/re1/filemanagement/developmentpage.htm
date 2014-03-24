@@ -1,0 +1,126 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<TITLE>File Transfer Tests</TITLE>
+  <script type="text/javascript">
+  var generic = new ActiveXObject("PocketBrowser.Generic");
+  
+  function fnTransferDone(data)
+  {
+	outputDiv.innerHTML = "<B>" + data + "</B>";
+  }
+  
+  //  3.0 Local File Tests
+  function testTransferFile()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt'); destination:url('file://\\FileTransferTesting/destinationFile.txt'); Overwrite:true; Transfer");}
+  function testTransferFileAbsolute()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('/mnt/sdcard/FileTransferTesting\\sourceFile.txt'); destination:url('/mnt/sdcard/FileTransferTesting/destinationFile.txt'); Overwrite:true; Transfer");}
+  function testTransferFileCreateDirectories() {generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt'); destination:url('file://\\FileTransferTesting/directory one/directory two/destinationFile.txt'); Overwrite:true; CreateFolders:true; Transfer");}
+  
+  //  3.0 Relative Tests
+  
+  function testTransferRelative()  
+  {
+	generic.InvokeMETAFunction("FileTransfer", "Source:url('../.././.\\index.htm');");
+	generic.InvokeMETAFunction("FileTransfer",	"destination:url('file://\\FileTransferTesting/destinationFile.txt'); Overwrite:true; Transfer");
+  }
+  function testTransferRelativeMove()  
+  {
+	generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt');");
+	generic.InvokeMETAFunction("FileTransfer", "destination:url('./../destinationFile.txt'); Overwrite:true; Transfer");
+  }
+  
+  
+  //  FTP
+  function testTransferToFTPAttributes()  
+	{
+		generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt')");
+		generic.InvokeMETAFunction("FileTransfer", "destination:url('ftp://ftpadmin@192.168.4.110:2500/NewFolder/sigRemote.bmp'); Transfer");
+	}
+  function testTransferFromFTPAttributes()  
+	{
+		generic.InvokeMETAFunction("FileTransfer", "Source:url('ftp://ftpadmin:ftpadminpw@192.168.4.110:2500/NewFolder/sigRemote.bmp');"); 
+		generic.InvokeMETAFunction("FileTransfer", "Destination:url('file://\\FileTransferTesting/destinationFile.txt'); Transfer"); 
+	}
+  function testTransferToFTPDefaults()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt'); destination:url('ftp://192.168.4.110/SigRemote.bmp'); Transfer");}
+  function testTransferFromFTPDefaults()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('ftp://192.168.4.110/sigRemote.bmp'); Destination:url('file://\\FileTransferTesting/destinationFile.txt'); Transfer");}
+
+ 
+  
+  //  HTTP
+  function testTransferFromHTTPAttributes()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('http://httpadmin:httpadminpw@192.168.4.110:8080/NewFolder/sigRemote.bmp'); Destination:url('file://\\FileTransferTesting/destinationFile.txt'); Transfer");}
+  function testTransferToHTTPAttributes()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\FileTransferTesting\\sourceFile.txt'); destination:url('http://httpadmin:httpadminpw@192.168.4.110:8080/NewFolder/sigRemote.bmp'); Transfer");}
+  function testTransferToHTTPDefaults()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('file://\\Program Files\\PocketBrowser\\sigFrom.bmp'); destination:url('http://192.168.4.110/NewFolder/sigRemote.bmp'); Transfer");}
+  function testTransferFromHTTPDefaults()  {generic.InvokeMETAFunction("FileTransfer", "Source:url('http://192.168.4.110/NewFolder/sigRemote.bmp'); Destination:url('file://\\Program Files\\PocketBrowser\\sigFrom.bmp'); Transfer");}
+  
+  
+  
+  //  2.x Tests - Needs modifying for Helium Testing
+  function testTransferFile2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:file; Source:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); destination:url('\\Program Files/PocketBrowser/sigTo.bmp'); Overwrite:true; SetFileDestination:False; Transfer");}
+  function testTransferToFTPDefaults2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:FTP; Source:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); destination:url('192.168.4.110/sigRemote.bmp'); SetFileDestination:False; Transfer");}
+  function testTransferFromFTPDefaults2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:FTP; Source:url('192.168.4.110/sigRemote.bmp'); Destination:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); SetFileDestination:True; Transfer");}
+  function testTransferToFTPAttributes2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:FTP; Port:2500; Username:ftpadmin; Password:ftpadminpw; Source:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); destination:url('192.168.4.110/sigRemote.bmp'); SetFileDestination:False; Transfer");}
+  function testTransferFromFTPAttributes2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:FTP; Port:2500; Username:ftpadmin; Password:ftpadminpw;  Source:url('192.168.4.110/sigRemote.bmp'); Destination:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); SetFileDestination:True; Transfer");}
+  function testTransferToHTTPDefaults2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:HTTP; Source:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); destination:url('192.168.4.110/NewFolder/sigRemote.bmp'); SetFileDestination:False; Transfer");}
+  function testTransferFromHTTPDefaults2X()  {generic.InvokeMETAFunction("FileTransfer", "Protocol:HTTP; Source:url('192.168.4.110/NewFolder/sigRemote.bmp'); Destination:url('\\Program Files\\PocketBrowser\\sigFrom.bmp'); SetFileDestination:True; Transfer");}
+
+  
+  </script>
+</HEAD>
+<META HTTP-Equiv="FileTransfer" Content="TransferEvent:url('javascript:fnTransferDone('%s');')">
+
+<H1>File Transfer Tests - NEW</H1>
+<P>
+<div id="outputDiv">Transfer Result here</div>
+<P>
+<H3>Local File Tests</H3>
+<P>
+  <INPUT align="center" type="button" value="Local File Transfer" onclick="testTransferFile();"><br>
+  <INPUT align="center" type="button" value="/mnt/sdcard/" onclick="testTransferFileAbsolute();"><br>
+  <INPUT align="center" type="button" value="Local File Transfer (Create Directories)" onclick="testTransferFileCreateDirectories();"><br>
+
+
+
+<H3>Relative Directory Tests</H3>
+<P>
+  <INPUT align="center" type="button" value="Relative Download ../../index" onclick="testTransferRelative();"><br>
+  <INPUT align="center" type="button" value="Relative Download Locally" onclick="testTransferRelativeMove();"><br>
+
+
+
+<H3>FTP Tests</H3>
+<P>
+  <INPUT align="center" type="button" value="To FTP (Port 2500 and un/pw)" onclick="testTransferToFTPAttributes();"><br>
+  <INPUT align="center" type="button" value="From FTP (Port 2500 and un/pw)" onclick="testTransferFromFTPAttributes();"><br>
+  <INPUT align="center" type="button" value="To FTP (Default Attributes)" onclick="testTransferToFTPDefaults();"><br>
+  <INPUT align="center" type="button" value="From FTP (Default Attributes)" onclick="testTransferFromFTPDefaults();"><br>
+
+
+  
+<H3>HTTP Tests</H3>
+<P>
+  <INPUT align="center" type="button" value="To HTTP (Default Port)" onclick="testTransferToHTTPDefaults();"><br>
+  <INPUT align="center" type="button" value="From HTTP (Default Port)" onclick="testTransferFromHTTPDefaults();"><br>
+  <INPUT align="center" type="button" value="To HTTP (Port 8080 and un/pw)" onclick="testTransferToHTTPAttributes();"><br>
+  <INPUT align="center" type="button" value="From HTTP (Port 8080 and un/pw)" onclick="testTransferFromHTTPAttributes();"><br>
+
+
+
+<H3>Backward Compatibility Tests with EMML1.0</H3>
+<P>
+
+<H1> TODO </H1>
+
+  <INPUT align="center" type="button" value="Local File Transfer" onclick="testTransferFile2X();">
+  <INPUT align="center" type="button" value="To FTP (Default Port)" onclick="testTransferToFTPDefaults2X();">
+  <INPUT align="center" type="button" value="From FTP (Default Port)" onclick="testTransferFromFTPDefaults2X();">
+  <INPUT align="center" type="button" value="To FTP (Port 2500 and un/pw)" onclick="testTransferToFTPAttributes2X();">
+  <INPUT align="center" type="button" value="From FTP (Port 2500 and un/pw)" onclick="testTransferFromFTPAttributes2X();">
+
+  <INPUT align="center" type="button" value="To HTTP (Default Port)" onclick="testTransferToHTTPDefaults2X();">
+  <INPUT align="center" type="button" value="From HTTP (Default Port)" onclick="testTransferFromHTTPDefaults2X();">
+	
+
+
+
+
+</HTML>

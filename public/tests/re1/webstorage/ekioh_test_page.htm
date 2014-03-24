@@ -1,0 +1,115 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset=utf-8 /> 
+<meta name="viewport" content="width=620" /> 
+<body onLoad="getStorage()"> 
+<section id="wrapper"> 
+    <header> 
+      <h1>Storage</h1> 
+    </header> 
+<article> 
+  <section> 
+    <p>Values are stored on <code>keyup</code></p> 
+    <p>Content loaded from previous sessions:</p> 
+    <ul id="previous"></ul> 
+  </section> 
+  <section> 
+    <div> 
+      <label for="session">sessionStorage:</label> 
+      <input type="text" name="session" value="" id="sessionInput" />
+      Previous: 
+      <b id="sessionText">Nothing</b>
+    </div> 
+    <div> 
+      <label for="local">localStorage:</label> 
+      <input type="text" name="local" value="" id="localInput" /> 
+      Previous: 
+      <b id="localText">Nothing</b>
+    </div> 
+    <input type="button" id="clear" value="Clear storage" onclick="clearStorage()"/> 
+    <input type="button" id="set" value="Set storage" onclick="setStorage()" />
+    <input type="button" id="get" value="Get storage" onclick="getStorage()" />
+    <input type="button" id="get" value="Set Test" onclick="setTestStorage()" />    
+    <input type="button" id="get" value="Get Test" onclick="getTestStorage()" />    
+  </section> 
+</article> 
+<P>
+<a href="../websql/customersample.html">Customer Sample Web SQL</a>
+<script> 
+
+function setTestStorage() {
+  // Sets a load of different types.
+  var testNumber = 999;
+  var testBool = true;
+  var testString = "testString";
+  var testDate = new Date(2010, 4, 14);
+  var testRegExp = new RegExp("/\d{2,4}/");
+  var testObject = {a: 1, b: "foo"};
+  var testArray = ["one", "two", "three"];
+  
+  localStorage.testNumber = testNumber;
+  localStorage.testBool = testBool;
+  localStorage.testString = testString;
+  localStorage.testDate = testDate;
+  localStorage.testRegExp = testRegExp;
+  localStorage.testObject = testObject;
+  localStorage.testArray = testArray;
+}
+
+function getTestStorage() {
+  // Retrieves all the types that are now strings.
+  var number = localStorage.getItem('testNumber');
+  var bool = localStorage.getItem('testBool');
+  var string = localStorage.getItem('testString');
+  var date = localStorage.getItem('testDate');
+  var regexp = localStorage.getItem('testRegExp');
+  var object = localStorage.getItem('testObject');
+  var array = localStorage.getItem('testArray');
+
+  alert("Number: " + number);
+  alert("Bool: " + bool);
+  alert("String: " + string);
+  alert("Date: " + date);
+  alert("RegExp: " + regexp);
+  alert("Object: " + object);
+  alert("Array: " + array);
+}
+
+function setStorage() {
+    var sessionText = document.getElementById('sessionInput').value;
+    var localText = document.getElementById('localInput').value;
+    
+    sessionStorage.setItem('sessionText', sessionText);
+    localStorage.setItem('localText', localText);
+    
+    // Update values.
+    getStorage();
+}
+ 
+function getStorage() {
+  var sessionText = sessionStorage.getItem('sessionText');
+  var localText = localStorage.getItem('localText');
+
+  if (sessionText == null)
+    sessionText = "Nothing."
+
+  if (localText == null)
+    localText = "Nothing."    
+
+  // Fill in text.
+  document.getElementById('sessionText').innerHTML = sessionText;
+  document.getElementById('localText').innerHTML = localText;
+}
+ 
+function clearStorage() {
+  sessionStorage.clear();
+  localStorage.clear();
+  getStorage();
+}
+
+</script> 
+
+</section> 
+</body> 
+</html> 

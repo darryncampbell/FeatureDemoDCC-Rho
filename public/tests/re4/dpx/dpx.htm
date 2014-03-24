@@ -1,0 +1,34 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<script>
+function captureDocument()
+{
+	Rho.DPX.captureDocument({}, document_captured);
+}
+
+function document_captured(params)
+{
+	alert(params);
+}
+
+
+
+
+</script>
+</head>
+<body>
+<h1>DPX Tests</h1>
+<P>
+
+<a href="javascript:captureDocument()">Capture Document</a>
+
+
+
+
+
+
+
+
+</body>
+</html>

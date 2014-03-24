@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<TITLE>Alerts Test</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+
+  function startMemory()
+  {
+        if(typeof memory !== "undefined") {
+            memory.memoryEvent = "getMemory(%json);";
+            memory.getMemoryStats();
+        }
+  }
+  function getMemory(jsonObject)
+  {
+	alert(jsonObject);
+  }
+  </script>
+
+<br><br><br>
+<H1>Memory Tests</H1>
+<P>
+	<a href="javascript:startMemory()">Memory Test</a>
+
+  </BODY>
+</HTML>

@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+  <title>Button Test</title> 
+<style type="text/css">
+button
+{
+padding:30px;
+margin:10px;
+}
+
+</style>
+ <script language="javascript" type="text/javascript">
+ var numMD = 0;
+ var numMU = 0;
+ var numMC = 0;
+
+ function buttonClick()
+ {
+	numMC += 1;
+	document.getElementById("mc").innerHTML = numMC;
+ }
+ function buttonDown()
+ {
+	numMD += 1;
+	document.getElementById("md").innerHTML = numMD;
+	
+ }
+ function buttonUp()
+ {
+	numMU += 1;
+	document.getElementById("mu").innerHTML = numMU;
+ }
+</script>
+<body> 
+<table >
+	<tr>
+		<th>Downs</th>
+		<th>Up</th>
+		<th>Clicks</th>
+	</tr>
+	<tr>
+		<td><div id="md"/></td>
+		<td><div id="mu"/></td>
+		<td><div id="mc"/></td>
+	</tr>
+	<tr>
+		<td colspan="3"><button onClick="buttonClick()" onMouseDown="buttonDown()" onMouseUp="buttonUp()">Button</button</td>
+	</tr>
+	
+</body>
+</html>

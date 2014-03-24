@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+Registry Memory Leak Test
+</HEAD>
+
+<BODY>
+<SCRIPT LANGUAGE="JavaScript">
+var iCount = 0;
+try
+{
+var generic = new ActiveXObject("PocketBrowser.generic");
+}
+catch(err)
+{
+	var genericPlugin = document.createElement('embed'); 
+	genericPlugin.setAttribute('id',"embed1"); 
+	genericPlugin.setAttribute('type',"application/x-wtg-legacy-generic"); 
+	genericPlugin.setAttribute('hidden',"true"); 
+
+	// Attach the plugin embed tags to the body 
+	var theBody = document.getElementsByTagName('body')[0]; 
+	theBody.appendChild(genericPlugin); 
+}
+    function OnTimer() 
+    {
+
+        iCount++;
+        if (iCount <= 50000) {
+            generic.SetRegistrySetting(2, 1, "Software\\Name", "Software", "Helloworld");
+
+
+            strData = generic.GetRegistrySetting(2, "Software\\Name", "Software");
+            reg.innerHTML = strData;
+            nos.innerHTML = iCount;
+            captureLoop();
+
+        }
+    }
+
+    function captureLoop() {
+        //OnTimer(); 
+        setTimeout("OnTimer()", 500);
+
+    }
+</SCRIPT>
+<br /><br /><br />
+<b>Set and Get Registry Memory Leak (Modified T&V Test)</b>
+
+<DIV ID="reg">Get Registry</DIV>
+<div id="nos">X Value</div>
+<P><INPUT TYPE="button" VALUE="StartTest" ONCLICK="OnTimer();"></P>
+<P>
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+</BODY>
+</HTML>

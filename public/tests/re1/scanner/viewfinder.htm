@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Scanner" content="All_Decoders:Enabled;Enabled">
+<meta http-equiv="ScreenOrientation" content="ScreenOrientationEvent:url('javascript:screenOrientationChanged(%json);');">
+
+<TITLE>Scanner Viewfinder Tests</TITLE>
+<style>
+	a {text-decoration:none}
+</style>
+</HEAD>
+
+<BODY>
+  <script type="text/javascript">
+
+	function enumerateScannersViaJSON()
+	{
+		scanner.enumScannerEvent = 'onScannersViaJSON(%json);';
+		scanner.enumerate();
+    }
+	
+	function screenOrientationChanged(jsonObject) 
+	{
+    var h = parseInt(window.innerHeight, 10);
+    var w = parseInt(window.innerWidth, 10);
+    switch (jsonObject.orientation) 
+	{
+        case "Normal":
+            scanner.viewfinderX = 0;
+            scanner.viewfinderY = 60;
+            scanner.viewfinderWidth = w - 2;
+            scanner.viewfinderHeight = h - 62;
+            break;
+        case "UpsideDown":
+            scanner.viewfinderX = 0;
+            scanner.viewfinderY = 0;
+            scanner.viewfinderWidth = w - 2;
+            scanner.viewfinderHeight = h - 62;
+            break;
+        case "RightHanded":
+            scanner.viewfinderX = 60;
+            scanner.viewfinderY = 0;
+            scanner.viewfinderWidth = h - 62;
+            scanner.viewfinderHeight = w - 2;
+            break;
+        case "LeftHanded":
+            scanner.viewfinderX = 0;
+            scanner.viewfinderY = 0;
+            scanner.viewfinderWidth = h - 62;
+            scanner.viewfinderHeight = w - 2;
+            break;
+		}
+	}
+	
+	function fnViewfinderMove1()
+	{
+		scanner.viewfinderX = 450;
+	}
+	function fnViewfinderMove2()
+	{
+		scanner.viewfinderX = 0;	
+	}
+	function fnViewfinderMove3()
+	{
+		scanner.viewfinderWidth = 240;
+	}
+	function fnViewfinderMove4()
+	{
+		scanner.viewfinderY = 400;
+	}
+	function fnViewfinderMove5()
+	{
+		scanner.viewfinderY = 0;	
+	}
+	function fnViewfinderMove6()
+	{
+		scanner.viewfinderHeight = 320;	
+	}
+	
+	function fnEnable()
+	{
+		scanner.enable();
+	}
+	
+	function fnDisable()
+	{
+		scanner.disable();
+	}
+
+	function fnStart()
+	{
+		scanner.start();
+	}
+	
+	function fnStop()
+	{
+		scanner.stop();
+	}
+
+  
+  </script>
+
+<BR>
+<H1>Scanner Viewfinder Rotation Test</H1>
+<P>
+
+<a href="javascript:screenOrientationChanged()">Orientation Changed</a><P>
+<a href="javascript:fnViewfinderMove1()">X=450</a> | <a href="javascript:fnViewfinderMove2()">X=0</a> | <a href="javascript:fnViewfinderMove3()">Width=240</a> | <a href="javascript:fnViewfinderMove4()">Y=400</a> | <a href="javascript:fnViewfinderMove5()">Y=0</a> | <a href="javascript:fnViewfinderMove6()">Height=320</a> | <a href="javascript:fnEnable()">EnableScanner</a> | <a href="javascript:fnDisable()">ScannerDisable</a> | <a href="javascript:fnStart()">StartScanner</a> | <a href="javascript:fnStop()">ScannerStop</a> | 
+<P>
+<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+
+
+  </BODY>
+</HTML>

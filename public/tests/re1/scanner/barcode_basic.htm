@@ -1,0 +1,58 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../rhoapi-modules.js"></script>
+<script>
+function enableBarcode()
+{
+//	alert('enabling Barcode');
+//	alert(Rho);
+//	objSCN.setProperty("triggerConnected", false);
+//	alert('trigger connected');
+	Rho.Barcode.enable({}, scan_received);
+}
+
+function MKPresentationTest()
+{
+	alert('enabling Barcode');
+	alert(Rho);
+	Rho.Barcode.setProperty("aimType", "Presentation");
+	Rho.Barcode.enable({}, scan_received);
+}
+
+function scan_received(params)
+{
+	alert(params["data"]);
+}
+
+function minimize()
+{
+	application.minimize();
+}
+
+function changeTrigger(triggerEnabled)
+{
+	if (triggerEnabled)
+		Rho.Barcode.setProperty("triggerConnected", "true");
+	else
+		Rho.Barcode.setProperty("triggerConnected", "false");	
+}
+
+</script>
+</head>
+<body>
+<h1>Barcode Test</h1>
+<P>
+
+<a href="javascript:enableBarcode()">Enable Barcode</a> | 
+<a href="javascript:MKPresentationTest()">MK31xx Presentation Test</a> | 
+<a href="javascript:minimize()">Minimize Application</a> | <a href="javascript:changeTrigger(true)">Connect Trigger</a> | <a href="javascript:changeTrigger(false)">Disconnect Trigger</a> | 
+
+
+
+
+
+
+
+
+</body>
+</html>

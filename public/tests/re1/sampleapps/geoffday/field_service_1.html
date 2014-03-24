@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>Field Service</title>
+  <link rel="stylesheet" href="demo.css"></link>
+  <meta http-equiv="quitbutton" content="visibility:visible"/>
+  <meta http-equiv="reloadbutton" content="visibility:visible"/>
+  <script type="text/javascript">
+  var Jobs = new Array ('Fix boiler', 'Replace part in heater', 'Repair pipes');
+  
+  function getJobs()
+  {
+    var select = document.getElementById('job-list');
+    select.innerHTML = '';
+    for (n=0; n < Jobs.length; n++)
+    {
+      var option = document.createElement('option');
+      option.innerHTML = Jobs[n];
+      select.appendChild(option);
+    }
+    select.disabled = false;
+  }
+  
+  function goNext()
+  {
+    var select = document.getElementById('job-list');
+    if (select.selectedIndex == -1)
+    {
+      alert('Choose a job');
+      return;
+    }
+      
+    var job = select.options[select.selectedIndex];
+    window.localStorage.setItem('job', job.text);
+    location.href = './field_service_2.html';
+  }
+  
+  </script>
+  
+</head>
+<body>
+  <div>Choose job:</div>
+  <div>
+    <select id="job-list" disabled="true" size="10">
+      <option>(none)</option>
+    </select>
+  </div>
+  <div>
+    <input type="button" value="Get jobs" onclick="getJobs();"/>
+    <input type="button" value="Next" onclick="goNext();"/>
+  </div>
+</body>
+</html>

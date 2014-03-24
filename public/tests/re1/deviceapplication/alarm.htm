@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<META HTTP-Equiv="Alarm-Set" Content="Interval:00-04-00; Repeat:True; AlarmTriggered:url('javascript:onTimeoutJSON(%json);')">
+<TITLE>Timer Tests</TITLE>
+  <script type="text/javascript">
+  
+  var count = 0;
+  function onTimeoutJSON(jsonObject)
+	{
+		//  jsonObject is null
+		count++;
+		timerOut.innerHTML = "The alarm has fired" + count; 
+	}
+	
+	
+  </script>
+</HEAD>
+<P>
+<H1>Alarm Tests</H1>
+<P>
+	<DIV id="timerOut">Alarm Events go here after 30 seconds</div>
+	<P>
+
+  </BODY>
+</HTML>

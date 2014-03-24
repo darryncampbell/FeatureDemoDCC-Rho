@@ -1,0 +1,26 @@
+<html>
+<head>
+<META HTTP-Equiv="gesture" Content="type:linear;preset:left-right;id:LinearGesture1;diagnostics:TRUE;start-x:50;
+start-y:200;end-x:200;end-y:200;tolerance:30;sensitivity:60;skew:30;deviation:50;region-width:40;create;" />
+<META HTTP-Equiv="gesture-detected" Content="url('Javascript:GestureEvent('%s','%s');')">
+
+
+<script language=javascript>
+
+var count=1;
+function GestureEvent(id,ncount)
+{
+mydiv.innerHTML="Gesture Detected for"+count+"th time.id:-"+id+" Count="+ncount;
+count++;
+}
+
+</script>
+</head>
+<body>
+Amit Linear Gesture static EMML 1.1 start bbb
+<form id="frmLinearGestures" >
+<div id="mydiv">Gesture Detection:-</div>
+</form>
+<a href=GestureIndex.html>Gesture Index</a>
+</body>
+</html>

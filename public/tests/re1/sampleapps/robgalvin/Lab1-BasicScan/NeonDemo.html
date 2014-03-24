@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<HTML> 
+<HEAD> 
+<meta http-equiv="quitbutton" content="visibility: visible;" />
+
+<TITLE> 
+Neon Demo
+</TITLE> 
+<script>
+function fnEnableScan()
+{
+	scanner.decodeEvent = 'fnBarcodeScanned(%json)';
+	scanner.enable();
+}
+
+function fnDisableScan()
+{
+	scanner.disabled();
+}
+
+function fnBarcodeScanned(jsonObject)
+{
+	//the data property of the JSON object has the barcode data
+	//change textbox to have the scanned data
+	document.getElementById('scanData').value = jsonObject.data;
+
+}
+
+
+</script>
+</HEAD> 
+<!-- BODY --> 
+<BODY > 
+	<br><br><br>
+	<input type=text id="scanData">
+	<input type=button value="Enable Scan" onClick="fnEnableScan();">
+	<input type=button value="Disable Scan" onClick="fnDisableScan();">
+	
+</BODY>
+
+</HTML>

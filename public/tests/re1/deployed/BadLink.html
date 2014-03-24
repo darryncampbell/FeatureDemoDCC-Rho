@@ -1,0 +1,134 @@
+<html>
+<head>
+	<title>BadLink</title>
+	<script type="text/javascript">
+/*
+		var currentZoom = 1;
+		window.onresize = function ()
+		{
+			resize();
+		}
+*/	
+		window.onload = function ()
+		{
+			//resize();
+			if (navigator.appName == "Microsoft Internet Explorer")
+			{
+				var theIcon = document.getElementById("icon");
+				theIcon.innerHTML = "";
+			}
+		}
+/*		
+		function resize()
+		{
+			var newZoom;
+			var currentHeight = window.innerHeight;
+			if(currentHeight > 650 || currentHeight < 600)
+			{
+				newZoom = currentHeight / 620;
+			}
+			else
+			{
+				newZoom = 1;
+			}
+			
+			if(newZoom > (currentZoom + 0.1) || newZoom < (currentZoom - 0.1))
+			{
+				currentZoom = newZoom;
+				document.getElementsByTagName("html")[0].style.zoom = newZoom;
+			}
+		}
+*/
+	</script>
+	
+	<style type="text/css">
+		*
+		{
+			font-family: "Droid Sans", Tahoma, "sans-serif";
+			color: white;
+			padding: 0px;
+		}
+		body
+		{
+			background-color: #4D4D4D;
+			padding: 0px;
+			margin: 0px;
+			height: 100%;
+			overflow: hidden;
+		}
+		h1
+		{
+			font-size: 15px;
+			margin: 26px 0px 0px 0px;
+		}
+		h2
+		{
+			margin: 10px 0px 0px 0px;
+			font-size: 14px;
+		}
+		button
+		{
+			height: 60px;
+			width: 200px;
+			background: url(images/backNorm.png) no-repeat center center;
+			margin: 20px 0px 0px 0px;
+			font-size: 26px;
+			border: none;
+		}
+		button:active
+		{
+			background: url(images/backActive.png) no-repeat center center;
+		}
+		button:focus
+		{
+			outline: none;
+			background: url(images/backFocused.png) no-repeat center center;
+		}
+		#body
+		{
+			display: table-cell;
+			height: 100%;
+			padding: 0px;
+			text-align: center;
+			background: #4D4D4D url(images/blback.png) repeat;
+			border-radius: 10px;
+		}
+		#window
+		{
+			display:table;
+			position: absolute;
+			top: 0px;
+			left 0px;
+			width: 100%;
+			height: 100%;
+			padding: 12px;
+			border-radius: 10px;
+		}
+		#title
+		{
+			text-align:left;
+			padding: 15px 18px;
+			color: #4B4B4B;
+			font-weight: bold;
+			font-size: 20px;
+			background: #CCCCCC url(images/backgroundtitle.png) repeat-x;
+			height: 22px;
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			vertical-align: middle;
+			margin: 0px 0px 12px 0px;
+		}
+	</style>
+</head>
+<body>
+	<div id="window">
+		<div id="body">
+			<div id="title">Error</div>
+			<div id="icon"><img src="./images/alert.png" alt="Alert"></img></div>
+			<h1>Unable to find page</h1>
+			<h2>Press back to return to the previous page</h2>
+			<button id="button" onclick="location.href = 'history:back'" onkeypress="location.href = 'history:back'" tabindex="1">Back</button>
+		</div>
+	</div>
+</body>
+</html>

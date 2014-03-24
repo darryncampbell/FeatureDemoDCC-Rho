@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+                var path = "\\application\\test.xml";
+              
+                if( odax && true == odax.FileExists(path))
+                {
+                    alert("File: "+ path + " Exists!");
+                }
+                
+                var FieldValue1 = 'Red';
+                var FieldValue2 =  'Green';
+                var FieldValue3 = 'Blue';
+              
+                var QueryString = 'INSERT INTO \'\\application\\test.xml\' (field1,field2,field3) VALUES (';
+                QueryString += '\''+FieldValue1+'\',';
+                QueryString += '\''+FieldValue2+'\',';
+                QueryString += '\''+FieldValue3+'\');';
+                var count = odax.Execute(QueryString,0,',',false);
+
+        </script>
+    </head>
+</html>

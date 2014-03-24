@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Application" content="ApplicationEvent:url('Javascript:onApplicationEventJSON(%json);');">
+<TITLE>Application Tests</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+  
+	var iMinimizeCount = 0;
+	var iRestoreCount = 0;
+	
+  function onApplicationEventJSON(jsonObject)
+	{
+		if (jsonObject.applicationState == "Minimized")
+		{
+			iMinimizeCount++;
+			
+		}
+		else if (jsonObject.applicationState == "Restored")
+		{
+			iRestoreCount++;
+		}
+		var minHTML = "Application Has been Minimized: " + iMinimizeCount + " times";
+		var restoreHTML = "Application Has been Restored: " + iRestoreCount + " times";
+		minimizeOut.innerHTML = minHTML;
+		restoreOut.innerHTML = restoreHTML;
+	}
+	
+	function fnMinimize()
+	{
+		generic.InvokeMETAFunction("Application", "Minimize");
+	}
+	
+	function fnShowMinimize()
+	{
+		quitButton.visibility = 'hidden';
+		minimizeButton.visibility = 'visible';
+	}
+
+	function fnQuit()
+	{
+		generic.InvokeMETAFunction("Application", "Quit");
+	}
+  </script>
+
+
+<H1>Application Tests</H1>
+<P>
+	<DIV id="minimizeOut">Application Minimize Notifications go here</div>
+	<DIV id="restoreOut">Application Restore Notifications go here</div>
+	<P>
+	  <INPUT align="center" type="button" value="Minimize" onclick="fnMinimize();">
+	  <INPUT align="center" type="button" value="Show Minimize Button" onclick="fnShowMinimize();">
+	  <INPUT align="center" type="button" value="Quit" onclick="fnQuit();">
+
+<P>
+	<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+  </BODY>
+</HTML>

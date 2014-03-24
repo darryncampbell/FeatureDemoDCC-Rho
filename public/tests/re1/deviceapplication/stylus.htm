@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<TITLE>Stylus Tests</TITLE>
+</HEAD>
+<BODY>
+  <script type="text/javascript">
+  
+function enableStylus(bStylus)
+{
+	if (bStylus)
+	{
+		generic.InvokeMETAFunction("Stylus", "Enabled");
+		stylusOut.innerHTML = "Enabled";
+	}
+	else
+	{
+		generic.InvokeMETAFunction("Stylus", "Disabled");
+		stylusOut.innerHTML = "Disabled";
+	}
+}
+
+</SCRIPT>
+<br><br><br>
+<H2>SIP Tests</H2>
+<P>
+<INPUT TYPE="button" VALUE="Enable Stylus" ONCLICK="enableStylus(true);">
+<INPUT TYPE="button" VALUE="Disable Stylus" ONCLICK="enableStylus(false);">
+<br>
+Stylus: <div id='stylusOut'>System Default</div><br>
+
+<P>
+	<a href="javascript:location.reload();">Refresh the page</a> | <a href="http://www.jrq768.wtgdev.net">Main JRQ768 Page</a>
+<br>This page has been modified to work either with ActiveX or with an inherent 'Generic' object.
+
+
+
+

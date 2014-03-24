@@ -1,0 +1,90 @@
+<HTML>
+
+<HEAD>
+<META HTTP-Equiv="MinimizeButton" Content="Visibility:Visible">
+<META HTTP-Equiv="keystate" Content="Visibility:Visible">
+<META HTTP-Equiv="quitbutton" Content="Visibility:Visible">
+<META HTTP-Equiv="backbutton" Content="Visibility:Visible">
+<META HTTP-Equiv="ReloadButton" Content="Visibility:Visible">
+<META HTTP-Equiv="SIPButton" Content="Visibility:Visible">
+<META HTTP-Equiv="ZoomTextButton" Content="Visibility:Visible">
+<META HTTP-Equiv="addressbar" Content="Visibility:hidden">
+</HEAD>
+
+
+<BODY BGCOLOR="#FFFFEA" TEXT="#0000A0" LINK="#FF0000" VLINK="#808080" ALINK="#008040">
+<H2>Rhoelements Test Site</H2>
+<input type="button" value="Quit" onclick="quitPB();" />
+
+<P><A HREF="./INDEX_old.HTML">Old Index</A></P>
+<P><A HREF="./Scanner/AndroidScanner/AndroidScannerindex.html">Scanner Test</A></P>
+<P><A HREF="./VersionInfo/VersionIndex.html">VersionInfo</A></P>
+<p><A href="./DeviceApplication/Device Application.html">DeviceApplication</A></p>
+<P><A HREF="./EMMLProfilesNew/EMMLProfilesIndex.html">EMML Profiles</A></P>
+<P><A HREF="./Key Handling/KHandling.html">Key Handling</A></P>
+<P><A HREF="./FileManagement/FManagement.html">FileManagement</A></P>
+<P><A HREF="./Gestures/GestureIndex.html">Gestures</A></P>
+<P><A HREF="./Image Capture/ImageIndex.html">Image Capture</A></P>
+<P><A HREF="./CardReader/CReader.html">CardReader</A></P>
+<P><A HREF="./ControlAppearance/ControlAppearance.html">ControlAppearance</A></P>
+<P><A HREF="./EMML1.1/EMML1.1.html">EMML 1.1</A></P>
+<P><A HREF="./APD/APD.html">APD</A></P>
+<P><A HREF="./Airbeam/Airbeam.html">Airbeam</A></P>
+<p><A href="./Push/Push.html">Push</A></p>
+<P><A HREF="./NoSIP/NoSIPIndex.html">NoSIP</A></P>
+<P><A HREF="./Offline Data Access/Offline Data Access.html">ODAX</A></P>
+<P><A HREF="./SignalStatic/SignalStaticIndex.html">Signal Indicators</A></P>
+<P><A HREF="./BatteryIndicator/battIndex.html">Battery Indicators Tests</A></P>
+<P><A HREF="http://192.168.6.18/pb3.x/index.html">PB3.X site</A></P>
+<P><A HREF="./Network/Network_Index.html">Network</A></P>
+
+
+<input type=button onclick="Javascript:goBack();" value="NeonHistoryBack">
+<br>
+<input type=button onclick="Javascript:goBack1();" value="NeonHistoryBack using Window">
+<br>
+<input type=button onclick="Javascript:doAlert();" value="javascript alert">
+<br>
+<input type=button onclick="Javascript:doQuit();" value="javascript alert with quit">
+<br>
+<br>
+<input type=button onclick="Javascript:doaddressbar();" value="Show address bar">
+<br>
+
+</BODY>
+</HTML>
+<SCRIPT>
+
+function doAlert()
+{
+ alert("Hi Neon");
+
+}
+function doQuit()
+{
+ alert("Hi");
+ generic.InvokeMETAFunction('Application', 'Quit');
+
+}
+
+   function quitPB()
+   {
+     generic.InvokeMETAFunction("Application", "Quit");
+   }
+   function doaddressbar()
+   {
+    generic.InvokeMETAFunction('Addressbar', 'Visibility:visible');
+    generic.InvokeMETAFunction('gobutton', 'Visibility:visible');
+   }
+   
+   function goBack()
+   {
+      document.location = 'history:back';
+   }
+ 
+   function goBack1()
+   {
+      window.location = 'history:back';
+   }
+ 
+</SCRIPT>

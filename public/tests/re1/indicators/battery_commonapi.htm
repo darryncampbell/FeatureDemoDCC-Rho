@@ -1,0 +1,43 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../rhoapi-modules.js"></script>
+<script>
+function showBattery()
+{
+//	alert('enabling Barcode');
+//	alert(Rho);
+//	objSCN.setProperty("triggerConnected", false);
+//	alert('trigger connected');
+	Rho.Battery.showIcon({left: 40, top: 40});
+}
+
+function MKPresentationTest()
+{
+	alert('enabling Barcode');
+	alert(Rho);
+	Rho.Barcode.setProperty("aimType", "Presentation");
+	Rho.Barcode.enable({}, scan_received);
+}
+
+function scan_received(params)
+{
+	alert(params["data"]);
+}
+
+
+</script>
+</head>
+<body>
+<h1>Barcode Test</h1>
+<P>
+
+<a href="javascript:showBattery()">Show Battery</a> | 
+
+
+
+
+
+
+
+</body>
+</html>

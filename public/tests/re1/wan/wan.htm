@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<META HTTP-Equiv="Network" Content="WANStatusEvent:url('javascript:fnWANStatus(%json);')">
+<meta http-equiv="Network" content="NetworkEvent:url('Javascript:onNetworkEvent(%json);')">
+<meta http-equiv="Network" content="networkPollInterval:5000;connectionTimeout:1500">
+<meta http-equiv="Network" content="Host:url('http://www.google.co.uk');start">
+<TITLE>WAN Tests</TITLE>
+  <script type="text/javascript">
+
+  var count = 0;
+    function onNetworkEvent(jsonObject)
+  {
+	count = count + 1;
+	var html = "<b>Network Event Returned:</b> ";
+    html += jsonObject.connectionInformation + " - " + count;
+	networkOutput.innerHTML=html;
+  }
+ 
+  function fnWANStatus(jsonObject)
+  {
+    var html = "Signal Strength: " + jsonObject.phoneSignalStrength + "%";
+	html += "<BR> Operator: " + jsonObject.networkOperator;
+	html += "<BR> Cell Connection Available: " + jsonObject.connectionTypeAvailable;
+	html += "<BR> Cell Connection Connected?: " + jsonObject.connectionTypeConnected;
+    html += "<BR> Connection Manager Message: " + jsonObject.connectionManagerMessage;
+	outputDiv.innerHTML = html;
+  }
+  
+  function fnConnect(destination)
+  {
+	buttonDiv.innerHTML = "Connect Button Pressed...";
+	network.connectWan = "" + destination;
+  }
+  
+  function fnDisconnect()
+  {
+	buttonDiv.innerHTML = "Disconnect Button Pressed...";
+	network.disconnectWan();
+  }
+  
+  function fnStartNetworkCheck()
+  {
+	network.start();
+  }
+  
+  function fnStopNetworkCheck()
+  {
+	network.stop();
+	networkOutput.innerHTML = "Not Polling Network";
+  }
+  
+  
+  </script>
+</HEAD>
+<br><br>
+<H1>WAN Tests</H1>
+<P><div id="networkOutput">Network Connection Information goes Here</div><br>
+<b><div id="outputDiv">Network Check Started</div></b>
+<b><div id="buttonDiv"></div></b>
+<P>
+<input type="button" onclick="fnConnect('Internet')" Value="Connect (Default)" />
+<input type="button" onclick="fnConnect('orangeinternet')" Value="Connect (orange internet)" />
+<input type="button" onclick="fnDisconnect()" Value="Disconnect" />
+<input type="button" onclick="fnStartNetworkCheck()" Value="Start Network Checking" />
+<input type="button" onclick="fnStopNetworkCheck()" Value="Stop Network Checking" />
+<P>
+Websites: <a href="http://www.google.co.uk">Google</a> | <a href="http://news.bbc.co.uk">BBC News</a> | <a href="http://jrq768.wtgdev.net">jrq768.wtgdev.net</a> |
+
+
+</HTML>

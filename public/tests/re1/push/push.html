@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<META HTTP-Equiv="Push" Content="Port:1234">
+<META HTTP-Equiv="Push-detected" Content="url('Javascript:pushDetectJSON(%json);')">
+<META HTTP-Equiv="Push" Content="Start">
+<TITLE>Push Tests</TITLE>
+  <script type="text/javascript">
+
+  function pushDetect(param1, param2)
+    {
+		alert(param1);
+		alert(param2);
+    }
+	function pushDetectJSON(jsonObject)
+	{
+		alert('Push Via JSON: ' + jsonObject.name1 + ' - ' + jsonObject.name2);
+	}
+
+    
+  </script>
+</HEAD>
+<BODY>
+<H1>Push Tests</H1>
+<P>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+A Push server has been started on port 1234
+  </BODY>
+</HTML>
+		
+		
+		

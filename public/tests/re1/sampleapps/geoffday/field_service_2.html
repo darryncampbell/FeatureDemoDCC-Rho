@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Field Service</title>
+  <link rel="stylesheet" href="demo.css"></link>
+
+  <script type="text/javascript">
+  function onLoad()
+  {
+    var job = document.getElementById('job-name');
+    job.innerHTML = window.localStorage.getItem('job');
+  }
+  
+  function getPhoto()
+  {
+    location.href = './field_service_3.html';
+  }
+  
+  function goBack()
+  {
+    location.href = './field_service_1.html';
+  }
+  </script>
+  
+</head>
+<body onload="onLoad();">
+  <div>
+    <table cellspacing="0" cellpadding="0">
+      <tr><td class="header">Job:</td><td class="header" id="job-name"></td></tr>
+      <tr><td>Date:</td><td><input type="text"/></td></tr>
+      <tr><td>Result:</td><td><input type="text"/></td></tr>
+      <tr><td>Comment:</td><td><textarea id="comment"></textarea></td></tr>
+    </table>
+  </div>
+
+  <div>
+    <input type="button" value="Photo" onclick="getPhoto();"/>
+    <input type="button" value="Back" onclick="goBack();"/>
+  </div>
+  
+</body>
+</html>

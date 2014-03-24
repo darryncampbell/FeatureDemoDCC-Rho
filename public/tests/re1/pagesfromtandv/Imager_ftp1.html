@@ -1,0 +1,49 @@
+<html>
+<head>
+
+<META HTTP-Equiv="imager" Content="left:170;top:20;height:40;width:40;aim:on;lamp:on;Destination:url('ftp://192.168.6.18/Received/imageInFTPEMML.bmp');Username:ftpadmin;Password:ftpadmin;imagerevent:url('javascript:myevent('%s');');Enabled">
+
+<SCRIPT>
+    var generic = new ActiveXObject("PocketBrowser.Generic");
+
+    function doCapture() {
+       generic.InvokeMETAFunction('imager', 'capture');
+    }
+
+    function doDisable() {
+       generic.InvokeMETAFunction('imager', 'disabled');
+    }
+    function doRefresh() {
+        setTimeout("tRefresh()", 2000);
+    }
+    function tRefresh() {
+       generic.InvokeMETAFunction('refresh', '15');
+    }
+
+    function myevent(response) {
+        myResponse.innerHTML="response"+response;
+
+    }
+</SCRIPT>
+
+
+</head>
+<body>
+
+
+<p>Send the Image to FTP</p>
+<BR><BR><BR><BR><BR><BR><BR>
+<P><INPUT TYPE="button" VALUE="Capture" ONCLICK="doCapture();"></P>
+<P><INPUT TYPE="button" VALUE="Disable" ONCLICK="doDisable();"></P>
+<P><INPUT TYPE="button" VALUE="Refresh" ONCLICK="doRefresh();"></P>
+<P><INPUT TYPE="button" VALUE="Back" ONCLICK="location.href='./ImageIndex.html'"></P>
+
+
+<div id="myResponse">Result:</div><BR>
+</body>
+</html>
+
+
+
+
+

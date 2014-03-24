@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<META HTTP-Equiv="FileTransfer" Content="TransferEvent:url('javascript:fnTransferDone('%s');')">
+<TITLE>File Transfer Tests</TITLE>
+  <script type="text/javascript">
+
+ 
+  function fnTransferDone(data)
+  {
+	outputDiv.innerHTML = "" + data;
+  }
+  
+  function fnDoTransfer()
+  {
+	outputDiv.innerHTML = "Transfer Pending";
+   	var sourceField=document.getElementById("txtSource");
+  	var destField=document.getElementById("txtDest");
+  	var userField=document.getElementById("txtUsername");
+  	var passField=document.getElementById("txtPassword");
+	var createFoldersCombo = document.getElementById("combCF");
+	var overwriteCombo = document.getElementById("combOW");	
+
+	fileTransfer.destination = "url('" + destField.value + "')";
+	fileTransfer.source = "url('" + sourceField.value + "')";
+	fileTransfer.username = userField.value;
+	fileTransfer.password = passField.value;
+	fileTransfer.createFolders = createFoldersCombo.value;
+	fileTransfer.overWrite = overwriteCombo.value;
+	
+	fileTransfer.transfer();
+  }
+  
+  function configureFileTransfer(theSource, theDestination, theUsername, thePassword, bCreateFolders, bOverWrite)
+  {
+   	var sourceField=document.getElementById("txtSource");
+  	var destField=document.getElementById("txtDest");
+  	var userField=document.getElementById("txtUsername");
+  	var passField=document.getElementById("txtPassword");
+	var createFoldersCombo = document.getElementById("combCF");
+	var overwriteCombo = document.getElementById("combOW");	
+
+	sourceField.value = theSource;
+	destField.value = theDestination;
+	userField.value = theUsername;
+	passField.value = thePassword;
+	if (bCreateFolders)
+		optTCF.selected = true;
+	else
+		optFCF.selected = true;
+		
+	if (bOverWrite)
+		optTOW.selected = true;
+	else
+		optFOW.selected = true;
+  }
+
+    function configureSourceFile(theSource, extension)
+  {
+   	var sourceField=document.getElementById("txtSource");
+	sourceField.value = theSource;
+	var destField=document.getElementById("txtDest");
+	var destFieldValue=document.getElementById("txtDest").value;
+	destField.value = destFieldValue.substring(0, destFieldValue.length - 3) + extension;
+	}
+  
+  </script>
+</HEAD>
+
+<H1>File Transfer Tests</H1>
+<P>
+<b><div id="outputDiv">Transfer Result here</div></b>
+<P>
+<table border="1">
+
+<tr><td colspan=1>
+Source:
+</td><td colspan=3>
+<input type="text" id="txtSource" size="75" value="file://\he\filemanagement\sourcefile.txt" />
+</td></tr>
+
+<tr><td colspan=1>
+Destination:
+</td><td colspan=3>
+<input type="text" id="txtDest" size="75" value="file://\he\filemanagement\destfile.txt" />
+</td></tr>
+
+<tr><td>
+Username:
+</td><td>
+<input type="text" id="txtUsername" size="25" value="na" />
+
+</td><td>
+
+Password:
+</td><td>
+<input type="text" id="txtPassword" size="25" value="na" />
+</td></tr>
+
+<tr><td>
+CreateFolders:
+</td><td>
+<select id="combCF"><option id="optTCF">TRUE</option><option id="optFCF">FALSE</option></select>
+
+</td><td>
+
+Overwrite:
+</td><td>
+<select id="combOW"><option id="optTOW">TRUE</option><option id="optFOW">FALSE</option></select>
+</td></tr>
+</table>
+
+<INPUT TYPE="button" VALUE="Do Transfer" ONCLICK="fnDoTransfer();">
+<P>
+Configure Transfer for:
+
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('file://\\he\\filemanagement\\sourcefile.txt', 'file://\\he\\filemanagement\\destfile.txt', 'na', 'na', true, true);" checked> Default</input>
+ | 
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('file://\\he\\filemanagement\\sourcefileLocal.txt', 'file://\\he\\filemanagement\\destfile.txt', 'na', 'na', false, false);"> Local Move </input>
+ | 
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('file://\\he\\filemanagement\\sourcefileFTP.txt', 'ftp://192.168.0.8/uploadedFile.txt', 'darryn', 'darryn', false, false);"> FTP Upload</input>
+ | 
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('ftp://192.168.0.8/sourcefiles/sourcefileFTP.txt', 'file://\\he\\filemanagement\\receivedfileFTP.txt', 'darryn', 'darryn', false, false);"> FTP Download</input>
+ | 
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('file://\\he\\filemanagement\\sourcefileHTTP.txt', 'http://jrq768.wtgdev.net/filemanagement/upload/upload.php', 'darryn', 'darryn', false, false);"> HTTP Upload</input>
+ | 
+<input type="radio" name="fileTransferConfigurations" onclick="configureFileTransfer('http://192.168.0.6:8081/welcome.png', 'file://\\he\\filemanagement\\welcome.png', '', '', false, true);"> HTTP Download</input>
+
+ <P>
+ Change Local Source File:
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile.txt', 'txt');" checked> Default</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile400k.jpg', 'jpg');">400K</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile1mb.jpg', 'jpg');">1MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile2mb.jpg', 'jpg');">2MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile3mb.jpg', 'jpg');">3MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureSource" onclick="configureSourceFile('file://\\he\\filemanagement\\sourcefile4mb.jpg', 'jpg');">4MB</input>
+ 
+ <P>
+ Change FTP Download Source File:
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefileFTP.txt', 'txt');" checked> Default</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefile400k.jpg', 'jpg');">400K</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefile1mb.jpg', 'jpg');">1MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefile2mb.jpg', 'jpg');">2MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefile3mb.jpg', 'jpg');">3MB</input>
+ |  
+ 
+<input type="radio" name="fileTransferConfigureFTPSource" onclick="configureSourceFile('ftp://192.168.0.8/sourcefiles/sourcefile4mb.jpg', 'jpg');">4MB</input>
+ 
+</HTML>

@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>Field Service</title>
+  <link rel="stylesheet" href="demo.css"></link>
+  
+  <embed type="application/x-wtg-legacy-generic" hidden="true"/>
+
+  <meta http-equiv="Imager" content="width:440">
+  <meta http-equiv="Imager" content="height:480">
+  <meta http-equiv="Imager" content="left:20">
+  <meta http-equiv="Imager" content="top:20">
+  <meta http-equiv="Imager" content="aim:on">
+  <meta http-equiv="Imager" content="lamp:off">
+  <meta http-equiv="Imager" content="destination:url('file:///service.jpg')">
+  <meta http-equiv="Imager" content="enabled">
+
+  <script type="text/javascript">
+  function onCapture()
+  {
+    odax.Delete('\\service.jpg');
+    imager.capture();
+    location.href = './field_service_2.html';
+  }
+  
+  function onCancel()
+  {
+    location.href = './field_service_2.html';
+  }
+  </script>
+  
+</head>
+<body onload="onLoad();">
+  <div>
+    <input style="position:fixed;left:20px;top:520px;width:160px;height:60px;" type="button" value="Capture" onclick="onCapture();"/>
+    <input style="position:fixed;left:300px;top:520px;width:160px;height:60px;" type="button" value="Cancel" onclick="onCancel();"/>
+  </div>
+</body>
+</html>

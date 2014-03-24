@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Timer" content="Timeout:url('Javascript:onTimeoutJSON(%json);');">
+<TITLE>Timer Tests</TITLE>
+  <script type="text/javascript">
+  
+  function onTimeoutJSON(jsonObject)
+	{
+		//  jsonObject is null
+		timerOut.innerHTML = "The timer has timed out: " + jsonObject.time;
+	}
+	
+	function fnStartTimer()
+	{
+		var gen = new ActiveXObject("PocketBrowser.Generic");
+		gen.InvokeMETAFunction("Timer", "Interval:5000;Start");		
+	}
+	
+  </script>
+</HEAD>
+
+<H1>Timer Tests</H1>
+<P>
+	<DIV id="timerOut">Timer Events go here</div>
+	<P>
+	  <INPUT align="center" type="button" value="Start Timer (5 Secs)" onclick="fnStartTimer();">
+
+  </BODY>
+</HTML>
