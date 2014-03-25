@@ -1,0 +1,235 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<script>
+var parameters = function (intentType, permission, action, categories, appName, targetClass, uri, mimeType, data) {
+    var result = {};
+    if (permission != "") result.permission = permission;
+    if (intentType != "") result.intentType = intentType;
+    if (action != "") result.action = action;
+    if (categories != "") result.categories = categories;
+    if (appName != "") result.appName = appName;
+    if (targetClass != "") result.targetClass = targetClass;
+    if (uri != "") result.uri = uri;
+    if (mimeType != "") result.mimeType = mimeType;
+    if (data != "") result.data = data;
+    return result;
+};
+
+function configureProperties()
+{
+	var props = document.getElementById('configurePage');
+	var typeConst
+	if (props.value == "messages")
+	{
+		document.getElementById('message').innerHTML = "Configuring properties for Inter App Messages";	
+		document.getElementById('intentType').value = "broadcast";
+		document.getElementById('intentPermission').value = "";
+		document.getElementById('intentAction').value = "";
+		document.getElementById('intentCategories').value = "";
+		document.getElementById('intentApplication').value = "MotorolaSolutions JavascriptTests/JavascriptTests.exe";
+		document.getElementById('intentTargetClass').value = "";
+		document.getElementById('intentUri').value = "";
+		document.getElementById('intentMimeType').value = "";
+		document.getElementById('intentData').value = "\"myData\":\"Hello Intent\"";
+
+	}
+	else if (props.value == "application")
+	{
+		document.getElementById('message').innerHTML = "Configuring properties for Starting an Application";
+		document.getElementById('intentType').value = "startActivity";
+		document.getElementById('intentPermission').value = "";
+		document.getElementById('intentAction').value = "";
+		document.getElementById('intentCategories').value = "";
+		document.getElementById('intentApplication').value = "rhomobile manual_common_spec/manual_common_spec.exe";
+		document.getElementById('intentTargetClass').value = "";
+		document.getElementById('intentUri').value = "";
+		document.getElementById('intentMimeType').value = "";
+		document.getElementById('intentData').value = "";
+	
+	}
+	else if (props.value == "sms")
+	{
+		document.getElementById('message').innerHTML = "Configuring properties for SMS";
+		document.getElementById('intentType').value = "startActivity";
+		document.getElementById('intentPermission').value = "";
+		document.getElementById('intentAction').value = "";
+		document.getElementById('intentCategories').value = "";
+		document.getElementById('intentApplication').value = "";
+		document.getElementById('intentTargetClass').value = "";
+		document.getElementById('intentUri').value = "sms:9611896991";
+		document.getElementById('intentMimeType').value = "";
+		document.getElementById('intentData').value = "";
+		
+	}
+	else if (props.value == "email")
+	{
+		document.getElementById('message').innerHTML = "Configuring properties for Sending an Email";
+
+		document.getElementById('intentType').value = "startActivity";
+		document.getElementById('intentPermission').value = "";
+		document.getElementById('intentAction').value = "";
+		document.getElementById('intentCategories').value = "";
+		document.getElementById('intentApplication').value = "";
+		document.getElementById('intentTargetClass').value = "";
+		document.getElementById('intentUri').value = "mailto:darryn@motorolasolutions.com";
+		document.getElementById('intentMimeType').value = "";
+		document.getElementById('intentData').value = "";
+	
+	}
+	else if (props.value == "call")
+	{
+		document.getElementById('message').innerHTML = "Configuring properties for Making a Call";
+	
+		document.getElementById('intentType').value = "startActivity";
+		document.getElementById('intentPermission').value = "";
+		document.getElementById('intentAction').value = "ACTION_DIAL";
+		document.getElementById('intentCategories').value = "";
+		document.getElementById('intentApplication').value = "";
+		document.getElementById('intentTargetClass').value = "";
+		document.getElementById('intentUri').value = "tel:01256658754";
+		document.getElementById('intentMimeType').value = "";
+		document.getElementById('intentData').value = "";
+	}
+	
+
+	
+}
+
+function intentReceived(receivedIntent)
+{
+	//  javascript:intentReceived({'myData':'hello intent'});
+	var today = new Date()
+	document.getElementById('message').innerHTML = "Intent Received: <br>App Name: " + receivedIntent.appName + "<br>Message: " + receivedIntent.message + "<br>- received on" + today;
+}
+
+function startListening()
+{
+	Rho.Intent.startListening(intentReceived);
+	document.getElementById('message').innerHTML = "Started Listening";
+}
+
+function stopListening()
+{
+	Rho.Intent.stopListening();
+	document.getElementById('message').innerHTML = "Stopped Listening";
+}
+
+function sendIntent()
+{
+	//params = new parameters(Rho.Intent.BROADCAST,"","com.rhomobile.BROADCAST",["com.rhomobile.manual_common_spec"],"","","","",data);
+	var type = document.getElementById('intentType');
+	var typeConst
+	if (type.value == "broadcast")
+		typeConst = Rho.Intent.BROADCAST;
+	else if (type.value == "startActivity")
+		typeConst = Rho.Intent.START_ACTIVITY;
+	else if (type.value == "startService")
+		typeConst = Rho.Intent.START_SERVICE;
+	var permission = document.getElementById('intentPermission').value;
+	var action = document.getElementById('intentAction').value;
+	var categories = document.getElementById('intentCategories').value;
+	var application = document.getElementById('intentApplication').value;
+	var targetClass = document.getElementById('intentTargetClass').value;
+	var myuri = document.getElementById('intentUri').value;
+	var mime = document.getElementById('intentMimeType').value;
+	
+	var params = new parameters(typeConst, permission, action, categories, application, targetClass, myuri, mime, "");
+	params.data = JSON.parse("{" + document.getElementById('intentData').value + "}");
+	Rho.Intent.send(params);
+}
+
+
+</script>
+</head>
+<body>
+<H1><CENTER>Intents</CENTER></H1>
+<P>
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:Quit()">Quit</a></b> | <a href="javascript:location.reload(false);">Refresh (from cache)</a> | <a href="javascript:location.reload(true);">Refresh (force get)</a>
+</div>
+<P>Configure Properties: 
+<select id="configurePage" onchange='configureProperties()'>
+  <option value="messages">Configure To Send Inter-app Messages</option>
+  <option value="application">Configure to Start another application</option>
+  <option value="sms">Configure to Send an SMS</option>
+  <option value="email">Configure to Send an Email</option>
+  <option value="call">Configure to Make a Call</option>
+</select>
+<P>
+<H3>Intent Properties:</H3>
+<table border=0>
+
+<tr><td valign='top'>
+Type: </td><td valign='top'>
+<select id="intentType">
+  <option value="broadcast">Broadcast</option>
+  <option value="startActivity">Start Activity</option>
+  <option value="startService">Start Service</option>
+</select>
+</td><td valign='top'>
+</td></tr>
+
+<tr><td valign='top'>
+Permission: </td><td valign='top'>
+<input type="text" id="intentPermission"><br>
+</td><td valign='top'>Android Only.  Permission used to send broadcast intent.
+</td></tr>
+
+<tr><td valign='top'>
+Action: </td><td valign='top'>
+<input type="text" id="intentAction"><br>
+</td><td valign='top'>Android Only.  e.g. action.PICK.
+</td></tr>
+
+<tr><td valign='top'>
+Categories: </td><td valign='top'>
+<input type="text" id="intentCategories"><br>
+</td><td valign='top'>Android Only.  Array of categories, e.g. ["CATEGORY_APP_CALCULATOR"]
+</td></tr>
+
+<tr><td valign="top">
+Application Name: </td><td valign="top">
+<input type="text" id="intentApplication" value="MotorolaSolutions JavascriptTests/JavascriptTests.exe"><br>
+</td><td valign='top'>iOS: BundleURLScheme, e.g. manualcommonspec<br>Android: Application Package Name, e.g. "com.rhomobile.manual_common_spec"<br>WM/CE: Executable name e.g. rhomobile myApp/myApp.exe
+</td></tr>
+
+<tr><td valign='top'>
+Target Class: </td><td valign='top'>
+<input type="text" id="intentTargetClass"><br>
+</td><td valign='top'>Android Only.  Class in the app to receive the intent, if necessary.
+</td></tr>
+
+<tr><td valign='top'>
+URI: </td><td valign='top'>
+<input type="text" id="intentUri"><br>
+</td><td valign='top'>Open the application associated with the URI
+</td></tr>
+
+<tr><td valign='top'>
+Mime Type: </td><td valign='top'>
+<input type="text" id="intentMimeType"><br>
+</td><td valign='top'>Mime type of the data, e.g. text/plain
+</td></tr>
+
+<tr><td valign='top'>
+Data: </td><td valign='top'>
+<input type="text" id="intentData" value='"myData":"Hello Intent"'><br>
+</td><td valign='top'>Data which will be sent in the intent, hash of string / value pairs, e.g. "myData":"Hello World"
+</td></tr>
+
+</table>
+<P>
+<H3>Intent Status</H3>
+<div id="message">Messages go here</div>
+<P>
+<input type="Button" value="Start Listening" onclick="javascript:startListening()"/>
+<input type="Button" value="Stop Listening" onclick="javascript:stopListening()"/>
+<input type="Button" value="Send Intent" onclick="javascript:sendIntent()"/>
+
+
+
+
+
+</body>
+</html>
