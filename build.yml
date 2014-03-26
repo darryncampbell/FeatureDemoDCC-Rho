@@ -19,11 +19,14 @@ wp8:
 android:
   manifest_template: AndroidManifest.erb
   version: 2.3.3
+extensions:
+- dpx
 wm:
   sdk: "Windows Mobile 6.5.3 Professional DTK (ARMV4I)"
   #sdk: "MC3000c50b (ARMV4I)"
 extensions:
 - rhoconnect-client
-
+- printing
+- printing_zebra
 javascript_application: true
 capabilities: []

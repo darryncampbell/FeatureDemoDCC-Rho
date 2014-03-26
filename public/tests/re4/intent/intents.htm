@@ -144,9 +144,9 @@ function sendIntent()
 </head>
 <body>
 <H1><CENTER>Intents</CENTER></H1>
-<P>
+
 <div style="font-family:'verdana'; font-size:8pt">
-<b><a href="javascript:Quit()">Quit</a></b> | <a href="javascript:location.reload(false);">Refresh (from cache)</a> | <a href="javascript:location.reload(true);">Refresh (force get)</a>
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(false);">Refresh (from cache)</a> | <a href="javascript:location.reload(true);">Refresh (force get)</a>
 </div>
 <P>Configure Properties: 
 <select id="configurePage" onchange='configureProperties()'>
@@ -230,6 +230,9 @@ Data: </td><td valign='top'>
 
 
 
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(false);">Refresh (from cache)</a> | <a href="javascript:location.reload(true);">Refresh (force get)</a>
+</div>
 
 </body>
 </html>

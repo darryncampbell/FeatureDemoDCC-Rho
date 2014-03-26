@@ -1,0 +1,214 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<script>
+//  Bluetooth Address QLn320: AC:3F:A4:09:07:C5
+//  Bluetooth Address MZ220:  00:03:7A:33:53:93 (Does NOT support ZPL!)
+function makeFilePath(filename) {
+	return (Rho.Application.appsBundleFolder + "public/tests/re4/printing/" + filename);
+}
+	
+function setMessage(theMessage)
+{
+	document.getElementById('message').innerHTML = theMessage;
+}
+
+function printerSelected()
+{
+
+}
+
+function GetSelectedPrinter()
+{
+	//var selectedPrinterID = document.getElementById('printerSelect').value;
+	var selectedPrinterID = "00:03:7A:33:53:93";
+	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
+	return myPrinter;
+}
+
+function printString()
+{
+	var myPrinter = GetSelectedPrinter();
+	var textToPrint = document.getElementById('txtPrintString').value;
+	setMessage("Printing Raw Text: " + textToPrint);
+	myPrinter.printRawString(textToPrint);
+}
+
+function retrieveFileNamesFromPrinter()
+{
+	var myPrinter = GetSelectedPrinter();
+	setMessage("Retrieving File Names from the Printer");
+	myPrinter.retrieveFileNames(function (cb){
+		if (cb.status == Rho.PrinterZebra.PRINTER_STATUS_SUCCESS)
+		{
+			setMessage("Successfully read file names from printer.  There are " + cb.fileNames.length + " files on the printer");
+		}
+		else
+		{
+			setMessage("Filenames were not successfully read from the printer: " + cb.status);
+		}
+	});
+}
+
+function printImage()
+{
+	var myPrinter = GetSelectedPrinter();
+	var imageToPrint = makeFilePath("re_logo.png");
+	setMessage("Printing Image: " + imageToPrint);
+	myPrinter.printImageFromFile(imageToPrint, 100, 100, {"width": 100, "height": 100, "isInsideFormat":false}, function(cb) {
+		setMessage("Callback Return: " + cb);
+	});
+}
+	
+function connectPrinter()
+{
+	//var selectedPrinterID = document.getElementById('printerSelect').value;
+	var selectedPrinterID = "00:03:7A:33:53:93";
+	setMessage("Connecting to Printer: " + selectedPrinterID);
+	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
+
+	// Let's try connecting
+	myPrinter.connect(function (cb){
+		if (cb == 'PRINTER_STATUS_SUCCESS')
+			setMessage("Printer has successfully connected<br>Device Name: " + myPrinter.deviceName + "<br>Device Port: " + myPrinter.devicePort + "<br>Connection Type: " + myPrinter.connectionType + "<br>Device Address: " + myPrinter.deviceAddress + "<br>Printer Type: " + myPrinter.printerType);
+		else
+			setMessage("Printer did not successfully connect - " + cb);
+	});	
+}
+
+function disconnectPrinter()
+{
+	//var selectedPrinterID = document.getElementById('printerSelect').value;
+	var selectedPrinterID = "00:03:7A:33:53:93";
+	setMessage("Disconnecting from printer: " + selectedPrinterID);
+	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
+
+	// Let's try disconnecting
+	myPrinter.disconnect(function (cb){
+		if (cb == 'PRINTER_STATUS_SUCCESS')
+			setMessage("Printer has successfully disconnected");
+		else
+			setMessage("Printer did not successfully disconnect");
+	});	
+}
+
+function discoverPrinters()
+{
+var printers = [];
+setMessage("searching for printers");
+var comboBox = document.getElementById('printerSelect');
+comboBox.length = 0;
+Rho.PrinterZebra.searchPrinters({ 
+    connectionType:Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,  
+    printerType: Rho.PrinterZebra.PRINTER_TYPE_ZEBRA,
+	connectionType: Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,
+	deviceAddress: "00:03:7A:33:53:93"
+    }, function (cb){
+		setMessage("Search Printers Callback Status: " + cb.status);
+        if(cb.status == 'PRINTER_STATUS_SUCCESS')
+        {
+            if (typeof cb.printerID != "undefined")
+            {
+                setMessage("Found a Printer: " + cb.printerID);
+				var newPrinterCombo = document.createElement("option");
+				newPrinterCombo.value = cb.printerID;
+				newPrinterCombo.innerHTML = "Printer: " + cb.printerID;
+				comboBox.appendChild(newPrinterCombo);
+                printers.push(cb.printerID);
+            }
+            else
+            {
+                setMessage("Search Printers returned an undefined ID");
+            }
+        }
+        else
+        {
+            setMessage("Search Printers did not return success, actual return value: " + cb.status);
+        }
+    }
+);
+}
+
+function test()
+{
+	//  Next: 
+	//  * Can I print Images on the QLn320?
+	//  * Print Raw ZPL string
+	//  * Design labels and add to device
+	//  * Print with stored formats
+	var myPrinter = GetSelectedPrinter();
+//	var zplstoredformat = '^XA^DFE:FORMAT.ZPL^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ';
+/*        var ccplstoredformat = "! DF E:FORMATAS.FMT\n" +
+            "! 0 200 200 310 1\n" +
+            "CENTER\n" +
+            "TEXT 4 1 0 50 RECEIPT\n" +
+            "TEXT 4 0 0 150 \\\\\n" +
+            "TEXT 4 0 0 200 \\\\\n" +
+            "TEXT 4 0 0 250 \\\\\n" +
+            "FORM\n" +
+            "PRINT\n";
+*/	
+//	myPrinter.printRawString("^XA^DFE:FORMAT.ZPL^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ", {}, function(cb) {
+//		setMessage("Test Callback Return: " + cb);
+//	});
+
+//	myPrinter.sendFileContents(makeFilePath("test_zpl.zpl"), function(cb) {
+//		setMessage("Send File Contents Callback: " + cb);
+//	});
+
+	var zplstoredformat = '^XA^DFE:FORMAT.ZPL^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ';
+	var arrayzpl = ['val2', 'val1', 'val3', 'val4', 'val5', 'val6'];
+	myPrinter.printRawString(zplstoredformat, {}, function(cb) {
+		//alert(cb);
+	});
+	myPrinter.printStoredFormatWithArray('E:NEWLABEL.FMT', arrayzpl, function(cb) {
+		alert(cb);
+	});
+
+//	myPrinter.enumerateSupportedControlLanguages(function(cb) {
+//		alert(cb);
+//	});
+	
+}
+
+</script>
+</head>
+<body>
+<H1><CENTER>Printing</CENTER></H1>
+<P>
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+<P>
+<font color="blue"><b>Please ensure you install PrintingService.cab on your Windows mobile / CE device (\&lt;RMS Install&gt;\printing-service\)</b></font><br>
+Hardcoded for Bluetooth printer: 00:03:7A:33:53:93.
+<P>
+Available Printers: <select id="printerSelect" onchange='printerSelected()'>
+  <option value="123">First search for printers</option>
+</select>
+<br>
+<input type="Button" value="Search for Printers" onclick="javascript:discoverPrinters()"/>
+<input type="Button" value="Connect" onclick="javascript:connectPrinter()"/> 
+<input type="Button" value="Disconnect" onclick="javascript:disconnectPrinter()"/> <br>
+<input type="Button" value="Print String" onclick="javascript:printString()"/> <input type="text" id="txtPrintString" value='Hello World from Printer'><br>
+<input type="Button" value="Retrieve File Names from Printer" onclick="javascript:retrieveFileNamesFromPrinter()"/> <br>
+<input type="Button" value="Print Image" onclick="javascript:printImage()"/>
+<P>
+<input type="Button" value="Test Button" onclick="javascript:test()"/>
+<P>
+<H3>Printer Status</H3>
+<div id="message">Messages go here</div>
+<P>
+
+
+
+
+
+
+
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+
+</body>
+</html>
