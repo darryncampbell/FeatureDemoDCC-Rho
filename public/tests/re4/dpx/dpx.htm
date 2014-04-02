@@ -2,35 +2,164 @@
 <head>
 <script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
 <script>
+//  Bug: The template name cannot contain spaces.
+function setMessage(theMessage)
+{
+	document.getElementById('message').innerHTML = theMessage;
+}
+
 function captureDocument()
 {
-	Rho.DPX.captureDocument({}, document_captured);
+	//  Set the ProcessingTimeout & Template
+	Rho.DPX.identificationTimeout = document.getElementById('propIdentificationTimeout').value;
+	Rho.DPX.processingTimeout = document.getElementById('propProcessingTimeout').value;
+	Rho.DPX.template = document.getElementById('propTemplate').value;
+	setMessage("Capturing document with template: " + Rho.DPX.template);
+	Rho.DPX.captureDocument(document_captured);
 }
 
 function document_captured(params)
 {
-	alert(params);
+	if (params.callbackType == Rho.DPX.FAILURE)
+	{
+		//  The document capture failed
+		setMessage("Document Capture Failed: " + params.failureReason);
+	}
+	else if (params.callbackType == Rho.DPX.SUCCESS)
+	{
+		setMessage("Document Capture succeeded");
+		var returnedField = params.processedForm;
+		processDPXForm(returnedField);
+	}
+	else if (params.callbackType == Rho.DPX.STOP)
+	{
+		//  Do nothing here, otherwise we overwrite any failure message.
+		//  setMessage("Document Capture has finished");
+	}
 }
 
+function processDPXForm(DPXform)
+{
+	var html = "";
+	html = html + "Template Name: " + DPXform.template.name + ", Number: " + DPXform.template.number + "<br>";
+	var regions = DPXform.regions;
+	for(i=0; i< regions.length; ++i)
+	{
+		html = html + "Region: " + regions[i].name + " (Number: " + regions[i].number + ", Group: " + regions[i].group + ")<br>";
+		switch(regions[i].processingMode)
+		{
+			case Rho.DPX.PM_OCR:
+			// The text that OCR translated into an array of lines
+			html = html + "OCR: " + regions[i].processedData + " (Absolute Confidence: " + regions[i].absoluteOcrConfidence + "Relative Confidence: " + regions[i].relativeOcrConfidence + ")<br>";
+			break;
+			case Rho.DPX.PM_OMR:
+			// Checkbox region either True or False
+			html = html + "OMR: " + regions[i].processedData + "<br>";
+			break;
+			case Rho.DPX.PM_PICTURE:
+			// nothing in processedData
+			// Image held temporarily until Rho.DPX.close()
+			// use the id and the Rho.DPX.getDataUri method
+			regionImageURI = Rho.DPX.getDataUri(regions[i].image.id);
+			html = html + "Picture: <img src='" + regionImageURI + "'><br>";
+			break;
+			case Rho.DPX.PM_BARCODE:
+			// Barcode data will be in processedData field
+			html = html + "Barcode: " + regions[i].processedData + "<br>";
+			break;
+		}
+	}
+	setMessage(html);
+}
 
+//  DownloadTemplates not implemented here
 
+function populateProperties()
+{
+	document.getElementById('propAudioFeedback').checked = Rho.DPX.audioFeedback;
+	document.getElementById('propDebug').checked = Rho.DPX.debug;
+	document.getElementById('propFlashMode').checked = Rho.DPX.flashMode;
+	document.getElementById('propHapticFeedback').checked = Rho.DPX.hapticFeedback;
+	document.getElementById('propIdentificationTimeout').value = Rho.DPX.identificationTimeout;
+	document.getElementById('propLedFeedback').checked = Rho.DPX.ledFeedback;
+	document.getElementById('propLogDirectory').value = Rho.DPX.logDirectory;
+	document.getElementById('propProcessingTimeout').value = Rho.DPX.processingTimeout;
+	document.getElementById('propTemplateDirectory').value = Rho.DPX.templateDirectory;
+	document.getElementById('propUiResultConfirmation').checked = Rho.DPX.uiResultConfirmation;
+	document.getElementById('propVersion').value = Rho.DPX.version;
+	
+	enumerateTemplates();
+}
 
+function setAudioFeedback(theVal) {	Rho.DPX.audioFeedback = theVal; setMessage("Audio Feedback status set to " + Rho.DPX.audioFeedback);}
+function setDebug(theVal) {	Rho.DPX.debug = theVal; 	setMessage("Debug status set to " + Rho.DPX.debug);}
+function setFlashMode(theVal) {	if (theVal) Rho.DPX.flashMode = "on"; else Rho.DPX.flashMode = "off"; 	setMessage("Flash mode set to " + Rho.DPX.flashMode);}
+function setHapticFeedback(theVal) {	Rho.DPX.hapticFeedback = theVal; 	setMessage("Haptic Feedback set to " + Rho.DPX.hapticFeedback);}
+function setLedFeedback(theVal) {	Rho.DPX.ledFeedback = theVal; 	setMessage("LED Feedback set to " + Rho.DPX.ledFeedback);}
+function setUiResultConfirmation(theVal) {	Rho.DPX.uiResultConfirmation = theVal; 	setMessage("UI Result Confirmation set to " + Rho.DPX.uiResultConfirmation);}
+
+function enumerateTemplates()
+{
+	var root_path = "/sdcard/templates"
+	var entries = Rho.RhoFile.listDir(root_path);
+	var comboBox = document.getElementById('propTemplate');
+	comboBox.length = 0;
+
+	for (var i = 0; i < entries.length; i++) {
+		var entry = entries[i];
+		if ((entry != ".") && (entry != "..")) {
+				var newTemplate = document.createElement("option");
+				newTemplate.value = "file:///sdcard/templates/" + entry;
+				newTemplate.innerHTML = "" + entry;
+				comboBox.appendChild(newTemplate);
+		}
+	}
+
+}
 </script>
 </head>
-<body>
+<body onload="populateProperties()">
 <H1><CENTER>Document Processing eXtensions</CENTER></H1>
 <div style="font-family:'verdana'; font-size:8pt">
 <b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
 </div>
 <P>
+<b>Please ensure your template xml files are located on the device</b>
+<P>
+<H3>DPX Properties</H3>
+<table border="0">
+<tr><td>
+Audio Feedback:</td><td> <input type="checkbox" id="propAudioFeedback" onclick="javascript:setAudioFeedback(document.getElementById('propAudioFeedback').checked);"></td></tr><tr><td>
+Debug:</td><td> <input type="checkbox" id="propDebug" onclick="javascript:setDebug(document.getElementById('propDebug').checked);"></td></tr><tr><td>
+Flash Mode:</td><td> <input type="checkbox" id="propFlashMode" onclick="javascript:setFlashMode(document.getElementById('propFlashMode').checked);"></td></tr><tr><td>
+Haptic Feedback:</td><td> <input type="checkbox" id="propHapticFeedback" onclick="javascript:setHapticFeedback(document.getElementById('propHapticFeedback').checked);"></td></tr><tr><td>
+Identification Timeout:</td><td> <input type="text" id="propIdentificationTimeout" value='' size="10"></td></tr><tr><td>
+Input Source:</td><td> Camera</td></tr><tr><td>
+LED Feedback:</td><td> <input type="checkbox" id="propLedFeedback" onclick="javascript:setLedFeedback(document.getElementById('propLedFeedback').checked);"></td></tr><tr><td>
+Log Directory:</td><td> <input type="text" id="propLogDirectory" value='' size="20" disabled></td></tr><tr><td>
+Processing Timeout:</td><td> <input type="text" id="propProcessingTimeout" value='' size="10"></td></tr><tr><td>
+Template:</td><td><select id="propTemplate" onchange=''>
+  <option value="123">Cannot find Templates</option>
+</select>
+</td></tr><tr><td>
+Template Directory:</td><td> <input type="text" id="propTemplateDirectory" value='' size="20"></td></tr><tr><td>
+UI Result Confirmation:</td><td> <input type="checkbox" id="propUiResultConfirmation" onclick="javascript:setUiResultConfirmation(document.getElementById('propUiResultConfirmation').checked);"></td></tr><tr><td>
+Version:</td><td> <input type="text" id="propVersion" value='' size="10" disabled></td></tr>
+</table>
 
-<a href="javascript:captureDocument()">Capture Document</a>
+
+<P>
+<input type="Button" value="Capture Document" onclick="javascript:captureDocument()"/>
+<input type="Button" value="Test" onclick="javascript:test()"/>
 
 
 
 
 
 
+<H3>DPX Status</H3>
+<div id="message">Messages go here</div>
+<P>
 
 <div style="font-family:'verdana'; font-size:8pt">
 <b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>

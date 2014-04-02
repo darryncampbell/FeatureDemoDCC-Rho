@@ -4,6 +4,8 @@
 <script>
 //  Bluetooth Address QLn320: AC:3F:A4:09:07:C5
 //  Bluetooth Address MZ220:  00:03:7A:33:53:93 (Does NOT support ZPL!)
+//  IP Address QLn320: 192.168.0.23:6101
+
 function makeFilePath(filename) {
 	return (Rho.Application.appsBundleFolder + "public/tests/re4/printing/" + filename);
 }
@@ -21,7 +23,7 @@ function printerSelected()
 function GetSelectedPrinter()
 {
 	//var selectedPrinterID = document.getElementById('printerSelect').value;
-	var selectedPrinterID = "00:03:7A:33:53:93";
+	var selectedPrinterID = document.getElementById('printerToUse').value;
 	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
 	return myPrinter;
 }
@@ -62,8 +64,7 @@ function printImage()
 	
 function connectPrinter()
 {
-	//var selectedPrinterID = document.getElementById('printerSelect').value;
-	var selectedPrinterID = "00:03:7A:33:53:93";
+	var selectedPrinterID = document.getElementById('printerToUse').value;
 	setMessage("Connecting to Printer: " + selectedPrinterID);
 	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
 
@@ -78,8 +79,7 @@ function connectPrinter()
 
 function disconnectPrinter()
 {
-	//var selectedPrinterID = document.getElementById('printerSelect').value;
-	var selectedPrinterID = "00:03:7A:33:53:93";
+	var selectedPrinterID = document.getElementById('printerToUse').value;
 	setMessage("Disconnecting from printer: " + selectedPrinterID);
 	var myPrinter = Rho.PrinterZebra.getPrinterByID(selectedPrinterID);
 
@@ -99,10 +99,14 @@ setMessage("searching for printers");
 var comboBox = document.getElementById('printerSelect');
 comboBox.length = 0;
 Rho.PrinterZebra.searchPrinters({ 
-    connectionType:Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,  
-    printerType: Rho.PrinterZebra.PRINTER_TYPE_ZEBRA,
-	connectionType: Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,
-	deviceAddress: "00:03:7A:33:53:93"
+
+//    connectionType:Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,  
+//    connectionType:Rho.PrinterZebra.CONNECTION_TYPE_TCP,  
+//    printerType: Rho.PrinterZebra.PRINTER_TYPE_ZEBRA,
+//	connectionType: Rho.PrinterZebra.CONNECTION_TYPE_BLUETOOTH,
+//	deviceAddress: "AC:3F:A4:09:07:C5"
+//	deviceAddress: "192.168.0.23"
+	deviceAddress: document.getElementById('printerToUse').value
     }, function (cb){
 		setMessage("Search Printers Callback Status: " + cb.status);
         if(cb.status == 'PRINTER_STATUS_SUCCESS')
@@ -118,7 +122,7 @@ Rho.PrinterZebra.searchPrinters({
             }
             else
             {
-                setMessage("Search Printers returned an undefined ID");
+                setMessage("Search Printers has finished searching");
             }
         }
         else
@@ -129,13 +133,51 @@ Rho.PrinterZebra.searchPrinters({
 );
 }
 
+function radioButtonsChanged()
+{
+	if(document.getElementById('zplRad1').checked)
+	{
+		document.getElementById('txtPrintString').value = "Hello World from Printer";
+	}
+	else if(document.getElementById('zplRad2').checked)
+	{
+		document.getElementById('txtPrintString').value = "^XA^DFE:FORMAT.ZPL^FS^FO50,50^A0,60,60^FDTest DCC^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^XZ";		
+	}
+	else if(document.getElementById('zplRad3').checked)
+	{
+		document.getElementById('txtPrintString').value = "^XA^DFE:FORMAT.ZPL^FS^FO20,30^GB750,1100,4^FS^FO20,30^GB750,200,4^FS^FO20,30^GB750,400,4^FS^FO20,30^GB750,700,4^FS^FO20,226^GB325,204,4^FS^FO30,40^ADN,36,20^FDShip to:^FS^FO30,260^ADN,18,10^FDPart Number:^FS^FO30,750^ADN,18,10^FDDescription:^FS^FO30,275^ADN,36,20^FN1^FS^FO30,330^ADN,36,20^FN2^FS^FO30,65^ADN,36,20^FN3^FS^XZ";		
+	}
+	else if(document.getElementById('zplRad4').checked)
+	{
+		document.getElementById('txtPrintString').value = "^XA^FO10,10^A0,40,40^FDHello World!^FS^XZ";
+	}
+}
+
+function printStoredFormat()
+{
+	var arrayzpl = [document.getElementById('storedFormatVariable1').value, document.getElementById('storedFormatVariable2').value, document.getElementById('storedFormatVariable3').value];
+	var myPrinter = GetSelectedPrinter();	
+	myPrinter.printStoredFormatWithArray('E:FORMAT.ZPL', arrayzpl, function(cb) {
+		setMessage("Callback Return: " + cb);
+	});
+}
+
+
+
 function test()
 {
 	//  Next: 
-	//  * Can I print Images on the QLn320?
-	//  * Print Raw ZPL string
-	//  * Design labels and add to device
-	//  * Print with stored formats
+	//  * Print Raw ZPL string (get it working with my second example)
+	//  * Can I print Images on the QLn320? (storeImage & use IL to print that image)
+	//  *  -  Separate from that, also printImageFromFile
+	//  * Print from a file containing ZPL Instructions (sendFileContents)
+	//  * Printing on Android
+	//  * Does retrieveFileNames work on Android?
+	//  * The requestState method (will work with TCP printers)
+	//  * Enumerate supported control languages
+	//  * 
+
+
 	var myPrinter = GetSelectedPrinter();
 //	var zplstoredformat = '^XA^DFE:FORMAT.ZPL^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ';
 /*        var ccplstoredformat = "! DF E:FORMATAS.FMT\n" +
@@ -156,43 +198,86 @@ function test()
 //		setMessage("Send File Contents Callback: " + cb);
 //	});
 
-	var zplstoredformat = '^XA^DFE:FORMAT.ZPL^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ';
-	var arrayzpl = ['val2', 'val1', 'val3', 'val4', 'val5', 'val6'];
-	myPrinter.printRawString(zplstoredformat, {}, function(cb) {
-		//alert(cb);
-	});
-	myPrinter.printStoredFormatWithArray('E:NEWLABEL.FMT', arrayzpl, function(cb) {
+//	var zplstoredformat = '^XA^LH30,30^FO20,10^ADN,90,50^AD^FDWikipedia^FS^XZ';
+	var arrayzpl = ['dval2', 'val1', 'val3', 'val4', 'val5', 'val6'];
+//	myPrinter.printRawString(zplstoredformat, {}, function(cb) {
+//		alert(cb);
+//	});
+	myPrinter.printStoredFormatWithArray('E:FORMAT.ZPL', arrayzpl, function(cb) {
 		alert(cb);
 	});
 
 //	myPrinter.enumerateSupportedControlLanguages(function(cb) {
 //		alert(cb);
 //	});
+
+/*
+
+^XA
+^DFR:Filename.ZPL^FS 
+^FO25,25^A0N,50,50^FDZebra Printer^FS
+^FO25,75^A0N,50,50^FDSerial Number^FS
+^FO25,150^A0N,50,50^FN1^FS
+^XZ
+
+
+^XA
+^DFR:Format1.ZPL^FS
+^FO50,50^A0,60,60^FDTest^FS
+^XZ         
+
+^XA^DFE:FORMAT.ZPL^FS^FO50,50^A0,60,60^FDTest DCC^FS^LH30,30^FO20,10^AF^FN1^FS^FO20,60^B3,,40,,^FN2^FS^FO20,120^AF^FN3^FS^FO20,180^AF^FN4^FS^FO20,240^AF^FN5^FS^FO20,300^AF^FN6^FS^XZ
+
+
+^XA
+^DFE:FORMAT.ZPL^FS 
+^FO25,25^A0N,50,50^FDDCC Zebra Printer^FS
+^FO25,75^A0N,50,50^FDSerial Number^FS
+^FO25,150^A0N,50,50^FN1^FS
+^XZ 
+
+*/
 	
 }
 
 </script>
 </head>
 <body>
-<H1><CENTER>Printing</CENTER></H1>
+<H1><CENTER>Printing (Zebra)</CENTER></H1>
 <P>
 <div style="font-family:'verdana'; font-size:8pt">
 <b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
 </div>
 <P>
-<font color="blue"><b>Please ensure you install PrintingService.cab on your Windows mobile / CE device (\&lt;RMS Install&gt;\printing-service\)</b></font><br>
-Hardcoded for Bluetooth printer: 00:03:7A:33:53:93.
-<P>
+
+Printer in use: <select id="printerToUse">
+  <option value="AC:3F:A4:09:07:C5">AC:3F:A4:09:07:C5 - QLn320</option>
+  <option value="00:03:7A:33:53:93">00:03:7A:33:53:93 - MZ 220</option>
+  <option value="192.168.0.23">192.168.0.23:6101 - QLn320</option>
+</select>
+<br>
 Available Printers: <select id="printerSelect" onchange='printerSelected()'>
   <option value="123">First search for printers</option>
 </select>
 <br>
 <input type="Button" value="Search for Printers" onclick="javascript:discoverPrinters()"/>
 <input type="Button" value="Connect" onclick="javascript:connectPrinter()"/> 
-<input type="Button" value="Disconnect" onclick="javascript:disconnectPrinter()"/> <br>
-<input type="Button" value="Print String" onclick="javascript:printString()"/> <input type="text" id="txtPrintString" value='Hello World from Printer'><br>
+<input type="Button" value="Disconnect" onclick="javascript:disconnectPrinter()"/> <br><br>
+<input type="Button" value="Send Raw String" onclick="javascript:printString()"/> <textarea rows="3" id="txtPrintString">Hello World from Printer</textarea><br>
+<input type="radio" id="zplRad1" name="zplRadio" value="zpl1" onclick="radioButtonsChanged()" checked>Line Printer
+<input type="radio" id="zplRad2" name="zplRadio" value="zpl2" onclick="radioButtonsChanged()">Store Format.zpl 1
+<input type="radio" id="zplRad3" name="zplRadio" value="zpl3" onclick="radioButtonsChanged()">Store Format.zpl 2
+<input type="radio" id="zplRad4" name="zplRadio" value="zpl4" onclick="radioButtonsChanged()">Hello World ZPL<br>
+Variables: <input type="text" id="storedFormatVariable1" value='Val1' size="5"><input type="text" id="storedFormatVariable2" value='Val2' size="5"><input type="text" id="storedFormatVariable3" value='Val3' size="5"><br>
+<input type="Button" value="Print Stored Format with Variables" onclick="javascript:printStoredFormat()"/> <br>
+<br>
+
 <input type="Button" value="Retrieve File Names from Printer" onclick="javascript:retrieveFileNamesFromPrinter()"/> <br>
-<input type="Button" value="Print Image" onclick="javascript:printImage()"/>
+<input type="Button" value="Print Image" onclick="javascript:printImage()"/><br>
+
+
+
+
 <P>
 <input type="Button" value="Test Button" onclick="javascript:test()"/>
 <P>
