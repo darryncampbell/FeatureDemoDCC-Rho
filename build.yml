@@ -26,6 +26,6 @@ extensions:
 - rhoconnect-client
 - printing
 - printing_zebra
-- dpx
+#- dpx
 javascript_application: true
 capabilities: []
