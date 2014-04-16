@@ -1,0 +1,187 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<script>
+window.startTime = (new Date).getTime();
+var StopWatch = function (performance) {
+    this.startTime = 0;
+    this.stopTime = 0;
+    this.running = false;
+    this.performance = false;//performance === false ? false : !!window.performance;
+};
+
+StopWatch.prototype.currentTime = function () {
+    return this.performance ? window.performance.now() : new Date().getTime();
+};
+
+StopWatch.prototype.start = function () {
+    this.startTime = this.currentTime();
+    this.running = true;
+};
+
+StopWatch.prototype.stop = function () {
+    this.stopTime = this.currentTime();
+    this.running = false;
+};
+
+StopWatch.prototype.getElapsedMilliseconds = function () {
+    if (this.running) {
+        this.stopTime = this.currentTime();
+    }
+
+    return this.stopTime - this.startTime;
+};
+
+StopWatch.prototype.getElapsedSeconds = function () {
+    return this.getElapsedMilliseconds() / 1000;
+};
+
+StopWatch.prototype.printElapsed = function (name) {
+    var currentName = name || 'Elapsed:';
+
+    console.log(currentName, '[' + this.getElapsedMilliseconds() + 'ms]', '[' + this.getElapsedSeconds() + 's]');
+    return 'Elapsed: [' + this.getElapsedMilliseconds() + 'ms]', '[' + this.getElapsedSeconds() + 's]';
+};
+
+  function timing()
+  {
+		var start = new Date().getTime();
+		var iter = 0;
+		for (var i = 0; i < 10000; i++)
+		{
+			console.log(Rho.System.platform);
+			console.log(Rho.System.uuid);
+			iter++;
+		}
+		var end = new Date().getTime();
+		//alert(end);
+		alert("Elapsed: " + (end - start) + " Iterations: " + iter);
+  }
+
+function doTest()
+{
+var stopwatch = new StopWatch();
+stopwatch.start();
+
+for (var index = 0; index < 100; index++) {
+    stopwatch.printElapsed('Instance[' + index + ']');
+}
+
+stopwatch.stop();
+
+stopwatch.printElapsed();
+}
+
+function load()
+{
+	var stopwatch = new StopWatch();
+	if (stopwatch.performance)
+	{
+		//  This browser supports high precision timing
+		document.getElementById('timingSupport').innerText = "High Precision";
+	}
+	else
+		document.getElementById('timingSupport').innerText = "Low Precision";
+	if (typeof Rho === 'undefined')
+		document.getElementById('re4ApiSupport').innerText = "Not Supported";
+	else
+		document.getElementById('re4ApiSupport').innerText = "Supported";
+	if (typeof scanner === 'undefined')
+		document.getElementById('re1ApiSupport').innerText = "Not Supported";
+	else
+		document.getElementById('re1ApiSupport').innerText = "Supported";
+		
+	if (stopwatch.performance)
+	{
+		setTimeout(function()
+		{
+			var t = performance.timing;//now();
+			document.getElementById('resultsPageLoad').innerHTML = "Load Time (Precise): " + Number(t.loadEventEnd - t.responseEnd).toFixed(0) + "ms or " + Number((t.loadEventEnd - t.responseEnd) / 1000).toFixed(2) + "secs";
+		}, 0);
+	}
+	else
+	{
+		//  This browser does not support high precision timing
+		setTimeout(function()
+		{
+			var t = ((new Date).getTime() - window.startTime);
+			document.getElementById('resultsPageLoad').innerHTML = "Load Time (Imprecise): " + Number((t.loadEventEnd - t.responseEnd)).toFixed(0) + "ms or " + Number((t.loadEventEnd - t.responseEnd) / 1000).toFixed(2) + "secs";	
+			}, 0);
+	}
+}
+
+var barcodeStopwatch = new StopWatch();
+var barcodeCounter = 0;
+function testBarcodeAPI()
+{
+	barcodeCounter = 0;
+	barcodeStopwatch.start();
+	//  Enable the Barcode and set the callback
+	Rho.Barcode.enable({}, scan_received);
+	Rho.Barcode.start();
+}
+
+function scan_received(params)
+{
+	//  Barcode Test - A Scan has been received, increment the counter
+	barcodeCounter++;
+	if (barcodeCounter == 5)
+	{
+		//  Stop the test
+		barcodeStopwatch.stop();
+		//  Report the Results
+		alert(barcodeStopwatch.printElapsed());
+	}
+	else
+		Rho.Barcode.start();
+	
+}
+
+</script>
+</head>
+<body>
+<H1><CENTER>Performance Tests</CENTER></H1>
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+<P>
+<b><a href="javascript:timing()">Run Timing Tests</a></b>
+<P>
+<a href="javascript:doTest();">Do Test</a>
+<P>
+Browser Timing Support: <b><span id="timingSupport"></span></b><br>
+Supports RhoElements 1.x APIs?: <b><span id="re1ApiSupport"></span></b><br>
+Supports Common API: <b><span id="re4ApiSupport"></span></b><br>
+<P>
+Tests
+<P>
+RhoElements 1 API Test (Asynchronous - Scanner)<br>
+RhoElements 1 API Test (Synchronous - OEM Version)<br>
+<a href="javascript:testBarcodeAPI();">RhoElements 4 API Test (Asynchronous - Barcode)</a><br>
+RhoElements 4 API Test (Synchronous - OEM Version)<br>
+<P>
+Test Results:
+<P>
+<div id="resultsPageLoad"></div>
+<div id="resultsName"></div>
+Run 1: <div id="resultsRun1"></div>
+Run 2: <div id="resultsRun2"></div>
+Run 3: <div id="resultsRun3"></div>
+
+
+
+
+
+
+
+<br><br><br>
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+
+<script>
+window.addEventListener('load', load());
+</script>
+
+</body>
+</html>
