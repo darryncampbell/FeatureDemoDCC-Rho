@@ -1,6 +1,9 @@
 <html>
 <head>
-<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<META HTTP-Equiv="Scanner" Content="DecodeEvent:url('Javascript:scan_receivedS(%json);')">
+<META HTTP-Equiv="Application" Content="VersionEvent:url('Javascript:version_receivedS(%json);')">
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi.js" data-api-modules="Barcode,System"></script>
+<!--script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script-->
 <script>
 window.startTime = (new Date).getTime();
 var StopWatch = function (performance) {
@@ -39,10 +42,11 @@ StopWatch.prototype.getElapsedSeconds = function () {
 StopWatch.prototype.printElapsed = function (name) {
     var currentName = name || 'Elapsed:';
 
-    console.log(currentName, '[' + this.getElapsedMilliseconds() + 'ms]', '[' + this.getElapsedSeconds() + 's]');
-    return 'Elapsed: [' + this.getElapsedMilliseconds() + 'ms]', '[' + this.getElapsedSeconds() + 's]';
+    //console.log(currentName, '[' + this.getElapsedMilliseconds() + 'ms]', '[' + this.getElapsedSeconds() + 's]');
+    return "Elapsed: [" + this.getElapsedMilliseconds() + "ms], [" + this.getElapsedSeconds() + "s]";
 };
 
+/*
   function timing()
   {
 		var start = new Date().getTime();
@@ -57,6 +61,7 @@ StopWatch.prototype.printElapsed = function (name) {
 		//alert(end);
 		alert("Elapsed: " + (end - start) + " Iterations: " + iter);
   }
+  */
 
 function doTest()
 {
@@ -91,13 +96,13 @@ function load()
 	else
 		document.getElementById('re1ApiSupport').innerText = "Supported";
 		
-	if (stopwatch.performance)
+	if (window.performance)
 	{
 		setTimeout(function()
 		{
 			var t = performance.timing;//now();
 			document.getElementById('resultsPageLoad').innerHTML = "Load Time (Precise): " + Number(t.loadEventEnd - t.responseEnd).toFixed(0) + "ms or " + Number((t.loadEventEnd - t.responseEnd) / 1000).toFixed(2) + "secs";
-		}, 0);
+		}, 2000);
 	}
 	else
 	{
@@ -105,20 +110,30 @@ function load()
 		setTimeout(function()
 		{
 			var t = ((new Date).getTime() - window.startTime);
-			document.getElementById('resultsPageLoad').innerHTML = "Load Time (Imprecise): " + Number((t.loadEventEnd - t.responseEnd)).toFixed(0) + "ms or " + Number((t.loadEventEnd - t.responseEnd) / 1000).toFixed(2) + "secs";	
+			document.getElementById('resultsPageLoad').innerHTML = "Load Time (Imprecise): " + t + "ms or " + t / 1000 + "secs";	
 			}, 0);
 	}
 }
 
+
+/*   BARCODE   */
 var barcodeStopwatch = new StopWatch();
 var barcodeCounter = 0;
+var barcodeRun = 0;
 function testBarcodeAPI()
 {
+	document.getElementById('resultsName').innerHTML = "Time taken to scan Barcodes with the Barcode API (RE4.x)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
 	barcodeCounter = 0;
+	barcodeRun = 1;
 	barcodeStopwatch.start();
 	//  Enable the Barcode and set the callback
 	Rho.Barcode.enable({}, scan_received);
+	console.log('**********************************  calling start  *************************');
 	Rho.Barcode.start();
+	console.log('**********************************  start called *************************');
 }
 
 function scan_received(params)
@@ -130,13 +145,252 @@ function scan_received(params)
 		//  Stop the test
 		barcodeStopwatch.stop();
 		//  Report the Results
-		alert(barcodeStopwatch.printElapsed());
+		if (barcodeRun == 1)
+			document.getElementById('resultsRun1').innerText = barcodeStopwatch.printElapsed();
+		if (barcodeRun == 2)
+			document.getElementById('resultsRun2').innerText = barcodeStopwatch.printElapsed();
+		if (barcodeRun == 3)
+			document.getElementById('resultsRun3').innerText = barcodeStopwatch.printElapsed();
+		barcodeRun++;
+		if (barcodeRun < 4)
+		{
+			barcodeCounter = 0;
+			Rho.Barcode.disable();
+			barcodeStopwatch.start();
+			Rho.Barcode.enable({}, scan_received);
+			Rho.Barcode.start();
+		}
+		if (barcodeRun == 4)
+			Rho.Barcode.disable();
 	}
 	else
 		Rho.Barcode.start();
 	
 }
 
+/*   SCANNER   */
+var scannerStopwatch = new StopWatch();
+var scannerCounter = 0;
+var scannerRun = 0;
+function testScannerAPI()
+{
+	document.getElementById('resultsName').innerHTML = "Time taken to scan Barcodes with the Scanner API (RE1.x)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
+	scannerCounter = 0;
+	scannerRun = 1;
+	scannerStopwatch.start();
+	//  Enable the Scanner and set the callback
+	scanner.enable();
+	scanner.start();
+}
+
+function scan_receivedS(params)
+{
+	//  Scanner Test - A Scan has been received, increment the counter
+	scannerCounter++;
+	if (scannerCounter == 5)
+	{
+		//  Stop the test
+		scannerStopwatch.stop();
+		//  Report the Results
+		if (scannerRun == 1)
+			document.getElementById('resultsRun1').innerText = scannerStopwatch.printElapsed();
+		if (scannerRun == 2)
+			document.getElementById('resultsRun2').innerText = scannerStopwatch.printElapsed();
+		if (scannerRun == 3)
+			document.getElementById('resultsRun3').innerText = scannerStopwatch.printElapsed();
+		scannerRun++;
+		if (scannerRun < 4)
+		{
+			scannerCounter = 0;
+			scanner.disable();
+			scannerStopwatch.start();
+			scanner.enable();
+			scanner.start();
+		}
+		if (scannerRun == 4)
+			scanner.disable();
+	}
+	else
+	{	
+		scanner.start();
+	}
+}
+
+
+/*    VERSION   */
+var versionStopwatch = new StopWatch();
+var versionCounter = 0;
+var versionRun = 0;
+function testVersionAPI()
+{
+	document.getElementById('resultsName').innerHTML = "Time taken to query the Version API 50 times (RE1.x, Asynchronous)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
+	versionCounter = 0;
+	versionRun = 1;
+	versionStopwatch.start();
+	//  Get the Version
+	application.getVersion();
+}
+
+function version_receivedS(params)
+{
+	//  Version Test - A Version has been received, increment the counter
+	console.log("fairness");  //  Need this here so the RE1 comparison does not get optimized out
+	versionCounter++;
+	if (versionCounter == 50)
+	{
+		//  Stop the test
+		versionStopwatch.stop();
+		//  Report the Results
+		if (versionRun == 1)
+			document.getElementById('resultsRun1').innerText = versionStopwatch.printElapsed();
+		if (versionRun == 2)
+			document.getElementById('resultsRun2').innerText = versionStopwatch.printElapsed();
+		if (versionRun == 3)
+			document.getElementById('resultsRun3').innerText = versionStopwatch.printElapsed();
+		versionRun++;
+		if (versionRun < 4)
+		{
+			versionCounter = 0;
+			versionStopwatch.start();
+			application.getVersion();
+		}
+	}
+	else
+	{	
+		application.getVersion();
+	}
+}
+
+/*    Platform - ASYNC  */
+var systemStopwatch = new StopWatch();
+var systemCounter = 0;
+var systemRun = 0;
+function testSystemAsync()
+{
+	document.getElementById('resultsName').innerHTML = "Time taken to Query the System Property Platform 50 times (Async) (RE4.x)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
+	systemCounter = 0;
+	systemRun = 1;
+	systemStopwatch.start();
+	//  Enable the Barcode and set the callback
+	Rho.System.getProperty("Platform", system_received);
+}
+
+function system_received(params)
+{
+	//  Barcode Test - A Scan has been received, increment the counter
+	console.log("fairness");  //  Need this here so the RE1 comparison does not get optimized out
+	systemCounter++;
+	if (systemCounter == 50)
+	{
+		//  Stop the test
+		systemStopwatch.stop();
+		//  Report the Results
+		if (systemRun == 1)
+			document.getElementById('resultsRun1').innerText = systemStopwatch.printElapsed();
+		if (systemRun == 2)
+			document.getElementById('resultsRun2').innerText = systemStopwatch.printElapsed();
+		if (systemRun == 3)
+			document.getElementById('resultsRun3').innerText = systemStopwatch.printElapsed();
+		systemRun++;
+		if (systemRun < 4)
+		{
+			systemCounter = 0;
+			systemStopwatch.start();
+			Rho.System.getProperty("Platform", system_received);
+		}
+	}
+	else
+		Rho.System.getProperty("Platform", system_received);
+}
+
+
+/*    Platform - SYNC  */
+var systemSyncStopwatch = new StopWatch();
+var systemSyncCounter = 0;
+var systemSyncRun = 0;
+function testSystemSync()
+{
+	document.getElementById('resultsName').innerHTML = "Time taken to Query the systemSync Property Platform 50 times (Sync) (RE4.x)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
+	systemSyncCounter = 0;
+	systemSyncRun = 1;
+	systemSyncStopwatch.start();
+	for (var i = 0; i < 150; i++)
+	{
+		systemSyncCounter++;
+		var platform = Rho.System.platform;
+		console.log(platform);  //  Need this here so the RE1 comparison does not get optimized out
+		if (systemSyncCounter == 50)
+		{
+			//  Stop the test
+			systemSyncStopwatch.stop();
+			//  Report the Results
+			if (systemSyncRun == 1)
+				document.getElementById('resultsRun1').innerText = systemSyncStopwatch.printElapsed();
+			if (systemSyncRun == 2)
+				document.getElementById('resultsRun2').innerText = systemSyncStopwatch.printElapsed();
+			if (systemSyncRun == 3)
+				document.getElementById('resultsRun3').innerText = systemSyncStopwatch.printElapsed();
+			systemSyncRun++;
+			if (systemSyncRun < 4)
+			{
+				systemSyncCounter = 0;
+				systemSyncStopwatch.start();
+			}
+		}
+	}
+}
+
+
+/*    Platform - RE1 - SYNC  */
+var SystemSyncREStopwatch = new StopWatch();
+var SystemSyncRECounter = 0;
+var SystemSyncRERun = 0;
+function testRE1Sync()
+{
+	document.getElementById('resultsName').innerHTML = "Time taken to Query the generic.OEMInfo 50 times (Sync) (RE1.x)";
+	document.getElementById('resultsRun1').innerText = "";
+	document.getElementById('resultsRun2').innerText = "";
+	document.getElementById('resultsRun3').innerText = "";
+	SystemSyncRECounter = 0;
+	SystemSyncRERun = 1;
+	SystemSyncREStopwatch.start();
+	for (var i = 0; i < 150; i++)
+	{
+		SystemSyncRECounter++;
+		var platform = generic.OEMInfo;
+		console.log(platform);  //  Need this here so the RE1 comparison does not get optimized out
+		if (SystemSyncRECounter == 50)
+		{
+			//  Stop the test
+			SystemSyncREStopwatch.stop();
+			//  Report the Results
+			if (SystemSyncRERun == 1)
+				document.getElementById('resultsRun1').innerText = SystemSyncREStopwatch.printElapsed();
+			if (SystemSyncRERun == 2)
+				document.getElementById('resultsRun2').innerText = SystemSyncREStopwatch.printElapsed();
+			if (SystemSyncRERun == 3)
+				document.getElementById('resultsRun3').innerText = SystemSyncREStopwatch.printElapsed();
+			SystemSyncRERun++;
+			if (SystemSyncRERun < 4)
+			{
+				SystemSyncRECounter = 0;
+				SystemSyncREStopwatch.start();
+			}
+		}
+	}
+}
 </script>
 </head>
 <body>
@@ -145,36 +399,32 @@ function scan_received(params)
 <b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
 </div>
 <P>
-<b><a href="javascript:timing()">Run Timing Tests</a></b>
-<P>
-<a href="javascript:doTest();">Do Test</a>
-<P>
-Browser Timing Support: <b><span id="timingSupport"></span></b><br>
+Browser Stopwatch Timing Support: <b><span id="timingSupport"></span></b><br>
 Supports RhoElements 1.x APIs?: <b><span id="re1ApiSupport"></span></b><br>
 Supports Common API: <b><span id="re4ApiSupport"></span></b><br>
 <P>
-Tests
+<H2>Tests:</H2>
 <P>
-RhoElements 1 API Test (Asynchronous - Scanner)<br>
-RhoElements 1 API Test (Synchronous - OEM Version)<br>
-<a href="javascript:testBarcodeAPI();">RhoElements 4 API Test (Asynchronous - Barcode)</a><br>
-RhoElements 4 API Test (Synchronous - OEM Version)<br>
+<table border=2>
+<tr><th>Ver</th><th>Access</th><th>API</th><th>Run</th></tr>
+<tr><td>RE1</td><td>ASync</td><td>Scanner</td><td><input type="button" onclick="javascript:testScannerAPI();" value="Run Test"></tr>
+<tr><td>RE1</td><td>ASync</td><td>Application.Version</td><td><input type="button" onclick="javascript:testVersionAPI();" value="Run Test"></tr>
+<tr><td>RE1</td><td>Sync</td><td>generic.OEMInfo</td><td><input type="button" onclick="javascript:testRE1Sync();" value="Run Test"></tr>
+<tr><td>RE4</td><td>ASync</td><td>Barcode</td><td><input type="button" onclick="javascript:testBarcodeAPI();" value="Run Test"></tr>
+<tr><td>RE4</td><td>ASync</td><td>System.Platform</td><td><input type="button" onclick="javascript:testSystemAsync();" value="Run Test"></tr>
+<tr><td>RE4</td><td>Sync</td><td>System.Platform</td><td><input type="button" onclick="javascript:testSystemSync();" value="Run Test"></tr>
+</table>
 <P>
-Test Results:
+<H2>Test Results:</H2>
 <P>
-<div id="resultsPageLoad"></div>
-<div id="resultsName"></div>
-Run 1: <div id="resultsRun1"></div>
-Run 2: <div id="resultsRun2"></div>
-Run 3: <div id="resultsRun3"></div>
+<div id="resultsPageLoad">[Load Time...]</div>
+<div id="resultsName">.</div>
+Run 1: <span id="resultsRun1"></span><br>
+Run 2: <span id="resultsRun2"></span><br>
+Run 3: <span id="resultsRun3"></span><br>
 
 
-
-
-
-
-
-<br><br><br>
+<br><br>
 <div style="font-family:'verdana'; font-size:8pt">
 <b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
 </div>
