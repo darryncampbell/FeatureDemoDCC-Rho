@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="TagReadWriteTabs_style.css" rel="stylesheet" type="text/css" />
+<title>Write</title>
+<script type="text/javascript" language="javascript"
+	src="TagRdWrLoTabs.js">
+</script>
+<script type="text/javascript" language="javascript"
+	src="PB_RFID_Utilities.js">
+</script>
+</head>
+<body onload="OnWriteLoad();">
+	<div id="header">
+		<ul>
+			<li id="selected" style="margin-left: 0.5%;border-left-width: 2px;">
+				<a href="#content">Write</a>
+			</li>
+			<li><a href="TagRdWrLoTabsRead.html">Read</a></li>
+			<li><a href="TagRdWrLoTabsLocate.html">Locate</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="page_content">
+			<table border="1" class="Table-style"
+				style="border: thin solid #000000; width: 100%; height: 100%;">
+				<tr id="TagID">
+					<td style="width: 20%">EPC ID</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Memory Bank</td>
+					<td><select id="MemBankID" style="width: 80%; height: 70%;">
+							<option selected="selected">EPC</option>
+							<option>TID</option>
+							<option>User</option>
+							<option>Reserved</option>
+<!-- 							<option>Kill Password</option>
+							<option>Access Password</option>
+							<option>TagID</option>		 -->					
+					</select></td>
+				</tr>
+				<tr id="DataWriteID">
+					<td>Data Write</td>
+					<td><input id="DataWriteInID" type="text"
+						style="height: 95%; width: 95%; background-color: #C5D8D8;" /></td>
+				</tr>
+				<tr>
+					<td>Offset</td>
+					<td><input id="ByteOffsetID" type="text"
+						style="height: 95%; width: 95%; background-color: #C5D8D8;" /></td>
+				</tr>
+				<tr id="PasswordID">
+					<td><label id="Password">Password</label></td>
+					<td><input id="AccessPasswordID" type="text"
+						style="height: 95%; width: 95%; background-color: #C5D8D8;" /></td>
+				</tr>
+			</table>
+			<label style="color: #008000"> Status: </label> <input
+				id="StatusMessagesID" name="Message" type="text"
+				style="border-style: none; width: 75%; color: #660066;"
+				readonly="readonly" />
+		</div>
+	</div>
+	<div id="footer">
+		<form method="post" action=""
+			style="background-color: #9286D6; height: 100%">
+			<input name="Back" class="BackButton" type="button" value="Back"
+				onclick="window.location.href='TagList.html';" /> 
+			<input name="write" class="Buttons" type="button" value="Write"
+				onclick="WriteTagData();" /> 
+			<input name="clear" class="Buttons" type="button" value="Clear" 
+				onclick="WriteClearFields();" />
+		</form>
+	</div>
+</body>
+</html>

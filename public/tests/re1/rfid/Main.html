@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>RFID RhoElements</title>
+<link href="Main_style.css" rel="stylesheet" type="text/css" />
+<META HTTP-Equiv="QuitButton" Content="Visibility:Visible;left:0;top:0;width:20;height:20">
+<script type="text/javascript" src="Main.js">
+</script>
+<META HTTP-Equiv="KeyCapture" Content="TriggerEvent:url('JavaScript:doTrigger('%s');')">
+</head>
+
+<body onload="InitializeRFID();">
+	<div id="top_nav">
+		<input class="Header-footer" style="background-color: #3888B5;"
+			type="reset" value="Motorola Solutions RFID Rho" readonly="readonly"/>
+	</div>
+	<div id="container">
+		<div id="left_col">
+			<label id="UtagsLabel" class="Labels">Unique Tags</label> 
+			<input id="UniqueTagsID" name="UTags" class="Inputs" type="text" readonly="readonly"> 
+			<label id="TTagsLabel" class="Labels">Total Reads</label> 
+			<input id="TotalTagsID" name="TTags" class="Inputs" type="text" readonly="readonly">
+		</div>
+		<div id="page_content">
+			<input id="TagListButton"
+				style="width: 90%; height: 40%; background-color: #C5D8D8; margin-top: 10%; font-size:larger"
+				type="button" value="Tag List" onclick="TagReportsID_onclick();" />
+				<label id="LabelStatus" class="Labels" style="margin-top:10%;margin-left:0%;">Status</label> 
+			<input id="StatusMessageID" name="Status" style="margin-top: 10%; width: 92%; height: 15%; 
+				background-color: #C5D8D8;font-size:large" type="text" readonly="readonly"/>
+		</div>
+	</div>
+	<div id="footer">
+		<input name="AdvOptButton" class="Header-footer"
+			style="background-color: #9286D6; bottom: 0" type="button"
+			value="Advanced Option"
+			onclick="AdvancedOption();"/>
+	</div>
+</body>
+</html>

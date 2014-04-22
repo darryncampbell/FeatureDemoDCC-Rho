@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tag List</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="Taglist_style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="PB_RFID_Utilities.js">
+</script>
+<script type="text/javascript" src="TagList.js">
+</script>
+</head>
+<body onload="loadInventoryReports();">
+	<div id="top_nav">
+		<input name="Heading" class="Header-footer"
+			style="background-color: #3888B5;" type="reset" value="Tag List" />
+	</div>
+	<div id="page_content">
+		<label id="Label1" style="color: #6600CC; margin-left: 10px;">Click
+			tag id to read, write or locate</label>
+		<table border="1" class="Table-style" style="">
+		<thead>
+			<tr>
+				<th style="font-size: small">#</th>
+				<th style="width: 90%">EPC ID</th>
+				<th style="font-size: small">Count</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+	</div>
+	<div id="footer">
+		<input name="Back" class="BackButton" type="button" value="Back" 
+			onclick="return returnMainScreen();" />
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link href="RFParamsFilterTabs_style.css" rel="stylesheet"
+	type="text/css" />
+<title>RF parameters and filter</title>
+<script type="text/javascript" src="StateAwareSingulation.js"></script>
+<script type="text/javascript" src="PB_RFID_Utilities.js"></script>
+</head>
+<body onload="OnStateAwareSingulationLoad();">
+	<div id="header">
+		<ul>
+			<li onclick="onTabChange();" style="margin-left: 0.5%;border-left-width: 2px;">
+				<a href="RFParamsFilterTabsRFParams.html">RFParam</a>
+			</li>
+			<li><a href="RFParamsFilterTabsFilter.html">Filter</a></li>
+			<li id="selected"><a href="#content">Singulation</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="page_content">
+			<table border="1" class="Table-style">
+				<tr id="SessionID">
+					<td><label id="Reserved">Session</label></td>
+					<td><select id="SessionIndexID" style="width: 80%; height: 90%;">
+							<option>S0</option>
+							<option>S1</option>
+							<option>S2</option>
+							<option>S3</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><label>Tag population</label></td>
+					<td> 
+					<input id="TagPopulationID" name="Text1" type="text"
+						style="width: 80%; height:80%;" /></td>
+				</tr>
+				<tr id="StateID">
+					<td style="width: 20%"><label>State</label></td>
+					<td><select id="StateIndexID" style="width: 70%">
+							<option selected="selected">INV A</option>
+							<option>INV B</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><label>SL</label></td>
+					<td><select id="SLIndexID" style="width: 70%">
+							<option>SL ASSERTED</option>
+							<option selected="selected">SL DEASSERTED</option>
+					</select></td>
+				</tr>
+			</table>
+			<label style="color: #008000"> Status: </label> <input
+				id="StatusMessagesID" name="Message" type="text"
+				style="border-style: none; width: 75%; color: #660066;"
+				readonly="readonly" />
+		</div>
+	</div>
+	<div id="footer">
+		<form method="post" style="background-color: #9286D6; height: 100%">
+			<input name="Back" class="BackButton" type="button" value="Back"
+				onclick="onBackButtonSingulation();" /> 
+			<input name="set" class="Buttons" type="button" value="Set"
+				onclick="SetSingulationConfiguration();" /> 
+			<input name="clear" class="Buttons" type="button" value="Clear"
+				onclick="ClearSingulationConfiguration();" />
+		</form>
+	</div>
+</body>
+</html>

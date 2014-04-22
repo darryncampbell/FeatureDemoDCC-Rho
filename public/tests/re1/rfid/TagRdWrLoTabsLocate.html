@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="TagReadWriteTabs_style.css" rel="stylesheet" type="text/css">
+<title>Locate</title>
+<script type="text/javascript" src="TagLocate.js">
+</script>
+</head>
+<body onload="OnLocateLoad();">
+	<div id="header">
+		<ul>
+			<li onclick="onTabChange();" style="margin-left: 0.5%;border-left-width: 2px;">
+				<a href="TagRdWrLoTabsWrite.html">Write</a>
+			</li>
+			<li onclick="onTabChange();"><a href="TagRdWrLoTabsRead.html">Read</a></li>
+			<li id="selected"><a href="#Content" style="left: 0px;">Locate</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="left_col">
+			<label id="Label1" class="Margins"
+				style="background-color: #C5D8D8; border-style: solid; border-width: thin;">Tag
+				ID</label> <br />
+			<textarea id="TagID" cols="20" rows="2" class="Margins"
+				style="width: 80%; height: 40%; font-size: large"
+				readonly="readonly"></textarea>
+			<label id="Label1" class="Margins"
+				style="background-color: #C5D8D8; border-style: solid; border-width: thin;">Relative
+				Distance</label> <input id="RelativeDistanceID" type="text" value="0"
+				class="Margins" style="width: 40%; height: 20%; font-size: large"
+				readonly="readonly">
+		</div>
+		<div id="page_content"
+			style="margin-top: 5%; margin-left: 60%; width: 40%">
+			<canvas id="BarCanvas" width="50" height="200"></canvas>
+			<input name="Image1" src="scale.png" type="image">
+		</div>
+	</div>
+	<div id="footer">
+		<form method="post" action=""
+			style="background-color: #9286D6; height: 100%">
+			<input name="Back" class="BackButton" type="button" value="Back"
+				onclick="onLocateBackButton();" />
+		</form>
+	</div>
+</body>
+</html>

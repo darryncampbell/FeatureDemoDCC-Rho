@@ -1,0 +1,118 @@
+html {
+    height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Verdana;
+	width: 100%;
+	height: 100%;
+}
+#header ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#header li {
+	float: left;
+	border: 1px solid #bbb;
+	border-bottom-width: 0;
+	margin: 0;
+}
+
+#header a {
+	text-decoration: none;
+	display: block;
+	background: #eee;
+	padding: 0.24em 1em;
+	color: black;
+	width: 4em;
+	text-align: center;
+}
+
+#header a:hover {
+	background: #ddf;
+}
+
+#header #selected {
+	border-color: black;
+}
+
+#header #selected a {
+	position: relative;
+	top: 2px;
+	background: white;
+	color: #0099FF;
+	font-weight: bold;
+	width: 5em;
+}
+
+#content {
+	border: 2px solid black;
+	clear: both;
+	padding: 0 0em;
+	width: 98%;
+	height: 75%;
+	margin-left: 0.5%;
+}
+
+h1 {
+	margin: 0;
+	padding: 0 0 1em 0;
+}
+
+#page_content {
+	width: 98%;
+	height: 89%;
+	margin-left: 1%;
+	margin-top: 1%;
+}
+
+#footer {
+	clear: both;
+	width: 100%;
+	height: 15%;
+	margin-top: 1%;
+	position:absolute;
+	bottom: 0;
+}
+
+.Table-style {
+	background-color: #C5D8D8;
+	border: thin solid #000000; 
+	width: 100%; 
+	height: 100%;	
+}
+
+.Buttons,.BackButton {
+	width: 30%;
+	height: 90%;
+	font-size: medium;
+	font-weight: bold;
+	background-color: #FFCC66;
+	margin-top: 1%;
+	margin-left: 1%;
+    border-radius: 2%;
+}
+
+.BackButton
+{
+	background-image: url("back_button.png"); 
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+@media (min-device-width : 480px)
+{
+	body {
+		font-size: large;
+	}
+	.Buttons,.BackButton {
+		width: 25%;
+		height: 80%;
+		margin-top: 2%;	
+		margin-left: 5%;
+		font-size: large;
+	}
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link href="RFParamsFilterTabs_style.css" rel="stylesheet"
+	type="text/css" />
+<title>RF parameters and filter</title>
+<script type="text/javascript" src="Filter.js"></script>
+<script type="text/javascript" src="PB_RFID_Utilities.js"></script>
+</head>
+<body onload="OnFilterLoad();">
+	<div id="header">
+		<ul>
+			<li onclick="onTabChange();" style="margin-left: 0.5%;border-left-width: 2px;">
+				<a href="RFParamsFilterTabsRFParams.html">RFParam</a>
+			</li>
+			<li id="selected"><a href="#content">Filter</a></li>
+			<li onclick="onTabChange();"><a href="StateAwareSingulation.html">Singulation</a></li>			
+		</ul>
+	</div>
+	<div id="content">
+		<div id="page_content">
+			<table border="1" class="Table-style">
+				<tr>
+					<td>State</td>
+					<td colspan="3">
+						<input id="StateAwareCheckID" style="width:15%; height:70%" type="checkbox" onchange="StateAwareUpdate();"> Aware
+						<input id="StateUnAwareCheckID" style="width:15%; height:70%" checked="checked" type="checkbox" onchange="StateUnAwareUpdate();"> Unaware
+					</td>
+				</tr>
+				<tr id="FiltersID">
+					<td style="width: 20%"><label id="Label1">Filters</label></td>
+					<td colspan="3"><select id="FilterIndexID"
+						style="width: 60%" onchange="FilterSelectionUpdate()">
+							<option>Delete All</option>
+							<option selected="selected">Index 1</option>
+							<option>Index 2</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><label id="Label1">Memory Bank</label></td>
+					<td style="width: 35%"><select id="MemBankID" style="width: 90%">
+							<option selected="selected">EPC</option>
+							<option>TID</option>
+							<option>User</option>
+					</select></td>
+					<td><label>Bit Offset</label></td>
+					<td><input id="OffsetInID" type="text" style="width: 80%"/></td>
+				</tr>
+				<tr id="TagPatternID">
+					<td><label>Tag Pattern</label></td>
+					<td colspan="3"><input id="TagPatternInID" type="text"
+						style="width: 95%; height: 90%;" /></td>
+				</tr>
+				<tr id="ActionID">
+					<td><label>Action</label></td>
+					<td id="ActionSelectID" colspan="3">
+						<select id="ActionIndexAB" style="width: 90%">
+							<option selected="selected">INV A NOT INV B</option>
+			                <option>INV A</option>
+			                <option>NOT INV B</option>
+			                <option>INV B NOT INV A</option>
+			                <option>INV B</option>
+			                <option>NOT INV A</option>
+			                <option>NOT INV A2BB2A</option>
+			                <option>INV A2BB2A NOT INV A</option>
+						</select>
+						<select id="ActionIndexSL" style="width: 90%">
+			                <option selected="selected">ASRT SL</option>
+			                <option>DSRT SL</option>
+			                <option>NOT ASRT SL</option>
+			                <option>NOT DSRT SL</option>
+			                <option>ASRT SL NOT DSRT_SL</option>
+			                <option>DSRT SL NOT ASRT SL</option>
+			                <option>NOT NEG SL</option>
+			                <option>NEG SL NOT ASRT SL</option>
+						</select>
+						<select id="ActionIndexUnAware" style="width: 90%">
+							<option>SELECT NOT UNSELECT</option>
+							<option>SELECT</option>
+							<option>NOT UNSELECT</option>
+							<option>UNSELECT</option>
+							<option>UNSELECT NOT SELECT</option>
+							<option>NOT SELECT</option>
+						</select>
+					</td>
+				</tr>					
+				<tr id="TargetID">
+					<td><label>Target</label></td>
+					<td colspan="3"><select id="TargetIndexID" style="width: 60%" onchange="TargetSelectionUpdate()">
+							<option selected="selected">SL</option>
+			                <option>S0</option>
+			                <option>S1</option>
+			                <option>S2</option>
+			                <option>S3</option>
+						</select>					
+					</td>
+				</tr>		
+			</table>
+			<label style="color: #008000"> Status: </label> <input
+				id="StatusMessagesID" name="Message" type="text"
+				style="border-style: none; width: 75%; color: #660066;"
+				readonly="readonly" />
+		</div>
+	</div>
+	<div id="footer">
+		<form method="post" style="background-color: #9286D6; height: 100%">
+			<input name="Back" class="BackButton" type="button" value="Back"
+				onclick="onBackButtonFilter();" /> 
+			<input name="set" class="Buttons" type="button" value="Set"
+				onclick="SetFilterConfiguration();" /> 
+			<input name="clear" class="Buttons" type="button" value="Clear"
+				onclick="ClearFilterConfiguration();" />
+		</form>
+	</div>
+</body>
+</html>

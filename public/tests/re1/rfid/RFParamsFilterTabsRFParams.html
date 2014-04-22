@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="RFParamsFilterTabs_style.css" rel="stylesheet"
+	type="text/css" />
+<title>RF parameters and filter</title>
+<script type="text/javascript" src="RFparams.js">
+</script>
+</head>
+<body onload="OnRFParamsLoad();">
+	<div id="header">
+		<ul>
+			<li id="selected" style="margin-left: 0.5%;border-left-width: 2px;">
+			<a href="#content">RF Param</a></li>
+			<li><a href="RFParamsFilterTabsFilter.html">Filter</a></li>
+			<li><a href="StateAwareSingulation.html">Singulation</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="page_content">
+			<table border="1" class="Table-style">
+				<tr>
+					<td>Antenna </td>
+					<td>
+						<input id="Antenna1CheckID" style="width:15%; height:75%" type="checkbox" checked="checked" onchange="AntennaSelectUpdate();"> 1 
+						<input id="Antenna2CheckID" style="width:15%; height:75%" type="checkbox" onchange="AntennaSelectUpdate();"> 2
+					</td>
+				</tr>
+				<tr id="RFMOdeID" style="width:40%; height: 70%">
+					<td>
+					<label >RF Mode</label>
+					<select id="RFModeIndexID"
+						style="width: 95%; height: 30%; margin-top:5%" onchange="SelectionUpdate();">
+							<option selected="selected">Mode 0</option>
+					</select>
+					</td>
+					<td>
+						<textarea id="RFModeTableArea" style="width: 95%; height: 95%; font-size: small; overflow-y:scroll;"
+							readonly="readonly">modeIdentifier:MMMM 
+divideRatio:MMMM 
+bdrValue:MMMM 
+modulation:MMMM 
+forwardLinkModulationType:MMMM 
+pieValue:MMMM 
+minTariValue:MMMM 
+maxTariValue:MMMM 
+stepTariValue:MMMM 
+spectralMaskIndicator:MMMM 
+epcHAGTCConformance:MMMM</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td><label">Transmission Power</label></td>
+					<td><label id="TxPowerRange">500dbm - 3000dbm</label> 
+					<input id="TxPowerID" name="Text1" type="text"
+						style="width: 75%; height: 60%;" />dbm</td>
+				</tr>
+			</table>
+			<label style="color: #008000"> Status: </label> <input
+				id="StatusMessagesID" name="Message" type="text"
+				style="border-style: none; width: 75%; color: #660066;"
+				readonly="readonly" />
+		</div>
+	</div>
+	<div id="footer">
+		<form method="post" action=""
+			style="background-color: #9286D6; height: 100%">
+			<input name="Back" class="BackButton" type="button" value="Back"
+				onclick="window.location.href='Main.html';" /> 
+			<input name="set" class="Buttons" type="button" value="Set"
+				onclick="SetRFParamsConfiguration();" /> 
+			<input name="clear" class="Buttons" type="button" value="Clear"
+				onclick="ClearRFParamsConfiguration();" />
+		</form>
+	</div>
+</body>
+</html>
