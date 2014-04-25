@@ -1,0 +1,59 @@
+<html>
+<head>
+<script type="text/javascript" charset="utf-8" src="../../../jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../api/rhoapi-modules.js"></script>
+<script>
+
+
+
+
+function test()
+{
+	alert('NFC Version is: ' + Rho.NFC.Adapter.version);
+	 Rho.NFC.Adapter.setTagDetectionHandler([], function (anObject) {
+		alert('detected Tag' + anObject);
+				try {
+                    var tag = Rho.NFC.Tag.getTagById(anObject["tagId"]);
+					alert('Read Tag' + tag);
+					}
+                finally {
+                    tag.close();
+                }
+            });
+	
+}
+
+</script>
+</head>
+<body>
+<H1><CENTER>NFC</CENTER></H1>
+<P>
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+<P>
+<b>Ensure your test device has NFC capability and you have specified the 'nfc' extension</b>
+<P>
+
+
+
+
+<P>
+<input type="Button" value="Test Button" onclick="javascript:test()"/>
+<P>
+<H3>NFC Status</H3>
+<div id="message">Messages go here</div>
+<P>
+
+
+
+
+
+
+
+<div style="font-family:'verdana'; font-size:8pt">
+<b><a href="javascript:application.quit()">Quit</a></b> | <a href="javascript:location.reload(true);">Refresh (force get)</a> | <a href="javascript:window.history.back();">Go Back</a>
+</div>
+
+</body>
+</html>

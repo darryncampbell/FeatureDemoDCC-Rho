@@ -22,6 +22,7 @@ android:
   extensions: [dpx]
 wm:
   sdk: "Windows Mobile 6.5.3 Professional DTK (ARMV4I)"
+  extensions: []
   #sdk: "MC3000c50b (ARMV4I)"
 extensions:
 - rhoconnect-client
