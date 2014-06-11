@@ -5,6 +5,8 @@ build: debug
 version: '1.0'
 vendor: MotorolaSolutions
 build: debug
+rhohub:
+  url: https://appstaging.rhohub.com/api/v1/
 applog: rholog.txt
 iphone:
   configuration: Release
@@ -19,7 +21,7 @@ wp8:
 android:
   manifest_template: AndroidManifest.erb
   version: 2.3.3
-  extensions: [dpx]
+  extensions: [nfc]
 wm:
   sdk: "Windows Mobile 6.5.3 Professional DTK (ARMV4I)"
   extensions: []
