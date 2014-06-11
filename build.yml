@@ -2,6 +2,8 @@ app_type: rhoelements
 sdkversion: 4.1.0
 name: JavascriptTests
 build: debug
+rhohub:
+  url: https://appstaging.rhohub.com/api/v1/
 version: '1.0'
 vendor: MotorolaSolutions
 build: debug
